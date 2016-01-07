@@ -30,8 +30,10 @@ public class Game {
     /** Prints the available courses. */
     public void printAvailableCourses() {
         availableCourses.sort(Course.titleComparator);
+        int index = 0;
         for (Course course : availableCourses) {
-            System.out.println(course.getTitle());
+            System.out.println(index + ": " + course.getTitle());
+            index += 1;
         }
     }
 
