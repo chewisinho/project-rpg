@@ -1,6 +1,7 @@
 package project_rpg;
 
 import java.util.Scanner;
+import static project_rpg.GameState.*;
 
 /** Text-based parser and interpreter for Project RPG.
  *  @author S. Chewi, A. Tran
@@ -29,6 +30,40 @@ public class TextInterpreter {
 	            System.out.println("Please enter 'new game' or 'load game.'");
 	        }
         }
+        game.printGameInfo();
+        play();
+    }
+
+    /** Plays the game. */
+    private void play() {
+        GameState gameState = game.getState();
+        switch (gameState) {
+        case ENROLLMENT:
+            playEnrollment();
+            break;
+        case SCHOOL:
+            playSchool();
+            break;
+        case BATTLE:
+            playBattle();
+            break;
+        }
+    }
+
+    /** Plays the game during registration. */
+    private void playEnrollment() {
+        System.out.println("Please select a course from the list below:");
+        game.printAvailableCourses();
+    }
+
+    /** Plays the game during school. */
+    private void playSchool() {
+        // TODO
+    }
+
+    /** Plays the game during a battle. */
+    private void playBattle() {
+        // TODO
     }
 
     /** Retrieves the player's command. */
@@ -48,4 +83,5 @@ public class TextInterpreter {
 
     /** The Game for which I interpret commands. */
     private Game game;
+
 }
