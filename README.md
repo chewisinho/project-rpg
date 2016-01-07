@@ -11,9 +11,11 @@ The game is currently a work-in-progress, with a text-based interface.
 **Enrollment**
 
 * ability to check course descriptions
+* ~~ability to enroll in a course~~
 
 **Main Screen**
 
+* ~~ability to go to classroom~~
 * check enrolled classes
 * check assignments
 * check status (HP/MP)
