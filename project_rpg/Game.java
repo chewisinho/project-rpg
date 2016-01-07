@@ -5,4 +5,9 @@ package project_rpg;
  */
 public class Game {
 
+    /** Initializes a new game file. */
+    public Game() {
+        // TODO: Initialization
+    }
+
 }
