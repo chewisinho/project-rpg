@@ -36,34 +36,85 @@ public class TextInterpreter {
 
     /** Plays the game. */
     private void play() {
-        GameState gameState = game.getState();
-        switch (gameState) {
-        case ENROLLMENT:
-            playEnrollment();
-            break;
-        case SCHOOL:
-            playSchool();
-            break;
-        case BATTLE:
-            playBattle();
-            break;
+	    while (true) {
+	        GameState gameState = game.getState();
+	        switch (gameState) {
+	        case ENROLLMENT:
+	            playEnrollment();
+	            break;
+	        case SCHOOL:
+	            playSchool();
+	            break;
+	        case BATTLE:
+	            playBattle();
+	            break;
+	        case CLASS:
+	            playClass();
+	            break;
+	        }
         }
     }
 
     /** Plays the game during registration. */
     private void playEnrollment() {
-        System.out.println("Please select a course from the list below:");
-        game.printAvailableCourses();
+        InputLoop:
+        while (true) {
+	        System.out.println("Please select a course from the list below:");
+	        game.printAvailableCourses();
+	        int selection = Integer.parseInt(getInput());
+	        try {
+	            game.registerCourse(selection);
+	            break InputLoop;
+	        } catch (IllegalArgumentException exception) {
+	            System.out.println("Sorry, that is not a valid course.");
+	        }
+        }
+        game.startSchool();
     }
 
     /** Plays the game during school. */
     private void playSchool() {
-        // TODO
+        MainLoop:
+        while (true) {
+            System.out.println("What would you like to do?");
+	        String command = getInput();
+	        switch (command) {
+	        case "go":
+	            go();
+	            break MainLoop;
+	        default:
+	            System.out.println("Available commands: go.");
+	            break;
+	        }
+        }
+    }
+
+    /** Moves to a different location. */
+    private void go() {
+        MainLoop:
+        while (true) {
+            System.out.println("Where would you like to go?");
+            System.out.println("0: Classroom");
+        	String command = getInput();
+	        switch (command) {
+	        case "0":
+	            game.startClass();
+	            break MainLoop;
+	        default:
+	            System.out.println("Sorry, that is an invalid location.");
+	            break;
+	        }
+        }
     }
 
     /** Plays the game during a battle. */
     private void playBattle() {
         // TODO
+    }
+
+    /** Plays the game during class. */
+    private void playClass() {
+        System.out.println("Congratulations, you're in class!");
     }
 
     /** Retrieves the player's command. */

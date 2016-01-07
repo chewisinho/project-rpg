@@ -1,7 +1,11 @@
 package project_rpg;
 
 import java.util.ArrayList;
+import project_rpg.courses.FireI;
+import static project_rpg.Day.*;
 import static project_rpg.GameState.*;
+import static project_rpg.Quarter.*;
+import static project_rpg.Year.*;
 
 /** Contains the main game data for Project RPG.
  *  @author S. Chewi, A. Tran
@@ -15,6 +19,9 @@ public class Game {
         week = 1;
         day = MONDAY;
         gameState = ENROLLMENT;
+        availableCourses = new ArrayList<Course>();
+        availableCourses.add(new FireI());
+        enrolledCourses = new ArrayList<Course>();
     }
 
     /** Prints the game state. */
@@ -37,31 +44,24 @@ public class Game {
         }
     }
 
-    private enum Year {
-    	FRESHMAN(), SOPHOMORE(), JUNIOR(), SENIOR();
-    	
-    	/** Returns the next year. */
-    	Year next() {
-    		return values()[ordinal() + 1];
-    	}
+    /** Registers COURSE into the schedule. */
+    void registerCourse(int index) {
+        try {
+	        enrolledCourses.add(availableCourses.get(index));
+	        availableCourses.remove(index);
+        } catch (IndexOutOfBoundsException exception) {
+            throw new IllegalArgumentException();
+        }
     }
 
-    private enum Quarter {
-    	FALL(), WINTER(), SPRING(), SUMMER();
-    	
-    	/** Returns the next year. */
-    	Quarter next() {
-    		return (this == SUMMER) ? FALL : values()[ordinal() + 1];
-    	}
+    /** Starts school after the enrollment phase. */
+    void startSchool() {
+        gameState = SCHOOL;
     }
 
-    private enum Day {
-    	MONDAY(), TUESDAY(), WEDNESDAY(), THURSDAY(), FRIDAY(), SATURDAY(), SUNDAY();
-    	
-    	/**Returns the next day. */
-    	Day next() {
-    		return (this == SUNDAY) ? MONDAY : values()[ordinal() + 1];
-    	}
+    /** Travels to classroom. */
+    void startClass() {
+        gameState = CLASS;
     }
 
     /** Returns the year the game is in. */
@@ -104,7 +104,7 @@ public class Game {
     /** The state that this game is in. */
     private GameState gameState;
 
-    /** Contains a list of available classes. */
-    private ArrayList<Course> availableCourses;
+    /** Contains a list of available and enrolled courses. */
+    private ArrayList<Course> availableCourses, enrolledCourses;
 
 }

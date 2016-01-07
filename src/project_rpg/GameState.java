@@ -5,6 +5,6 @@ package project_rpg;
  */
 public enum GameState {
 
-    ENROLLMENT(), SCHOOL(), BATTLE();
+    ENROLLMENT(), SCHOOL(), BATTLE(), CLASS();
 
 }

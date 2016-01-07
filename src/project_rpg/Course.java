@@ -18,7 +18,7 @@ public abstract class Course {
     }
 
     /** The title of the course and a short description. */
-	String courseTitle, description;
+	protected String courseTitle, description;
 
 	/** Comparator that compares two courses by their course titles. */
 	public static Comparator<Course> titleComparator =
