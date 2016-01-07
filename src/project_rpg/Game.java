@@ -1,5 +1,8 @@
 package project_rpg;
 
+import java.util.ArrayList;
+import static project_rpg.GameState.*;
+
 /** Contains the main game data for Project RPG.
  *  @author S. Chewi, A. Tran
  */
@@ -11,12 +14,11 @@ public class Game {
         quarter = FALL;
         week = 1;
         day = MONDAY;
-        
-        
+        gameState = ENROLLMENT;
     }
-    
+
     /** Prints the game state. */
-    public void printGameState() {
+    public void printGameInfo() {
     	System.out.println("Welcome back! Here's some info to refresh your "
     			+ "memory:");
     	System.out.println("Year: " + year);
@@ -24,7 +26,15 @@ public class Game {
     	System.out.println("Week: " + week);
     	System.out.println("Day: " + day);
     }
-    
+
+    /** Prints the available courses. */
+    public void printAvailableCourses() {
+        availableCourses.sort(Course.titleComparator);
+        for (Course course : availableCourses) {
+            System.out.println(course.getTitle());
+        }
+    }
+
     private enum Year {
     	FRESHMAN(), SOPHOMORE(), JUNIOR(), SENIOR();
     	
@@ -33,7 +43,7 @@ public class Game {
     		return values()[ordinal() + 1];
     	}
     }
-    
+
     private enum Quarter {
     	FALL(), WINTER(), SPRING(), SUMMER();
     	
@@ -42,7 +52,7 @@ public class Game {
     		return (this == SUMMER) ? FALL : values()[ordinal() + 1];
     	}
     }
-    
+
     private enum Day {
     	MONDAY(), TUESDAY(), WEDNESDAY(), THURSDAY(), FRIDAY(), SATURDAY(), SUNDAY();
     	
@@ -51,7 +61,7 @@ public class Game {
     		return (this == SUNDAY) ? MONDAY : values()[ordinal() + 1];
     	}
     }
-    
+
     /** Returns the year the game is in. */
     public int getYear() {
     	return year.ordinal();
@@ -71,17 +81,28 @@ public class Game {
     public int getDay() {
     	return day.ordinal();
     }
-    
+
+    /** Returns the state of the game. */
+    public GameState getState() {
+        return gameState;
+    }
+
     /** The year this game is in. */
     private Year year;
-    
+
     /** The quarter this game is in. */
     private Quarter quarter;
-    
+
     /** The week this game is in. */
     private Integer week;
-    
+
     /** The day this game is in. */
     private Day day;
+
+    /** The state that this game is in. */
+    private GameState gameState;
+
+    /** Contains a list of available classes. */
+    private ArrayList<Course> availableCourses;
 
 }
