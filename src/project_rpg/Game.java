@@ -26,17 +26,17 @@ public class Game {
 
     /** Prints the game state. */
     public void printGameInfo() {
-    	System.out.println("Welcome back! Here's some info to refresh your "
-    			+ "memory:");
-    	System.out.println("Year: " + year);
-    	System.out.println("Quarter: " + quarter);
-    	System.out.println("Week: " + week);
-    	System.out.println("Day: " + day);
+        System.out.println("Welcome back! Here's some info to refresh your "
+            + "memory:");
+        System.out.println("Year: " + year);
+        System.out.println("Quarter: " + quarter);
+        System.out.println("Week: " + week);
+        System.out.println("Day: " + day);
     }
 
     /** Prints the available courses. */
     public void printAvailableCourses() {
-        availableCourses.sort(Course.titleComparator);
+        availableCourses.sort(Course.TITLE_COMPARATOR);
         int index = 0;
         for (Course course : availableCourses) {
             System.out.println(index + ": " + course.getTitle());
@@ -44,11 +44,11 @@ public class Game {
         }
     }
 
-    /** Registers COURSE into the schedule. */
+    /** Registers the course at INDEX into the schedule. */
     void registerCourse(int index) {
         try {
-	        enrolledCourses.add(availableCourses.get(index));
-	        availableCourses.remove(index);
+            enrolledCourses.add(availableCourses.get(index));
+            availableCourses.remove(index);
         } catch (IndexOutOfBoundsException exception) {
             throw new IllegalArgumentException();
         }
@@ -66,22 +66,22 @@ public class Game {
 
     /** Returns the year the game is in. */
     public int getYear() {
-    	return year.ordinal();
+        return year.ordinal();
     }
-    
+
     /** Returns the quarter the game is in. */
     public int getQuarter() {
-    	return quarter.ordinal();
+        return quarter.ordinal();
     }
-    
+
     /** Returns the week the game is in. */
     public int getWeek() {
-    	return week;
+        return week;
     }
-    
+
     /** Returns the day the game is in. */
     public int getDay() {
-    	return day.ordinal();
+        return day.ordinal();
     }
 
     /** Returns the state of the game. */

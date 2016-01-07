@@ -20,15 +20,15 @@ public class TextInterpreter {
         System.out.println("Would you like to start a new game or load a "
             + "previous save file?");
         while (true) {
-	        String command = getInput();
-	        if (command.equals("new game")) {
-	            game = new Game();
-	            break;
-	        } else if (command.equals("load game")) {
-	            error("Sorry, not supported yet.");
-	        } else {
-	            System.out.println("Please enter 'new game' or 'load game.'");
-	        }
+            String command = getInput();
+            if (command.equals("new game")) {
+                game = new Game();
+                break;
+            } else if (command.equals("load game")) {
+                error("Sorry, not supported yet.");
+            } else {
+                System.out.println("Please enter 'new game' or 'load game.'");
+            }
         }
         game.printGameInfo();
         play();
@@ -36,22 +36,25 @@ public class TextInterpreter {
 
     /** Plays the game. */
     private void play() {
-	    while (true) {
-	        GameState gameState = game.getState();
-	        switch (gameState) {
-	        case ENROLLMENT:
-	            playEnrollment();
-	            break;
-	        case SCHOOL:
-	            playSchool();
-	            break;
-	        case BATTLE:
-	            playBattle();
-	            break;
-	        case CLASS:
-	            playClass();
-	            break;
-	        }
+        while (true) {
+            GameState gameState = game.getState();
+            switch (gameState) {
+            case ENROLLMENT:
+                playEnrollment();
+                break;
+            case SCHOOL:
+                playSchool();
+                break;
+            case BATTLE:
+                playBattle();
+                break;
+            case CLASS:
+                playClass();
+                break;
+            default:
+                error("Unknown game state!");
+                break;
+            }
         }
     }
 
@@ -59,15 +62,15 @@ public class TextInterpreter {
     private void playEnrollment() {
         InputLoop:
         while (true) {
-	        System.out.println("Please select a course from the list below:");
-	        game.printAvailableCourses();
-	        int selection = Integer.parseInt(getInput());
-	        try {
-	            game.registerCourse(selection);
-	            break InputLoop;
-	        } catch (IllegalArgumentException exception) {
-	            System.out.println("Sorry, that is not a valid course.");
-	        }
+            System.out.println("Please select a course from the list below:");
+            game.printAvailableCourses();
+            int selection = Integer.parseInt(getInput());
+            try {
+                game.registerCourse(selection);
+                break InputLoop;
+            } catch (IllegalArgumentException exception) {
+                System.out.println("Sorry, that is not a valid course.");
+            }
         }
         game.startSchool();
     }
@@ -77,15 +80,15 @@ public class TextInterpreter {
         MainLoop:
         while (true) {
             System.out.println("What would you like to do?");
-	        String command = getInput();
-	        switch (command) {
-	        case "go":
-	            go();
-	            break MainLoop;
-	        default:
-	            System.out.println("Available commands: go.");
-	            break;
-	        }
+            String command = getInput();
+            switch (command) {
+            case "go":
+                go();
+                break MainLoop;
+            default:
+                System.out.println("Available commands: go.");
+                break;
+            }
         }
     }
 
@@ -95,15 +98,15 @@ public class TextInterpreter {
         while (true) {
             System.out.println("Where would you like to go?");
             System.out.println("0: Classroom");
-        	String command = getInput();
-	        switch (command) {
-	        case "0":
-	            game.startClass();
-	            break MainLoop;
-	        default:
-	            System.out.println("Sorry, that is an invalid location.");
-	            break;
-	        }
+            String command = getInput();
+            switch (command) {
+            case "0":
+                game.startClass();
+                break MainLoop;
+            default:
+                System.out.println("Sorry, that is an invalid location.");
+                break;
+            }
         }
     }
 
@@ -117,7 +120,7 @@ public class TextInterpreter {
         System.out.println("Congratulations, you're in class!");
     }
 
-    /** Retrieves the player's command. */
+    /** Returns the player's command. */
     private String getInput() {
         System.out.print("-> ");
         return input.nextLine();
