@@ -53,6 +53,12 @@ public class Game {
             throw new IllegalArgumentException();
         }
     }
+    
+    /** Views the COURSE's description. */
+    void viewCourseDescription(int index) {
+    	System.out.println(availableCourses.get(index).description());
+    	System.out.println("Are you sure you want this class?");
+    }
 
     /** Starts school after the enrollment phase. */
     void startSchool() {

@@ -62,11 +62,22 @@ public class TextInterpreter {
 	        System.out.println("Please select a course from the list below:");
 	        game.printAvailableCourses();
 	        int selection = Integer.parseInt(getInput());
-	        try {
-	            game.registerCourse(selection);
-	            break InputLoop;
-	        } catch (IllegalArgumentException exception) {
-	            System.out.println("Sorry, that is not a valid course.");
+	        while (true) {
+		        game.viewCourseDescription(selection);
+	        	String response = getInput();
+	        	if (response.equals("yes")) {
+	        		try {
+	    	            game.registerCourse(selection);
+	    	            break InputLoop;
+	    	        } catch (IllegalArgumentException exception) {
+	    	            System.out.println("Sorry, that is not a valid "
+	    	            		+ "course.");
+	    	        }
+	        	} else if (response.equals("no")) {
+	        		break;
+	        	} else {
+	        		System.out.println("Please enter yes or no.");
+	        	}
 	        }
         }
         game.startSchool();
