@@ -10,7 +10,7 @@ The game is currently a work-in-progress, with a text-based interface.
 
 **Enrollment**
 
-* ability to check course descriptions
+* ~~ability to check course descriptions~~
 * ~~ability to enroll in a course~~
 
 **Main Screen**
