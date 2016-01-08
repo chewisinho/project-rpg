@@ -1,7 +1,7 @@
 package project_rpg;
 
 /** Main class for Project PRG.
- *  @author S. Chewi, A. Tran
+ *  @author S. Chewi, T. Nguyen, A. Tran
  */
 public class Main {
 

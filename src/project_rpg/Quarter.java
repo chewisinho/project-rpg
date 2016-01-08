@@ -1,7 +1,7 @@
 package project_rpg;
 
 /** Contains the various quarters for Project RPG.
- *  @author S. Chewi, A. Tran
+ *  @author S. Chewi, T. Nguyen, A. Tran
  */
 public enum Quarter {
 
