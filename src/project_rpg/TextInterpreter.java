@@ -1,5 +1,13 @@
 package project_rpg;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Scanner;
 import static project_rpg.GameState.*;
@@ -26,7 +34,8 @@ public class TextInterpreter {
                 game = new Game();
                 break;
             } else if (command.equals("load game")) {
-                error("Sorry, not supported yet.");
+                game = loadFile();
+                break;
             } else {
                 System.out.println("Please enter 'new game' or 'load game.'");
             }
@@ -100,8 +109,11 @@ public class TextInterpreter {
             case "go":
                 go();
                 break MainLoop;
+            case "save":
+                save();
+                break MainLoop;
             default:
-                System.out.println("Available commands: courses, go.");
+                System.out.println("Available commands: courses, go, save.");
                 break;
             }
         }
@@ -169,6 +181,94 @@ public class TextInterpreter {
     /** Allows the player to view assignments for this course. */
     private void viewCourseAssignments() {
         System.out.println("No assignments yet");
+    }
+
+    /** Saves the state of the game. */
+    private void save() {
+        boolean[] usedSlots = new boolean[10];
+        for (int slot = 0; slot < 10; slot += 1) {
+            usedSlots[slot] = Files.exists(Paths.get("save" + slot + ".sav"));
+        }
+        MainLoop:
+        while (true) {
+	        System.out.println("Please choose a save slot.");
+	        for (int slot = 0; slot < 10; slot += 1) {
+	            System.out.printf("SAVE %s: %s\n", slot, usedSlots[slot] ?
+	                "SAVE FILE EXISTS" : "EMPTY SLOT");
+	        }
+	        String selection = getInput();
+	        if (!selection.matches("[0-9]")) {
+	            continue;
+	        } else if (usedSlots[Integer.parseInt(selection)]) {
+	            while (true) {
+		            System.out.println("Are you sure you want to override your "
+		                + "previous save file?");
+		            String response = getInput();
+		            if (response.equals("no")) {
+		                continue MainLoop;
+		            } else if (!response.equals("yes")) {
+		                System.out.println("Please enter yes or no.");
+		            } else {
+		                break;
+		            }
+	            }
+	        }
+	        try {
+		        ObjectOutputStream writer = new ObjectOutputStream(
+		            new FileOutputStream(new File("save"
+		            + Integer.parseInt(selection)) + ".sav"));
+		        writer.writeObject(game);
+		        writer.close();
+		        System.out.println("Quit now?");
+		        while (true) {
+		            String response = getInput();
+		            if (response.equals("yes")) {
+		                System.exit(0);
+		            } else if (response.equals("no")) {
+		                return;
+		            } else {
+		                System.out.println("Please enter yes or no.");
+		            }
+		        }
+	        } catch (IOException exception) {
+	            error("Error saving game file.");
+	        }
+        }
+    }
+
+    /** Returns the game object by loading in a file. */
+    private Game loadFile() {
+        boolean[] usedSlots = new boolean[10];
+        for (int slot = 0; slot < 10; slot += 1) {
+            usedSlots[slot] = Files.exists(Paths.get("save" + slot + ".sav"));
+        }
+        Game saveFile = null;
+        while (true) {
+            System.out.println("Choose a save file to load.");
+            for (int slot = 0; slot < 10; slot += 1) {
+                System.out.printf("SAVE %s: %s\n", slot, usedSlots[slot] ?
+    	            "SAVE FILE EXISTS" : "EMPTY SLOT");
+            }
+            String response = getInput();
+            if (!response.matches("[0-9]")
+                || !usedSlots[Integer.parseInt(response)]) {
+                System.out.println("Not a valid save file.");
+                continue;
+            }
+            try {
+                ObjectInputStream reader = new ObjectInputStream(
+                    new FileInputStream(new File("save"
+                    + Integer.parseInt(response)) + ".sav"));
+                saveFile = (Game) reader.readObject();
+                reader.close();
+                break;
+            } catch (IOException exception) {
+                error("Sorry, could not load file.");
+            } catch (ClassNotFoundException exception) {
+                error("Sorry, corrupt or outdated save file.");
+            }
+        }
+        return saveFile;
     }
 
     /** Returns the player's command. */
