@@ -53,11 +53,11 @@ public class Game {
             throw new IllegalArgumentException();
         }
     }
-    
-    /** Views the COURSE's description. */
+
+    /** Views the course description at INDEX. */
     void viewCourseDescription(int index) {
-    	System.out.println(availableCourses.get(index).description());
-    	System.out.println("Are you sure you want to enroll in this class?");
+        System.out.println(availableCourses.get(index).description());
+        System.out.println("Are you sure you want to enroll in this class?");
     }
 
     /** Starts school after the enrollment phase. */
@@ -94,10 +94,10 @@ public class Game {
     public GameState getState() {
         return gameState;
     }
-    
+
     /** Returns the list of enrolled courses of the game. */
-    public ArrayList<Course> getEnrolledCourses() {
-    	return enrolledCourses;
+    ArrayList<Course> getEnrolledCourses() {
+        return enrolledCourses;
     }
 
     /** The year this game is in. */

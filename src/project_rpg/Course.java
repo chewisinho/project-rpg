@@ -17,15 +17,15 @@ public abstract class Course {
     public String getTitle() {
         return courseTitle;
     }
-    
+
     /** Returns a list of the course's assignments. */
     public ArrayList<Assignment> getAssignments() {
-    	return assignments;
+        return assignments;
     }
 
     /** The title of the course and a short description. */
     protected String courseTitle, description;
-    
+
     /** The assignments of the course. */
     protected ArrayList<Assignment> assignments;
 

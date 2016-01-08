@@ -63,27 +63,27 @@ public class TextInterpreter {
     private void playEnrollment() {
         InputLoop:
         while (true) {
-	        System.out.println("Please select a course from the list below to view"
-	        		+ "its description.:");
-	        game.printAvailableCourses();
-	        int selection = Integer.parseInt(getInput());
-	        while (true) {
-		        game.viewCourseDescription(selection);
-	        	String response = getInput();
-	        	if (response.equals("yes")) {
-	        		try {
-	    	            game.registerCourse(selection);
-	    	            break InputLoop;
-	    	        } catch (IllegalArgumentException exception) {
-	    	            System.out.println("Sorry, that is not a valid "
-	    	            		+ "course.");
-	    	        }
-	        	} else if (response.equals("no")) {
-	        		break;
-	        	} else {
-	        		System.out.println("Please enter yes or no.");
-	        	}
-	        }
+            System.out.println("Please select a course from the list below to "
+                + "view its description and enroll:");
+            game.printAvailableCourses();
+            int selection = Integer.parseInt(getInput());
+            while (true) {
+                game.viewCourseDescription(selection);
+                String response = getInput();
+                if (response.equals("yes")) {
+                    try {
+                        game.registerCourse(selection);
+                        break InputLoop;
+                    } catch (IllegalArgumentException exception) {
+                        System.out.println("Sorry, that is not a valid "
+                            + "course.");
+                    }
+                } else if (response.equals("no")) {
+                    break;
+                } else {
+                    System.out.println("Please enter yes or no.");
+                }
+            }
         }
         game.startSchool();
     }
@@ -92,19 +92,17 @@ public class TextInterpreter {
     private void playSchool() {
         MainLoop:
         while (true) {
-            System.out.println("What would you like to do?");
+            System.out.println("You are at school. What would you like to do?");
             String command = getInput();
             switch (command) {
+            case "courses":
+                courses();
+                break;
             case "go":
                 go();
                 break MainLoop;
-            case "courses":
-            	courses();
-            	break;
             default:
-                System.out.println("Available commands:");
-                System.out.println("go");
-                System.out.println("courses");
+                System.out.println("Available commands: courses, go.");
                 break;
             }
         }
@@ -127,13 +125,18 @@ public class TextInterpreter {
             }
         }
     }
-    
+
+    /** Returns to the main screen. */
+    private void goBack() {
+        game.startSchool();
+    }
+
     /** Checks the courses the main character has. */
     private void courses() {
-    	ArrayList<Course> courses = game.getEnrolledCourses();
-    	for (Course course : courses) {
-    		System.out.println(course.getTitle());
-    	}
+        ArrayList<Course> courses = game.getEnrolledCourses();
+        for (Course course : courses) {
+            System.out.println(course.getTitle());
+        }
     }
 
     /** Plays the game during a battle. */
@@ -143,30 +146,30 @@ public class TextInterpreter {
 
     /** Plays the game during class. */
     private void playClass() {
-        System.out.println("Congratulations, you're in class!");
         MainLoop:
-            while (true) {
-                System.out.println("What would you like to do?");
-                String command = getInput();
-                switch (command) {
-                case "go":
-                    go();
-                    break MainLoop;
-                case "view assignments":
-                	viewCourseAssignments();
-                	break;
-                default:
-                    System.out.println("Available commands:");
-                    System.out.println("go");
-                    System.out.println("view assignments");
-                    break;
-                }
+        while (true) {
+            System.out.println("You are in class. What would you like to do?");
+            String command = getInput();
+            switch (command) {
+            case "go":
+                go();
+                break MainLoop;
+            case "assignments":
+                viewCourseAssignments();
+                break;
+            case "return":
+                goBack();
+                break MainLoop;
+            default:
+                System.out.println("Available commands: assignments, return.");
+                break;
             }
+        }
     }
-    
+
     /** Allows the player to view assignments for this course. */
     private void viewCourseAssignments() {
-    	System.out.println("No assignments yet");
+        System.out.println("No assignments yet");
     }
 
     /** Returns the player's command. */
