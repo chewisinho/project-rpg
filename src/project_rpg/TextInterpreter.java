@@ -150,7 +150,7 @@ public class TextInterpreter {
     private void courses() {
         ArrayList<Course> courses = game.getEnrolledCourses();
         for (Course course : courses) {
-            System.out.println(course.getTitle());
+            System.out.println(course.description());
         }
     }
 
