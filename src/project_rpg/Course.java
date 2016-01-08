@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.Comparator;
 
 /** Abstract class representing a class taken by the player.
- *  @author S. Chewi, A. Tran
+ *  @author S. Chewi, T. Nguyen, A. Tran
  */
 public abstract class Course implements Serializable {
 

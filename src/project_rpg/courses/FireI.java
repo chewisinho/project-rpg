@@ -1,7 +1,7 @@
 package project_rpg.courses;
 
 /** The first course in fire magic.
- *  @author S. Chewi, A. Tran
+ *  @author S. Chewi, T. Nguyen, A. Tran
  */
 public class FireI extends project_rpg.Course {
 

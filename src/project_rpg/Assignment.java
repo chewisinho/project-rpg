@@ -3,7 +3,7 @@ package project_rpg;
 import java.io.Serializable;
 
 /** Abstract class representing assignments of a course.
- *  @author S. Chewi, A. Tran
+ *  @author S. Chewi, T. Nguyen, A. Tran
  */
 public class Assignment implements Serializable {
 

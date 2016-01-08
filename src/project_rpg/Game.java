@@ -9,7 +9,7 @@ import static project_rpg.Quarter.*;
 import static project_rpg.Year.*;
 
 /** Contains the main game data for Project RPG.
- *  @author S. Chewi, A. Tran
+ *  @author S. Chewi, T. Nguyen, A. Tran
  */
 public class Game implements Serializable {
 

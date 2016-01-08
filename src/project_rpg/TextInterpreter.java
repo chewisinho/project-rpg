@@ -13,7 +13,7 @@ import java.util.Scanner;
 import static project_rpg.GameState.*;
 
 /** Text-based parser and interpreter for Project RPG.
- *  @author S. Chewi, A. Tran
+ *  @author S. Chewi, T. Nguyen, A. Tran
  */
 public class TextInterpreter {
 

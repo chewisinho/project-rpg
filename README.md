@@ -20,8 +20,8 @@ The game is currently a work-in-progress, with a text-based interface.
 * check assignments
 * check status (HP/MP)
 * rest (recover HP/MP, advance a day)
-* save file
-* load file
+* ~~save file~~
+* ~~load file~~
 
 **Classroom**
 
