@@ -154,19 +154,17 @@ public class TextInterpreter {
     }
     
     private void rest() {
-    	while (true) {
-	    	game.nextDay();
-	    	if (game.getDay() == 0) {
-	    		game.nextWeek();
-	    		if (game.getWeek() == 1) {
-	    			game.nextQuarter();
-	    			if (game.getQuarter() == 0) {
-	    				game.nextYear();
-	    			}
-	    		}
-	    	}
-	    	game.printGameInfo();
+    	game.nextDay();
+    	if (game.getDay() == 0) {
+    		game.nextWeek();
+    		if (game.getWeek() == 1) {
+    			game.nextQuarter();
+    			if (game.getQuarter() == 0) {
+    				game.nextYear();
+    			}
+    		}
     	}
+    	game.printGameInfo();
     }
 
     /** Plays the game during a battle. */
