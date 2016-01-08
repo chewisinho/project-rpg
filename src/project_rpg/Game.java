@@ -58,8 +58,9 @@ public class Game implements Serializable {
     /** Views the course description at INDEX. */
     void viewCourseDescription(int index) {
         try {
-	        System.out.println(availableCourses.get(index).description());
-	        System.out.println("Are you sure you want to enroll in this class?");
+            System.out.println(availableCourses.get(index).description());
+            System.out.println("Are you sure you want to enroll in this "
+                + "class?");
         } catch (IndexOutOfBoundsException exception) {
             throw new IllegalArgumentException();
         }
@@ -74,29 +75,29 @@ public class Game implements Serializable {
     void startClass() {
         gameState = CLASS;
     }
-    
+
     /** Increments to the next day. */
     void nextDay() {
-    	day = day.next();
+        day = day.next();
     }
-    
+
     /** Increments to the next week. */
     void nextWeek() {
-    	if (week == 10) {
-    		week = 1;
-    	} else {
-	    	week = week + 1;
-    	}
+        if (week == 10) {
+            week = 1;
+        } else {
+            week = week + 1;
+        }
     }
-    
+
     /** Increments to the next quarter. */
     void nextQuarter() {
-    	quarter = quarter.next();
+        quarter = quarter.next();
     }
-    
+
     /** Increments to the next year. */
     void nextYear() {
-    	year = year.next();
+        year = year.next();
     }
 
     /** Returns the year the game is in. */

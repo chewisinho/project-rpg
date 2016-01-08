@@ -73,22 +73,22 @@ public class TextInterpreter {
         InputLoop:
         while (true) {
             try {
-	            System.out.println("Please select a course from the list below to "
-	                + "view its description and enroll:");
-	            game.printAvailableCourses();
-	            int selection = Integer.parseInt(getInput());
-	            while (true) {
-	                game.viewCourseDescription(selection);
-	                String response = getInput();
-	                if (response.equals("yes")) {
-	                    game.registerCourse(selection);
-	                    break InputLoop;
-	                } else if (response.equals("no")) {
-	                    break;
-	                } else {
-	                    System.out.println("Please enter yes or no.");
-	                }
-	            }
+                System.out.println("Please select a course from the list below "
+                    + "to view its description and enroll:");
+                game.printAvailableCourses();
+                int selection = Integer.parseInt(getInput());
+                while (true) {
+                    game.viewCourseDescription(selection);
+                    String response = getInput();
+                    if (response.equals("yes")) {
+                        game.registerCourse(selection);
+                        break InputLoop;
+                    } else if (response.equals("no")) {
+                        break;
+                    } else {
+                        System.out.println("Please enter yes or no.");
+                    }
+                }
             } catch (IllegalArgumentException exception) {
                 System.out.println("Sorry, that is not a valid course.");
             }
@@ -116,7 +116,8 @@ public class TextInterpreter {
                 save();
                 break MainLoop;
             default:
-                System.out.println("Available commands: courses, go, rest, save.");
+                System.out.println("Available commands: courses, go, rest, "
+                    + "save.");
                 break;
             }
         }
@@ -152,19 +153,20 @@ public class TextInterpreter {
             System.out.println(course.getTitle());
         }
     }
-    
+
+    /** Rests for a day. */
     private void rest() {
-    	game.nextDay();
-    	if (game.getDay() == 0) {
-    		game.nextWeek();
-    		if (game.getWeek() == 1) {
-    			game.nextQuarter();
-    			if (game.getQuarter() == 0) {
-    				game.nextYear();
-    			}
-    		}
-    	}
-    	game.printGameInfo();
+        game.nextDay();
+        if (game.getDay() == 0) {
+            game.nextWeek();
+            if (game.getWeek() == 1) {
+                game.nextQuarter();
+                if (game.getQuarter() == 0) {
+                    game.nextYear();
+                }
+            }
+        }
+        game.printGameInfo();
     }
 
     /** Plays the game during a battle. */
@@ -208,48 +210,48 @@ public class TextInterpreter {
         }
         MainLoop:
         while (true) {
-	        System.out.println("Please choose a save slot.");
-	        for (int slot = 0; slot < 10; slot += 1) {
-	            System.out.printf("SAVE %s: %s\n", slot, usedSlots[slot] ?
-	                "SAVE FILE EXISTS" : "EMPTY SLOT");
-	        }
-	        String selection = getInput();
-	        if (!selection.matches("[0-9]")) {
-	            continue;
-	        } else if (usedSlots[Integer.parseInt(selection)]) {
-	            while (true) {
-		            System.out.println("Are you sure you want to override your "
-		                + "previous save file?");
-		            String response = getInput();
-		            if (response.equals("no")) {
-		                continue MainLoop;
-		            } else if (!response.equals("yes")) {
-		                System.out.println("Please enter yes or no.");
-		            } else {
-		                break;
-		            }
-	            }
-	        }
-	        try {
-		        ObjectOutputStream writer = new ObjectOutputStream(
-		            new FileOutputStream(new File("save"
-		            + Integer.parseInt(selection)) + ".sav"));
-		        writer.writeObject(game);
-		        writer.close();
-		        System.out.println("Quit now?");
-		        while (true) {
-		            String response = getInput();
-		            if (response.equals("yes")) {
-		                System.exit(0);
-		            } else if (response.equals("no")) {
-		                return;
-		            } else {
-		                System.out.println("Please enter yes or no.");
-		            }
-		        }
-	        } catch (IOException exception) {
-	            error("Error saving game file.");
-	        }
+            System.out.println("Please choose a save slot.");
+            for (int slot = 0; slot < 10; slot += 1) {
+                System.out.printf("SAVE %s: %s\n", slot, usedSlots[slot]
+                    ? "SAVE FILE EXISTS" : "EMPTY SLOT");
+            }
+            String selection = getInput();
+            if (!selection.matches("[0-9]")) {
+                continue;
+            } else if (usedSlots[Integer.parseInt(selection)]) {
+                while (true) {
+                    System.out.println("Are you sure you want to override your "
+                        + "previous save file?");
+                    String response = getInput();
+                    if (response.equals("no")) {
+                        continue MainLoop;
+                    } else if (!response.equals("yes")) {
+                        System.out.println("Please enter yes or no.");
+                    } else {
+                        break;
+                    }
+                }
+            }
+            try {
+                ObjectOutputStream writer = new ObjectOutputStream(
+                    new FileOutputStream(new File("save"
+                    + Integer.parseInt(selection)) + ".sav"));
+                writer.writeObject(game);
+                writer.close();
+                System.out.println("Quit now?");
+                while (true) {
+                    String response = getInput();
+                    if (response.equals("yes")) {
+                        System.exit(0);
+                    } else if (response.equals("no")) {
+                        return;
+                    } else {
+                        System.out.println("Please enter yes or no.");
+                    }
+                }
+            } catch (IOException exception) {
+                error("Error saving game file.");
+            }
         }
     }
 
@@ -263,8 +265,8 @@ public class TextInterpreter {
         while (true) {
             System.out.println("Choose a save file to load.");
             for (int slot = 0; slot < 10; slot += 1) {
-                System.out.printf("SAVE %s: %s\n", slot, usedSlots[slot] ?
-    	            "SAVE FILE EXISTS" : "EMPTY SLOT");
+                System.out.printf("SAVE %s: %s\n", slot, usedSlots[slot]
+                    ? "SAVE FILE EXISTS" : "EMPTY SLOT");
             }
             String response = getInput();
             if (!response.matches("[0-9]")
