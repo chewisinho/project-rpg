@@ -7,10 +7,10 @@ import java.util.Comparator;
  */
 public abstract class Course {
 
-	/** Returns a short description of the course. */
-	public String description() {
-	    return courseTitle + ": " + description;
-	}
+    /** Returns a short description of the course. */
+    public String description() {
+        return courseTitle + ": " + description;
+    }
 
     /** Returns the title of the course.*/
     public String getTitle() {
@@ -18,17 +18,17 @@ public abstract class Course {
     }
 
     /** The title of the course and a short description. */
-	protected String courseTitle, description;
+    protected String courseTitle, description;
 
-	/** Comparator that compares two courses by their course titles. */
-	public static Comparator<Course> titleComparator =
-	    new Comparator<Course>() {
+    /** Comparator that compares two courses by their course titles. */
+    public static final Comparator<Course> TITLE_COMPARATOR =
+        new Comparator<Course>() {
 
-		@Override
-	    public int compare(Course x, Course y) {
-	        return x.getTitle().compareTo(y.getTitle());
-	    }
+        @Override
+        public int compare(Course x, Course y) {
+            return x.getTitle().compareTo(y.getTitle());
+        }
 
-	};
+    };
 
 }

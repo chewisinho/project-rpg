@@ -5,8 +5,9 @@ package project_rpg;
  */
 public class Main {
 
-	public static void main(String[] args) {
-		new TextInterpreter();
-	}
+    /** Initializes Project RPG. */
+    public static void main(String[] ignored) {
+        new TextInterpreter();
+    }
 
 }
