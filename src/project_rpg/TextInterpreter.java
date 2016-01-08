@@ -63,26 +63,25 @@ public class TextInterpreter {
     private void playEnrollment() {
         InputLoop:
         while (true) {
-            System.out.println("Please select a course from the list below to "
-                + "view its description and enroll:");
-            game.printAvailableCourses();
-            int selection = Integer.parseInt(getInput());
-            while (true) {
-                game.viewCourseDescription(selection);
-                String response = getInput();
-                if (response.equals("yes")) {
-                    try {
-                        game.registerCourse(selection);
-                        break InputLoop;
-                    } catch (IllegalArgumentException exception) {
-                        System.out.println("Sorry, that is not a valid "
-                            + "course.");
-                    }
-                } else if (response.equals("no")) {
-                    break;
-                } else {
-                    System.out.println("Please enter yes or no.");
-                }
+            try {
+	            System.out.println("Please select a course from the list below to "
+	                + "view its description and enroll:");
+	            game.printAvailableCourses();
+	            int selection = Integer.parseInt(getInput());
+	            while (true) {
+	                game.viewCourseDescription(selection);
+	                String response = getInput();
+	                if (response.equals("yes")) {
+	                    game.registerCourse(selection);
+	                    break InputLoop;
+	                } else if (response.equals("no")) {
+	                    break;
+	                } else {
+	                    System.out.println("Please enter yes or no.");
+	                }
+	            }
+            } catch (IllegalArgumentException exception) {
+                System.out.println("Sorry, that is not a valid course.");
             }
         }
         game.startSchool();
@@ -175,7 +174,7 @@ public class TextInterpreter {
     /** Returns the player's command. */
     private String getInput() {
         System.out.print("-> ");
-        return input.nextLine();
+        return input.nextLine().toLowerCase();
     }
 
     /** Errors out of the game with MESSAGE. */

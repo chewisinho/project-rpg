@@ -1,12 +1,13 @@
 package project_rpg;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Comparator;
 
 /** Abstract class representing a class taken by the player.
  *  @author S. Chewi, A. Tran
  */
-public abstract class Course {
+public abstract class Course implements Serializable {
 
     /** Returns a short description of the course. */
     public String description() {
@@ -19,7 +20,7 @@ public abstract class Course {
     }
 
     /** Returns a list of the course's assignments. */
-    public ArrayList<Assignment> getAssignments() {
+    protected ArrayList<Assignment> getAssignments() {
         return assignments;
     }
 

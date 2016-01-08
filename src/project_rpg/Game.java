@@ -1,5 +1,6 @@
 package project_rpg;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import project_rpg.courses.FireI;
 import static project_rpg.Day.*;
@@ -10,7 +11,7 @@ import static project_rpg.Year.*;
 /** Contains the main game data for Project RPG.
  *  @author S. Chewi, A. Tran
  */
-public class Game {
+public class Game implements Serializable {
 
     /** Initializes a new game file. */
     public Game() {
@@ -56,8 +57,12 @@ public class Game {
 
     /** Views the course description at INDEX. */
     void viewCourseDescription(int index) {
-        System.out.println(availableCourses.get(index).description());
-        System.out.println("Are you sure you want to enroll in this class?");
+        try {
+	        System.out.println(availableCourses.get(index).description());
+	        System.out.println("Are you sure you want to enroll in this class?");
+        } catch (IndexOutOfBoundsException exception) {
+            throw new IllegalArgumentException();
+        }
     }
 
     /** Starts school after the enrollment phase. */
@@ -107,7 +112,7 @@ public class Game {
     private Quarter quarter;
 
     /** The week this game is in. */
-    private Integer week;
+    private int week;
 
     /** The day this game is in. */
     private Day day;
