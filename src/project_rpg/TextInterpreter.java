@@ -100,8 +100,11 @@ public class TextInterpreter {
             case "go":
                 go();
                 break MainLoop;
+            case "rest":
+            	rest();
+            	break;
             default:
-                System.out.println("Available commands: courses, go.");
+                System.out.println("Available commands: courses, go, rest.");
                 break;
             }
         }
@@ -136,6 +139,22 @@ public class TextInterpreter {
         for (Course course : courses) {
             System.out.println(course.getTitle());
         }
+    }
+    
+    private void rest() {
+    	while (true) {
+	    	game.nextDay();
+	    	if (game.getDay() == 0) {
+	    		game.nextWeek();
+	    		if (game.getWeek() == 1) {
+	    			game.nextQuarter();
+	    			if (game.getQuarter() == 0) {
+	    				game.nextYear();
+	    			}
+	    		}
+	    	}
+	    	game.printGameInfo();
+    	}
     }
 
     /** Plays the game during a battle. */
