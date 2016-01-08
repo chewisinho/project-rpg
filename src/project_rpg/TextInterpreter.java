@@ -144,6 +144,29 @@ public class TextInterpreter {
     /** Plays the game during class. */
     private void playClass() {
         System.out.println("Congratulations, you're in class!");
+        MainLoop:
+            while (true) {
+                System.out.println("What would you like to do?");
+                String command = getInput();
+                switch (command) {
+                case "go":
+                    go();
+                    break MainLoop;
+                case "view assignments":
+                	viewCourseAssignments();
+                	break;
+                default:
+                    System.out.println("Available commands:");
+                    System.out.println("go");
+                    System.out.println("view assignments");
+                    break;
+                }
+            }
+    }
+    
+    /** Allows the player to view assignments for this course. */
+    private void viewCourseAssignments() {
+    	System.out.println("No assignments yet");
     }
 
     /** Returns the player's command. */
