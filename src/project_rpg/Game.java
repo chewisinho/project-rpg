@@ -74,6 +74,30 @@ public class Game implements Serializable {
     void startClass() {
         gameState = CLASS;
     }
+    
+    /** Increments to the next day. */
+    void nextDay() {
+    	day = day.next();
+    }
+    
+    /** Increments to the next week. */
+    void nextWeek() {
+    	if (week == 10) {
+    		week = 1;
+    	} else {
+	    	week = week + 1;
+    	}
+    }
+    
+    /** Increments to the next quarter. */
+    void nextQuarter() {
+    	quarter = quarter.next();
+    }
+    
+    /** Increments to the next year. */
+    void nextYear() {
+    	year = year.next();
+    }
 
     /** Returns the year the game is in. */
     public int getYear() {
