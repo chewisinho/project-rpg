@@ -25,7 +25,7 @@ The game is currently a work-in-progress, with a text-based interface.
 
 **Classroom**
 
-* option to return to main screen
+* ~~option to return to main screen~~
 * ability to see assignments/examinations and select one
 
 **Battle**
