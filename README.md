@@ -16,7 +16,7 @@ The game is currently a work-in-progress, with a text-based interface.
 **Main Screen**
 
 * ~~ability to go to classroom~~
-* check enrolled classes
+* ~~check enrolled classes~~
 * check assignments
 * check status (HP/MP)
 * rest (recover HP/MP, advance a day)
