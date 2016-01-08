@@ -94,6 +94,11 @@ public class Game {
     public GameState getState() {
         return gameState;
     }
+    
+    /** Returns the list of enrolled courses of the game. */
+    public ArrayList<Course> getEnrolledCourses() {
+    	return enrolledCourses;
+    }
 
     /** The year this game is in. */
     private Year year;

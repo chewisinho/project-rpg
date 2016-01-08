@@ -1,5 +1,6 @@
 package project_rpg;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 import static project_rpg.GameState.*;
 
@@ -97,8 +98,13 @@ public class TextInterpreter {
             case "go":
                 go();
                 break MainLoop;
+            case "courses":
+            	courses();
+            	break;
             default:
-                System.out.println("Available commands: go.");
+                System.out.println("Available commands:");
+                System.out.println("go");
+                System.out.println("courses");
                 break;
             }
         }
@@ -120,6 +126,14 @@ public class TextInterpreter {
                 break;
             }
         }
+    }
+    
+    /** Checks the courses the main character has. */
+    private void courses() {
+    	ArrayList<Course> courses = game.getEnrolledCourses();
+    	for (Course course : courses) {
+    		System.out.println(course.getTitle());
+    	}
     }
 
     /** Plays the game during a battle. */
