@@ -23,7 +23,7 @@ public abstract class Course implements Serializable {
     protected ArrayList<Assignment> getAssignments(int week) {
         ArrayList<Assignment> assignmentList = null;
         if (week >= 1 && week < 10) {
-            assignmentList = assignments[week - 1];
+            assignmentList = (ArrayList<Assignment>) assignments[week - 1];
         } else if (week == 10) {
             System.out.println("There are no assignments during tournament "
                 + "week.");
