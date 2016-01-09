@@ -10,8 +10,7 @@ public class Battle {
         _player = player;
         _monster = monster;
         System.out.println(_monster.getName() + " has appeared!");
-        System.out.printf("You have %s/%s HP remaining.\n", _player.getHP(),
-            _player.getMaxHP());
+        _player.status();
     }
 
     /** Checks whether the battle is won. */
