@@ -77,7 +77,6 @@ public class Monster {
         Monster result = null;
         String[] line;
         while (!(line = input.readLine().split("=="))[0].equals(name)) {
-        	System.out.println(line[0]);
             continue;
         }
         result = new Monster(line);
