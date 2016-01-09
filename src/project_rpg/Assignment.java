@@ -25,7 +25,7 @@ public class Assignment implements Serializable {
         course = parent;
     }
 
-    /** Constructs an assignment from a database LINE. */
+    /** Constructs an assignment from a database LINE and a PARENT course. */
     public Assignment(String[] line, Course parent) {
         _title = line[0];
         _description = line[1];
