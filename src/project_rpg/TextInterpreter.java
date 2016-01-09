@@ -195,6 +195,12 @@ public class TextInterpreter {
                 } else if (battle.isLost()) {
                     System.out.println("Sorry, you died! Tough luck.");
                     System.exit(0);
+                } else if (player.isOutOfMana()) {
+                	System.out.println("You're out of mana!");
+                	System.out.println("You punched " + 
+                            monsters.get(0).getName() + " in the face.");
+                    battle.punch();
+                    break;
                 }
                 String index;
                 while (true) {

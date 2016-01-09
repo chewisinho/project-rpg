@@ -41,6 +41,22 @@ public class Battle {
                 _player.getMaxHP());
         }
     }
+    
+    /** Player runs out of mana and punches monster in the face. */
+    void punch() {
+    	int playerDamage = 1;
+    	_monster.reduceHealth(playerDamage);
+    	System.out.printf("You did %s damage! The monster has %s HP "
+                + "remaining.\n", playerDamage, Math.max(_monster.hp, 0));
+            if (!_monster.isDead()) {
+                int monsterDamage = _monster.attack();
+                _player.reduceHealth(monsterDamage);
+                System.out.printf("The enemy used %s!\n", _monster.getAttackName());
+                System.out.printf("The enemy did %s damage! You have %s/%s HP "
+                    + "remaining.\n", monsterDamage, _player.getHP(),
+                    _player.getMaxHP());
+            }
+    }
 
     /** The player in the battle. */
     private Player _player;

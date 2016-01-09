@@ -52,6 +52,10 @@ public class Player implements Serializable {
     public boolean isDead() {
         return currHP <= 0;
     }
+    
+    public boolean isOutOfMana() {
+    	return currMP <=0;
+    }
 
     /** Restores HP and MP to max values. */
     public void restore() {
