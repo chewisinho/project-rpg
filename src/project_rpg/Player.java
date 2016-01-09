@@ -1,18 +1,20 @@
 package project_rpg;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+
 /** Class representing a player.
  *  @author S. Chewi, T. Nguyen, A. Tran
  */
 public class Player implements Serializable {
 
     /** Initializes new player given NAME. */
-    public void Player(String name) {
+    public Player(String name) {
         this.name = name;
     }
 
     /** Initializes player without name */
-    public void Player() {
+    public Player() {
         this("Jimmy");
     }
 
@@ -42,7 +44,7 @@ public class Player implements Serializable {
     }
 
     /** Adds a course to a list of taken courses */
-    public void addAssignment(Course newAssignment) {
+    public void addAssignment(Assignment newAssignment) {
         pastAssignments.add(newAssignment);
     }
 
@@ -60,7 +62,7 @@ public class Player implements Serializable {
     private ArrayList<Skill> skills = new ArrayList<Skill>();
 
     /** An array of courses the player has taken */
-    private ArrayList<Course> pastCourses = new ArrayList<course>();
+    private ArrayList<Course> pastCourses = new ArrayList<Course>();
 
     /** An array of assignments the player has completed */
     private ArrayList<Assignment> pastAssignments = new ArrayList<Assignment>();
