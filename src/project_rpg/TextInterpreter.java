@@ -170,7 +170,38 @@ public class TextInterpreter {
 
     /** Plays the game during a battle. */
     private void playBattle() {
-        // TODO
+        Assignment assignment = game.getAssignment();
+        Player player = game.getPlayer();
+        ArrayList<Monster> monsters = assignment.getMonsters();
+        while (!monsters.isEmpty()) {
+            Battle battle = new Battle(player, monsters.get(0));
+            while (true) {
+	            if (battle.isWon()) {
+	                monsters.remove(0);
+	                break;
+	            } else if (battle.isLost()) {
+	                System.out.println("Sorry, you died! Tough luck.");
+	                System.exit(0);
+	            }
+	            String index;
+	            while (true) {
+	                System.out.println("Select a skill:");
+	                player.printSkills();
+	                System.out.printf("You have %s/%s MP remaining.\n",
+	                    player.getMP(), player.getMaxMP());
+	                index = getInput();
+	                if (!index.matches("\\d+")) {
+	                    continue;
+	                } else {
+	                    break;
+	                }
+	            }
+	            battle.useSkill(Integer.parseInt(index));
+            }
+        }
+        assignment.getCourse().removeAssignment(assignment, game.getWeek());
+        System.out.println("Congratulations, you finished the assignment!");
+        game.startClass();
     }
 
     /** Plays the game during class. */
@@ -185,7 +216,7 @@ public class TextInterpreter {
                 break MainLoop;
             case "assignments":
                 viewCourseAssignments();
-                break;
+                break MainLoop;
             case "return":
                 goBack();
                 break MainLoop;
@@ -204,24 +235,31 @@ public class TextInterpreter {
                 System.out.println("Which course's assignments would you like "
                     + "to view?");
                 game.printEnrolledCourses();
+                System.out.println("X: Return to previous screen.");
                 String index = getInput();
-                if (!index.matches("\\d+")) {
+                if (index.equals("x")) {
+                    break MainLoop;
+                } else if (!index.matches("\\d+")) {
                     continue MainLoop;
                 }
-                Course course = game.getEnrolledCourse(Integer.parseInt(index));
                 System.out.println("Would you like to complete an assignment?");
-                Assignment.printAssignments(course.getAssignments(
-                    game.getWeek()));
+                ArrayList<Assignment> assignments = game.getEnrolledCourse(
+                    Integer.parseInt(index)).getAssignments(game.getWeek());
+                Assignment.printAssignments(assignments);
                 System.out.println("X: Return to previous screen.");
                 index = getInput();
                 if (!index.matches("(\\d+)|X")) {
                     continue MainLoop;
                 } else if (index.equals("x")) {
                     break MainLoop;
+                } else {
+                    game.startBattle(assignments.get(Integer.parseInt(index)));
+                    break MainLoop;
                 }
-                
             } catch (IllegalArgumentException exception) {
                 System.out.println("Sorry, that is not a valid course.");
+            } catch (IndexOutOfBoundsException exception) {
+                System.out.println("Sorry, that is not a valid assignment.");
             }
         }
     }

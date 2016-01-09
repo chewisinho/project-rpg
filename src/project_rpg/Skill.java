@@ -8,15 +8,17 @@ import static project_rpg.Monster.*;
 public class Skill {
 
     /** Creates a new skill starting at rank 0. */
-    public Skill() {
+    public Skill(int baseDamage, int baseMP) {
         rank = 0;
+        _baseDamage = baseDamage;
+        _baseMP = baseMP;
         update();
     }
 
     /** Updates the damage of the skill. */
     protected void update() {
-        damage = (int) (baseDamage * Math.pow(SCALE, rank));
-        mp = (int) (baseMP * Math.pow(SCALE, rank));
+        damage = (int) (_baseDamage * Math.pow(SCALE, rank));
+        mp = (int) (_baseMP * Math.pow(SCALE, rank));
     }
 
     /** Increases my rank. */
@@ -35,6 +37,11 @@ public class Skill {
         return name;
     }
 
+    /** Returns my MP cost. */
+    public int getCost() {
+        return mp;
+    }
+
     /** Returns my description. */
     public String description() {
         return name + ": " + description;
@@ -43,11 +50,8 @@ public class Skill {
     /** Contains the description of the skill. */
     protected String name, description;
 
-    /** Contains the base damage of the skill. */
-    protected int baseDamage, baseMP;
-
     /** Contains the parameters of the skill. */
-    protected int rank, damage, mp;
+    protected int rank, damage, mp, _baseDamage, _baseMP;
 
     /** Contains the scaling of the skill by rank. */
     public static final double SCALE = 1.2;

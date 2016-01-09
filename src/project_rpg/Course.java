@@ -33,6 +33,11 @@ public abstract class Course implements Serializable {
         return assignmentList;
     }
 
+    /** Removes ASSIGNMENT from the list of assignments during WEEK. */
+    void removeAssignment(Assignment assignment, int week) {
+        ((ArrayList<Assignment>) assignments[week - 1]).remove(assignment);
+    }
+
     /** The title of the course and a short description. */
     protected String courseTitle, description;
 
@@ -49,5 +54,8 @@ public abstract class Course implements Serializable {
         }
 
     };
+
+    /** The skill that this course will teach. */
+    protected static Skill skill;
 
 }

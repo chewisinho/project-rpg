@@ -15,16 +15,23 @@ public class Assignment implements Serializable {
     }
 
     /** Constructor for assignment that takes in an array of MONSTERS, TITLE,
-     * and a DESCRIPTION. */
+     *  a DESCRIPTION, and my PARENT course. */
     public Assignment(ArrayList<Monster> monsters, String title,
-        String description) {
+        String description, Course parent) {
         _monsters = monsters;
         _title = title;
+        _description = description;
+        course = parent;
     }
 
     /** Returns title of the assignment. */
     public String getTitle() {
         return _title;
+    }
+
+    /** Returns my course. */
+    Course getCourse() {
+        return course;
     }
 
     /** Returns the description of the assignment. */
@@ -33,7 +40,7 @@ public class Assignment implements Serializable {
     }
 
     /** Returns the monsters of the assignment. */
-    public ArrayList<Monster> getMonsters() {
+    ArrayList<Monster> getMonsters() {
         return _monsters;
     }
 
@@ -51,5 +58,8 @@ public class Assignment implements Serializable {
 
     /** The monsters in this assignment. */
     private ArrayList<Monster> _monsters;
+
+    /** I am an assignment within this course. */
+    private Course course;
 
 }

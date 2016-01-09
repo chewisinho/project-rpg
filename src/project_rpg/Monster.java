@@ -8,7 +8,7 @@ import java.util.Random;
 public class Monster {
 
     /** Simple no-argument constructor. */
-    public Monster() {
+    public Monster(int monsterHP, int monsterMP, int monsterDamage) {
         hp = spread(monsterHP);
         mp = spread(monsterMP);
         damage = spread(monsterDamage);
@@ -43,14 +43,16 @@ public class Monster {
         return hp <= 0;
     }
 
+    /** Returns my name. */
+    String getName() {
+        return name;
+    }
+
     /** Contains the monster's instance variables. */
     protected int hp, mp, damage;
 
     /** Contains the description of the monster. */
     protected static String name, description;
-
-    /** Contains the monster's parameters. */
-    protected static int monsterHP, monsterMP, monsterDamage;
 
     /** Contains the innate variability for a typical monster. */
     protected static final double VARIABILITY = 0.1, ATTACK_VARIABILITY = 0.25;

@@ -23,6 +23,7 @@ public class Game implements Serializable {
         availableCourses = new ArrayList<Course>();
         availableCourses.add(new FireI());
         enrolledCourses = new ArrayList<Course>();
+        player = new Player();
     }
 
     /** Prints the game state. */
@@ -58,8 +59,11 @@ public class Game implements Serializable {
     /** Registers the course at INDEX into the schedule. */
     void registerCourse(int index) {
         try {
-            enrolledCourses.add(availableCourses.get(index));
+            Course addCourse = availableCourses.get(index);
+            enrolledCourses.add(addCourse);
             availableCourses.remove(index);
+            player.addCourse(addCourse);
+            player.addSkill(addCourse.skill);
         } catch (IndexOutOfBoundsException exception) {
             throw new IllegalArgumentException();
         }
@@ -93,6 +97,12 @@ public class Game implements Serializable {
     /** Travels to classroom. */
     void startClass() {
         gameState = CLASS;
+    }
+
+    /** Starts ASSIGNMENT. */
+    void startBattle(Assignment assignment) {
+        gameState = BATTLE;
+        currentAssignment = assignment;
     }
 
     /** Increments to the next day. */
@@ -149,6 +159,16 @@ public class Game implements Serializable {
         return enrolledCourses;
     }
 
+    /** Returns the current assignment. */
+    Assignment getAssignment() {
+        return currentAssignment;
+    }
+
+    /** Returns the player of the game. */
+    Player getPlayer() {
+        return player;
+    }
+
     /** The year this game is in. */
     private Year year;
 
@@ -166,5 +186,11 @@ public class Game implements Serializable {
 
     /** Contains a list of available and enrolled courses. */
     private ArrayList<Course> availableCourses, enrolledCourses;
+
+    /** Contains the current assignment in the game. */
+    private transient Assignment currentAssignment;
+
+    /** The main character in the game. */
+    private Player player;
 
 }

@@ -23,9 +23,29 @@ public class Player implements Serializable {
         return currHP;
     }
 
+    /** Returns max HP. */
+    int getMaxHP() {
+        return maxHP;
+    }
+
     /** Returns current MP. */
     public int getMP() {
         return currMP;
+    }
+
+    /** Returns max MP. */
+    int getMaxMP() {
+        return maxMP;
+    }
+
+    /** Reduces my health by AMOUNT. */
+    void reduceHealth(int amount) {
+        currHP -= amount;
+    }
+
+    /** Returns true iff I am dead. */
+    public boolean isDead() {
+        return currHP <= 0;
     }
 
     /** Restores HP and MP to max values. */
@@ -49,13 +69,27 @@ public class Player implements Serializable {
         pastAssignments.add(newAssignment);
     }
 
+    /** Prints a list of the player's skills. */
+    void printSkills() {
+        int index = 0;
+        for (Skill skill : skills) {
+            System.out.printf("%s: %s (%s MP)\n", index, skill.getName(),
+                skill.getCost());
+        }
+    }
+
+    /** Gets the skill at INDEX. */
+    Skill getSkill(int index) {
+        return skills.get(index);
+    }
+
     /** Prints the status of the player. */
     public void status() {
         System.out.println("HP: " + currHP + "/" + maxHP);
         System.out.println("MP: " + currMP + "/" + maxMP);
     }
 
-    /** Initial stat values. */
+    /** Initial parameters. */
     private int currHP = 100, maxHP = 100, currMP = 100, maxMP = 100;
 
     /** The player's name. */
