@@ -32,8 +32,9 @@ The game is currently a work-in-progress, with a text-based interface.
 
 * ~~create HP, MP~~, and other stats
 * develop stat system
-* ~~create Firebolt~~, ~~ranks I-X~~
-* create monsters for Fire I (including bosses)
+* ~~create Firebolt, ranks I-X~~
+* allow Firebolt to rank up after completing assignments
+* ~~create monsters for Fire I (including bosses)~~
 * create 18 assignments, 9 examinations
 * develop damage calculation formula
 * create weakness/strength system
