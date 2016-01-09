@@ -1,8 +1,8 @@
 package project_rpg;
 
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
-import project_rpg.courses.FireI;
 import static project_rpg.Day.*;
 import static project_rpg.GameState.*;
 import static project_rpg.Quarter.*;
@@ -14,14 +14,14 @@ import static project_rpg.Year.*;
 public class Game implements Serializable {
 
     /** Initializes a new game file. */
-    public Game() {
+    public Game() throws IOException {
         year = FRESHMAN;
         quarter = FALL;
         week = 1;
         day = MONDAY;
         gameState = ENROLLMENT;
         availableCourses = new ArrayList<Course>();
-        availableCourses.add(new FireI());
+        availableCourses.add(Course.readCourse("Introduction to Fire Magic"));
         enrolledCourses = new ArrayList<Course>();
         player = new Player();
     }

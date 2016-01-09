@@ -1,5 +1,9 @@
 package project_rpg;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -7,7 +11,26 @@ import java.util.Comparator;
 /** Abstract class representing a class taken by the player.
  *  @author S. Chewi, T. Nguyen, A. Tran
  */
-public abstract class Course implements Serializable {
+public class Course implements Serializable {
+
+    /** Constructs a course from the database LINE. */
+    public Course(String[] line) {
+        courseTitle = line[0];
+        description = line[1];
+        try {
+            skill = Skill.readSkill(line[2]);
+            for (int index = 3; index < 12; index += 1) {
+                String[] week = line[index].split("~~");
+                ArrayList<Assignment> weekList = new ArrayList<Assignment>();
+                for (String assignment : week) {
+                    weekList.add(new Assignment(assignment.split("--"), this));
+                }
+                assignments[index - 3] = weekList;
+            }
+        } catch (IOException exception) {
+            TextInterpreter.error("Error loading course.");
+        }
+    }
 
     /** Returns a short description of the course. */
     public String description() {
@@ -38,6 +61,20 @@ public abstract class Course implements Serializable {
         ((ArrayList<Assignment>) assignments[week - 1]).remove(assignment);
     }
 
+    /** Returns the course NAME read from the database. */
+    public static Course readCourse(String name) throws IOException {
+        BufferedReader input = new BufferedReader(new FileReader(new File(
+            "project_rpg" + File.separator + "database" + File.separator
+            + "courses.db")));
+        Course result = null;
+        String[] line;
+        while (!(line = input.readLine().split("=="))[0].equals(name)) {
+            continue;
+        }
+        result = new Course(line);
+        return result;
+    }
+
     /** The title of the course and a short description. */
     protected String courseTitle, description;
 
@@ -56,6 +93,6 @@ public abstract class Course implements Serializable {
     };
 
     /** The skill that this course will teach. */
-    protected static Skill skill;
+    protected Skill skill;
 
 }

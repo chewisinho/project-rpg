@@ -30,7 +30,11 @@ public class TextInterpreter {
         while (true) {
             String command = getInput();
             if (command.equals("new game")) {
-                game = new Game();
+                try {
+                    game = new Game();
+                } catch (IOException exception) {
+                    error("Error loading course data.");
+                }
                 break;
             } else if (command.equals("load game")) {
                 game = loadFile();

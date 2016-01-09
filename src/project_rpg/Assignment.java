@@ -1,5 +1,6 @@
 package project_rpg;
 
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 
@@ -22,6 +23,21 @@ public class Assignment implements Serializable {
         _title = title;
         _description = description;
         course = parent;
+    }
+
+    /** Constructs an assignment from a database LINE. */
+    public Assignment(String[] line, Course parent) {
+        _title = line[0];
+        _description = line[1];
+        course = parent;
+        _monsters = new ArrayList<Monster>();
+        try {
+            for (int index = 2; index < line.length; index += 1) {
+                _monsters.add(Monster.readMonster(line[index]));
+            }
+        } catch (IOException exception) {
+            TextInterpreter.error("Error reading monster file.");
+        }
     }
 
     /** Returns title of the assignment. */
