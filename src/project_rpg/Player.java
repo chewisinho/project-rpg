@@ -46,6 +46,10 @@ public class Player implements Serializable {
         pastAssignments.add(newAssignment);
     }
 
+    public void status() {
+        System.out.println("HP: " + curr_hp + "/" + max_hp);
+        System.out.println("MP: " + curr_mp + "/" + max_mp);
+    }
     /** Initial stat values */
     private int curr_hp = 100, max_hp = 100, curr_mp = 100, max_mp = 100;
 
