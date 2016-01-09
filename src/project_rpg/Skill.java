@@ -7,7 +7,7 @@ import static project_rpg.Monster.*;
  */
 public class Skill {
 
-    /** Creates a new skill starting at rank 0. */
+    /** Creates a new skill starting at rank 0 with BASEDAMAGE and BASEMP. */
     public Skill(int baseDamage, int baseMP) {
         rank = 0;
         _baseDamage = baseDamage;

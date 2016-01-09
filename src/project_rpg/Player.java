@@ -42,10 +42,10 @@ public class Player implements Serializable {
     void reduceHealth(int amount) {
         currHP -= amount;
     }
-    
+
     /** Reduces my mana by AMOUNT. */
     void reduceMana(int amount) {
-    	currMP -= amount;
+        currMP -= amount;
     }
 
     /** Returns true iff I am dead. */
@@ -83,7 +83,7 @@ public class Player implements Serializable {
         }
     }
 
-    /** Gets the skill at INDEX. */
+    /** Returns the skill at INDEX. */
     Skill getSkill(int index) {
         return skills.get(index);
     }

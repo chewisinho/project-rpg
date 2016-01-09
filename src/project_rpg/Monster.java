@@ -7,7 +7,7 @@ import java.util.Random;
  */
 public class Monster {
 
-    /** Simple no-argument constructor. */
+    /** Creates a monster with MONSTERHP, MONSTERMP, and MONSTERDAMAGE. */
     public Monster(int monsterHP, int monsterMP, int monsterDamage) {
         hp = spread(monsterHP);
         mp = spread(monsterMP);
