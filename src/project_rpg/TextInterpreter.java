@@ -114,9 +114,12 @@ public class TextInterpreter {
             case "save":
                 save();
                 break MainLoop;
+            case "status":
+            	status();
+            	break;
             default:
                 System.out.println("Available commands: courses, go, rest, "
-                    + "save.");
+                    + "save, status.");
                 break;
             }
         }
@@ -165,7 +168,13 @@ public class TextInterpreter {
                 }
             }
         }
+        game.getPlayer().restore();
         game.printGameInfo();
+    }
+    
+    /** Shows the status of the player. */
+    private void status() {
+    	game.getPlayer().status();
     }
 
     /** Plays the game during a battle. */

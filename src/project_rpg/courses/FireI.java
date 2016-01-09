@@ -22,8 +22,10 @@ public class FireI extends project_rpg.Course {
     public FireI() {
         /** Creates the monsters for assignment 1. */
         ArrayList<Monster> monsters1 = new ArrayList<Monster>();
-        Monster monster1 = new IceCube();
-        monsters1.add(monster1);
+        for (int i = 0; i < 5; i += 1) {
+	        Monster monster1 = new IceCube();
+	        monsters1.add(monster1);
+        }
 
         /** The first assignment of the class. */
         Assignment assignment1 = new Assignment(monsters1, "0",
