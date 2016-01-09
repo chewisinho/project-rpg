@@ -41,13 +41,13 @@ public class Skill {
     }
 
     /** Contains the description of the skill. */
-    private static String name, description;
+    protected String name, description;
 
     /** Contains the base damage of the skill. */
-    private static int baseDamage, baseMP;
+    protected int baseDamage, baseMP;
 
     /** Contains the parameters of the skill. */
-    private int rank, damage, mp;
+    protected int rank, damage, mp;
 
     /** Contains the scaling of the skill by rank. */
     public static final double SCALE = 1.2;
