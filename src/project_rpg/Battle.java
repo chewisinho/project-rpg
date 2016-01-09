@@ -27,7 +27,9 @@ public class Battle {
     /** Plays a turn where the player uses skill at INDEX. */
     void useSkill(int index) {
         int playerDamage = _player.getSkill(index).attack();
+        int playerManaUsage = _player.getSkill(index).getCost();
         _monster.reduceHealth(playerDamage);
+        _player.reduceMana(playerManaUsage);
         System.out.printf("You did %s damage! The monster has %s HP "
             + "remaining.\n", playerDamage, Math.max(_monster.hp, 0));
         if (!_monster.isDead()) {

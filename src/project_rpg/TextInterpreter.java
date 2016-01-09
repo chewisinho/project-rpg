@@ -220,9 +220,6 @@ public class TextInterpreter {
             System.out.println("You are in class. What would you like to do?");
             String command = getInput();
             switch (command) {
-            case "go":
-                go();
-                break MainLoop;
             case "assignments":
                 viewCourseAssignments();
                 break MainLoop;

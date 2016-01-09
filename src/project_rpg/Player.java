@@ -42,6 +42,11 @@ public class Player implements Serializable {
     void reduceHealth(int amount) {
         currHP -= amount;
     }
+    
+    /** Reduces my mana by AMOUNT. */
+    void reduceMana(int amount) {
+    	currMP -= amount;
+    }
 
     /** Returns true iff I am dead. */
     public boolean isDead() {
