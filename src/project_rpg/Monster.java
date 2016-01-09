@@ -8,18 +8,22 @@ import java.util.Random;
 public class Monster {
 
     /** Simple no-argument constructor. */
-    public void Monster() {
-        hp = spread(HP);
-        mp = spread(MP);
-        damage = spread(DAMAGE);
+    public Monster() {
+        hp = spread(monsterHP);
+        mp = spread(monsterMP);
+        damage = spread(monsterDamage);
     }
 
-    /** Samples from a distribution with MEAN and STANDARD DEVIATION. */
+    /** Returns a sample from a Gaussian distribution with MEAN and
+     *  STANDARDDEVIATION.
+     */
     public static int spread(int mean, double standardDeviation) {
         return (int) (mean + standardDeviation * new Random().nextGaussian());
     }
 
-    /** Samples from a distribution with MEAN, using the variability ratio. */
+    /** Returns a sample from a Gaussian distribution with MEAN, using the
+     *  variability ratio.
+     */
     public static int spread(int mean) {
         return spread(mean, VARIABILITY * mean);
     }
@@ -29,9 +33,9 @@ public class Monster {
         return spread(damage);
     }
 
-    /** Cause DAMAGE to me. */
-    public void reduceHealth(int damage) {
-        hp -= damage;
+    /** Cause DAMAGEAMOUNT to me. */
+    public void reduceHealth(int damageAmount) {
+        hp -= damageAmount;
     }
 
     /** Returns true iff I am dead. */
@@ -46,7 +50,7 @@ public class Monster {
     protected static String name, description;
 
     /** Contains the monster's parameters. */
-    protected static int HP, MP, DAMAGE;
+    protected static int monsterHP, monsterMP, monsterDamage;
 
     /** Contains the innate variability for a typical monster. */
     protected static final double VARIABILITY = 0.1, ATTACK_VARIABILITY = 0.25;

@@ -10,7 +10,6 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Scanner;
-import static project_rpg.GameState.*;
 
 /** Text-based parser and interpreter for Project RPG.
  *  @author S. Chewi, T. Nguyen, A. Tran
