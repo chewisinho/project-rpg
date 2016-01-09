@@ -1,1 +1,10 @@
 Ice Cube==An animated ice cube that can tackle you.==25==0==Tackle==5
+Snowflake==An animated snowflake that spins at you.==30==0==Spin Attack==5
+Snowball==An animated snowball that runs you over.==30==0==Roll==7
+Icicle==An animated icicle that can stab you.==35==0==Stab==7
+Ice Pig==A pig that can charge with the element of ice.==50==0==Ice Charge==5
+Ice Wolf==A wolf that can have lunge with the element of ice.==40==0==Ice Lunge==10
+Ice Bird==A bird that can shoot feathers of ice at you.==20==0==Frozen Feathers==20
+Polar Bear==Can give you frostbite. Watch out.==60==0==Frozen Bite==15
+Snowman==Alive snowman that throws snowballs at you.==50==0==Snowball==7
+Yet==Frightening monster usually found in the mountains.==70==0==Ice Claw==15
