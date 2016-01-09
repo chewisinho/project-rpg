@@ -19,6 +19,12 @@ public abstract class Course implements Serializable {
         return courseTitle;
     }
 
+    /** Returns a list of the course's assignments during WEEK. */
+    ArrayList<Assignment> getAssignments(int week) {
+        // FILL IN
+        return null;
+    }
+
     /** Returns a list of the course's assignments. */
     protected ArrayList<Assignment> getAssignments() {
         return assignments;

@@ -48,17 +48,17 @@ public class TextInterpreter {
         while (true) {
             GameState gameState = game.getState();
             switch (gameState) {
-            case ENROLLMENT:
-                playEnrollment();
-                break;
-            case SCHOOL:
-                playSchool();
-                break;
             case BATTLE:
                 playBattle();
                 break;
             case CLASS:
                 playClass();
+                break;
+            case ENROLLMENT:
+                playEnrollment();
+                break;
+            case SCHOOL:
+                playSchool();
                 break;
             default:
                 error("Unknown game state!");
@@ -198,7 +198,21 @@ public class TextInterpreter {
 
     /** Allows the player to view assignments for this course. */
     private void viewCourseAssignments() {
-        System.out.println("No assignments yet");
+        MainLoop:
+        while (true) {
+            try {
+		        System.out.println("Which course's assignments would you like "
+		            + "to view?");
+		        game.printEnrolledCourses();
+		        String index = getInput();
+		        if (!index.matches("\\d+")) {
+		            continue MainLoop;
+		        }
+		        Course course = game.getEnrolledCourse(Integer.parseInt(index));
+            } catch (IllegalArgumentException exception) {
+                System.out.println("Sorry, that is not a valid course.");
+            }
+        }
     }
 
     /** Saves the state of the game. */

@@ -35,14 +35,24 @@ public class Game implements Serializable {
         System.out.println("Day: " + day);
     }
 
-    /** Prints the available courses. */
-    public void printAvailableCourses() {
-        availableCourses.sort(Course.TITLE_COMPARATOR);
+    /** Prints the courses in COURSES. */
+    public static void printCourses(ArrayList<Course> courses) {
+        courses.sort(Course.TITLE_COMPARATOR);
         int index = 0;
-        for (Course course : availableCourses) {
+        for (Course course : courses) {
             System.out.println(index + ": " + course.getTitle());
             index += 1;
         }
+    }
+
+    /** Prints the available courses. */
+    public void printAvailableCourses() {
+        printCourses(availableCourses);
+    }
+
+    /** Prints the enrolled courses. */
+    public void printEnrolledCourses() {
+        printCourses(enrolledCourses);
     }
 
     /** Registers the course at INDEX into the schedule. */
@@ -61,6 +71,15 @@ public class Game implements Serializable {
             System.out.println(availableCourses.get(index).description());
             System.out.println("Are you sure you want to enroll in this "
                 + "class?");
+        } catch (IndexOutOfBoundsException exception) {
+            throw new IllegalArgumentException();
+        }
+    }
+
+    /** Returns the enrolled course at INDEX. */
+    Course getEnrolledCourse(int index) {
+        try {
+            return enrolledCourses.get(index);
         } catch (IndexOutOfBoundsException exception) {
             throw new IllegalArgumentException();
         }

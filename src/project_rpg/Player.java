@@ -13,37 +13,37 @@ public class Player implements Serializable {
         this.name = name;
     }
 
-    /** Initializes player without name */
+    /** Initializes player without a name. */
     public Player() {
         this("Jimmy");
     }
 
-    /** Returns current HP */
+    /** Returns current HP. */
     public int getHP() {
         return curr_hp;
     }
 
-    /** Returns current MP */
+    /** Returns current MP. */
     public int getMP() {
         return curr_mp;
     }
 
-    /** Restores HP and MP to max values */
+    /** Restores HP and MP to max values. */
     public void restore() {
         curr_hp = max_hp;
         curr_mp = max_mp;
     }
 
-    /** Adds a skill to the player */
+    /** Adds a skill to the player. */
     public void addSkill(Skill newSkill) {
         skills.add(newSkill);
     }
-    /** Adds a course to a list of taken courses */
+    /** Adds a course to a list of taken courses. */
     public void addCourse(Course newCourse) {
         pastCourses.add(newCourse);
     }
 
-    /** Adds a course to a list of taken courses */
+    /** Adds a course to a list of taken courses. */
     public void addAssignment(Assignment newAssignment) {
         pastAssignments.add(newAssignment);
     }
@@ -52,18 +52,20 @@ public class Player implements Serializable {
         System.out.println("HP: " + curr_hp + "/" + max_hp);
         System.out.println("MP: " + curr_mp + "/" + max_mp);
     }
-    /** Initial stat values */
+
+    /** Initial stat values. */
     private int curr_hp = 100, max_hp = 100, curr_mp = 100, max_mp = 100;
 
-    /** The player's name*/
+    /** The player's name. */
     private String name;
 
-    /** An array of the player's skills*/
+    /** An array of the player's skills. */
     private ArrayList<Skill> skills = new ArrayList<Skill>();
 
-    /** An array of courses the player has taken */
+    /** An array of courses the player has taken. */
     private ArrayList<Course> pastCourses = new ArrayList<Course>();
 
-    /** An array of assignments the player has completed */
+    /** An array of assignments the player has completed. */
     private ArrayList<Assignment> pastAssignments = new ArrayList<Assignment>();
+
 }
