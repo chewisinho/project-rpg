@@ -5,15 +5,15 @@ package project_rpg.skills;
  */
 
 public class Fireball extends project_rpg.Skill {
-    
-	/** No-argument constructor. */
-	public Fireball() {
-		super(10, 5);
-	}
-	
-	{
-		name = "Fireball";
-		description = "A ball of fire!";
-	}
-	
+
+    /** No-argument constructor. */
+    public Fireball() {
+        super(10, 5);
+    }
+
+    {
+        name = "Fireball";
+        description = "A ball of fire!";
+    }
+
 }

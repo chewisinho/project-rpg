@@ -115,8 +115,8 @@ public class TextInterpreter {
                 save();
                 break MainLoop;
             case "status":
-            	status();
-            	break;
+                status();
+                break;
             default:
                 System.out.println("Available commands: courses, go, rest, "
                     + "save, status.");
@@ -171,10 +171,10 @@ public class TextInterpreter {
         game.getPlayer().restore();
         game.printGameInfo();
     }
-    
+
     /** Shows the status of the player. */
     private void status() {
-    	game.getPlayer().status();
+        game.getPlayer().status();
     }
 
     /** Plays the game during a battle. */
@@ -185,27 +185,27 @@ public class TextInterpreter {
         while (!monsters.isEmpty()) {
             Battle battle = new Battle(player, monsters.get(0));
             while (true) {
-	            if (battle.isWon()) {
-	                monsters.remove(0);
-	                break;
-	            } else if (battle.isLost()) {
-	                System.out.println("Sorry, you died! Tough luck.");
-	                System.exit(0);
-	            }
-	            String index;
-	            while (true) {
-	                System.out.println("Select a skill:");
-	                player.printSkills();
-	                System.out.printf("You have %s/%s MP remaining.\n",
-	                    player.getMP(), player.getMaxMP());
-	                index = getInput();
-	                if (!index.matches("\\d+")) {
-	                    continue;
-	                } else {
-	                    break;
-	                }
-	            }
-	            battle.useSkill(Integer.parseInt(index));
+                if (battle.isWon()) {
+                    monsters.remove(0);
+                    break;
+                } else if (battle.isLost()) {
+                    System.out.println("Sorry, you died! Tough luck.");
+                    System.exit(0);
+                }
+                String index;
+                while (true) {
+                    System.out.println("Select a skill:");
+                    player.printSkills();
+                    System.out.printf("You have %s/%s MP remaining.\n",
+                        player.getMP(), player.getMaxMP());
+                    index = getInput();
+                    if (!index.matches("\\d+")) {
+                        continue;
+                    } else {
+                        break;
+                    }
+                }
+                battle.useSkill(Integer.parseInt(index));
             }
         }
         assignment.getCourse().removeAssignment(assignment, game.getWeek());

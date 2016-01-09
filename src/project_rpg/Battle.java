@@ -13,12 +13,12 @@ public class Battle {
         _player.status();
     }
 
-    /** Checks whether the battle is won. */
+    /** Returns true iff the battle is won. */
     boolean isWon() {
         return _monster.isDead();
     }
 
-    /** Checks whether the battle is lost. */
+    /** Returns true iff the battle is lost. */
     boolean isLost() {
         return _player.isDead();
     }
