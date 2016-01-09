@@ -90,8 +90,8 @@ public class Player implements Serializable {
 
     /** Prints the status of the player. */
     public void status() {
-        System.out.printf("You have %s/%s HP remaining\n", currHP, maxHP);
-        System.out.printf("You have %s/%s MP remaining\n", currMP, maxMP);
+        System.out.printf("You have %s/%s HP remaining.\n", currHP, maxHP);
+        System.out.printf("You have %s/%s MP remaining.\n", currMP, maxMP);
     }
 
     /** Initial parameters. */

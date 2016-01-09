@@ -1,9 +1,9 @@
 package project_rpg.courses;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import project_rpg.Assignment;
 import project_rpg.Monster;
-import project_rpg.monsters.IceCube;
 import project_rpg.skills.Fireball;
 
 /** The first course in fire magic.
@@ -22,9 +22,14 @@ public class FireI extends project_rpg.Course {
     public FireI() {
         /** Creates the monsters for assignment 1. */
         ArrayList<Monster> monsters1 = new ArrayList<Monster>();
-        for (int i = 0; i < 5; i += 1) {
-            Monster monster1 = new IceCube();
-            monsters1.add(monster1);
+        try {
+	        for (int i = 0; i < 5; i += 1) {
+	            Monster monster1 = Monster.readMonster("Ice Cube");
+	            monsters1.add(monster1);
+	        }
+        } catch (IOException exception) {
+            exception.printStackTrace();
+            System.out.println("Error reading monster.");
         }
 
         Assignment assignment1 = new Assignment(monsters1, "0",

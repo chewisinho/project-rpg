@@ -34,6 +34,7 @@ public class Battle {
         if (!_monster.isDead()) {
             int monsterDamage = _monster.attack();
             _player.reduceHealth(monsterDamage);
+            System.out.printf("The enemy used %s!\n", _monster.getAttackName());
             System.out.printf("The enemy did %s damage! You have %s/%s HP "
                 + "remaining.\n", monsterDamage, _player.getHP(),
                 _player.getMaxHP());

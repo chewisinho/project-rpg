@@ -1,7 +1,7 @@
 package project_rpg.skills;
 
 /** The fireball skill.
- * @author S. Chewi, T. Nguyen, A. Tran
+ *  @author S. Chewi, T. Nguyen, A. Tran
  */
 
 public class Fireball extends project_rpg.Skill {
