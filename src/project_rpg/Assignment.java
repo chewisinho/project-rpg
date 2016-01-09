@@ -37,6 +37,15 @@ public class Assignment implements Serializable {
         return _monsters;
     }
 
+    /** Prints out the assignments in ASSIGNMENTS. */
+    public static void printAssignments(ArrayList<Assignment> assignments) {
+        int index = 0;
+        for (Assignment assignment : assignments) {
+            System.out.println(index + ": " + assignment.getTitle());
+            index += 1;
+        }
+    }
+
     /** Title and description of the assignment. */
     private String _title, _description;
 

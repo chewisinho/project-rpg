@@ -209,6 +209,17 @@ public class TextInterpreter {
                     continue MainLoop;
                 }
                 Course course = game.getEnrolledCourse(Integer.parseInt(index));
+                System.out.println("Would you like to complete an assignment?");
+                Assignment.printAssignments(course.getAssignments(
+                    game.getWeek()));
+                System.out.println("X: Return to previous screen.");
+                index = getInput();
+                if (!index.matches("(\\d+)|X")) {
+                    continue MainLoop;
+                } else if (index.equals("x")) {
+                    break MainLoop;
+                }
+                
             } catch (IllegalArgumentException exception) {
                 System.out.println("Sorry, that is not a valid course.");
             }
