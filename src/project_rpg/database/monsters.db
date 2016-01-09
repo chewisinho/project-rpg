@@ -7,4 +7,14 @@ Ice Wolf==A wolf that can have lunge with the element of ice.==40==0==Ice Lunge=
 Ice Bird==A bird that can shoot feathers of ice at you.==20==0==Frozen Feathers==20
 Polar Bear==Can give you frostbite. Watch out.==60==0==Frozen Bite==15
 Snowman==Alive snowman that throws snowballs at you.==50==0==Snowball==7
-Yet==Frightening monster usually found in the mountains.==70==0==Ice Claw==15
+Yeti==Frightening monster usually found in the mountains.==70==0==Ice Claw==15
+Snow Giant==50 meter giant made of snow that is taller than any wall ever made.==150==0==Giant Snow Stomp==20
+Ice Goblin==A deformed creature that likes to whack people with ice clubs.==50==0==Ice Club==15
+Ice Orc==A cousin of the Ice Goblin that likes to shoot icicle arrows.==55==0==Icicle arrow==15
+Ice Gnome==A short ice creature that is very mischevious.==50==0==Ice Stab==20
+Ice Elf==An elf that uses an ice blade.==70==0==Ice Blade==20
+Ice Knight==A knight that likes to use a lancer made of ice.==100==0==Ice Lance==15
+Ice Paladin==A warrior that uses a giant broadsword that contains the ice element.==120==0==Ice Sword==15
+Ice Assassin==A sneaky warrior that likes to attack from far away.==90==0==Icicle throw==20
+Ice Mage==A wise scholar that can use ice spells.==100==0==Blizzard==30
+Ice Dragon==A terrifying beast that can shoot ice.==200==0==Ice Breath==40
