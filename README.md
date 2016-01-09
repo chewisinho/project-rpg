@@ -31,6 +31,8 @@ The game is currently a work-in-progress, with a text-based interface.
 **Battle**
 
 * ~~create HP, MP~~, and other stats
+* make player unable to cast spell when there is insufficient MP
+* allow alternatives besides spell casting
 * develop stat system
 * ~~create Firebolt, ranks I-X~~
 * allow Firebolt to rank up after completing assignments
