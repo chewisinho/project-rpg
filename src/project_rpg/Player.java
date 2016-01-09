@@ -8,9 +8,9 @@ import java.util.ArrayList;
  */
 public class Player implements Serializable {
 
-    /** Initializes new player given NAME. */
-    public Player(String name) {
-        this.name = name;
+    /** Initializes new player given GIVENNAME. */
+    public Player(String givenName) {
+        name = givenName;
     }
 
     /** Initializes player without a name. */
@@ -20,41 +20,43 @@ public class Player implements Serializable {
 
     /** Returns current HP. */
     public int getHP() {
-        return curr_hp;
+        return currHP;
     }
 
     /** Returns current MP. */
     public int getMP() {
-        return curr_mp;
+        return currMP;
     }
 
     /** Restores HP and MP to max values. */
     public void restore() {
-        curr_hp = max_hp;
-        curr_mp = max_mp;
+        currHP = maxHP;
+        currMP = maxMP;
     }
 
-    /** Adds a skill to the player. */
+    /** Adds NEWSKILL to the player. */
     public void addSkill(Skill newSkill) {
         skills.add(newSkill);
     }
-    /** Adds a course to a list of taken courses. */
+
+    /** Adds NEWCOURSE to a list of taken courses. */
     public void addCourse(Course newCourse) {
         pastCourses.add(newCourse);
     }
 
-    /** Adds a course to a list of taken courses. */
+    /** Adds NEWASSIGNMENT to a list of taken courses. */
     public void addAssignment(Assignment newAssignment) {
         pastAssignments.add(newAssignment);
     }
 
+    /** Prints the status of the player. */
     public void status() {
-        System.out.println("HP: " + curr_hp + "/" + max_hp);
-        System.out.println("MP: " + curr_mp + "/" + max_mp);
+        System.out.println("HP: " + currHP + "/" + maxHP);
+        System.out.println("MP: " + currMP + "/" + maxMP);
     }
 
     /** Initial stat values. */
-    private int curr_hp = 100, max_hp = 100, curr_mp = 100, max_mp = 100;
+    private int currHP = 100, maxHP = 100, currMP = 100, maxMP = 100;
 
     /** The player's name. */
     private String name;

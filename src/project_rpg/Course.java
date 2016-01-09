@@ -19,22 +19,25 @@ public abstract class Course implements Serializable {
         return courseTitle;
     }
 
-    /** Returns a list of the course's assignments during WEEK. */
-    ArrayList<Assignment> getAssignments(int week) {
-        // FILL IN
-        return null;
-    }
-
-    /** Returns a list of the course's assignments. */
-    protected ArrayList<Assignment> getAssignments() {
-        return assignments;
+    /** Returns a list of the course's assignments for the given WEEK. */
+    protected ArrayList<Assignment> getAssignments(int week) {
+        ArrayList<Assignment> assignmentList = null;
+        if (week >= 1 && week < 10) {
+            assignmentList = assignments[week - 1];
+        } else if (week == 10) {
+            System.out.println("There are no assignments during tournament "
+                + "week.");
+        } else {
+            System.out.println("Week out of range");
+        }
+        return assignmentList;
     }
 
     /** The title of the course and a short description. */
     protected String courseTitle, description;
 
     /** The assignments of the course. */
-    protected ArrayList<Assignment> assignments;
+    protected ArrayList[] assignments = new ArrayList[9];
 
     /** Comparator that compares two courses by their course titles. */
     public static final Comparator<Course> TITLE_COMPARATOR =

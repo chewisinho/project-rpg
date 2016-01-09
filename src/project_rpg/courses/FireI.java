@@ -15,6 +15,7 @@ public class FireI extends project_rpg.Course {
         description = "Covers the basics of handling fire magic, culminating "
             + "in the production of a fireball.";
         
+        /** Creates the monsters for assignment 0. */
         ArrayList<Monster> monsters0 = new ArrayList<Monster>();
         Monster monster0 = new IceCube();
         monsters0.add(monster0);
@@ -22,7 +23,9 @@ public class FireI extends project_rpg.Course {
         /** The first assignment of the class. */
         Assignment assignment0 = new Assignment(monsters0, "0", "Using a fireball");
         
-        
+        ArrayList<Assignment> classwork = new ArrayList<Assignment>();
+        classwork.add(assignment0);
+        assignments = classwork;
     }
 
 }

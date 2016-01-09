@@ -201,14 +201,14 @@ public class TextInterpreter {
         MainLoop:
         while (true) {
             try {
-		        System.out.println("Which course's assignments would you like "
-		            + "to view?");
-		        game.printEnrolledCourses();
-		        String index = getInput();
-		        if (!index.matches("\\d+")) {
-		            continue MainLoop;
-		        }
-		        Course course = game.getEnrolledCourse(Integer.parseInt(index));
+                System.out.println("Which course's assignments would you like "
+                    + "to view?");
+                game.printEnrolledCourses();
+                String index = getInput();
+                if (!index.matches("\\d+")) {
+                    continue MainLoop;
+                }
+                Course course = game.getEnrolledCourse(Integer.parseInt(index));
             } catch (IllegalArgumentException exception) {
                 System.out.println("Sorry, that is not a valid course.");
             }
