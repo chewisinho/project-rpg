@@ -4,12 +4,13 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.Random;
 
 /** Represents a monster class.
  *  @author S. Chewi, T. Nguyen, A. Tran
  */
-public class Monster {
+public class Monster implements Serializable {
 
     /** Creates a monster with MONSTERHP, MONSTERMP, and MONSTERDAMAGE. Also
      *  takes in a NAME, DESCRIPTION, and ATTACKNAME.

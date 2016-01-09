@@ -4,12 +4,13 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.Serializable;
 import static project_rpg.Monster.*;
 
 /** Basic representation of a skill.
  *  @author S. Chewi, T. Nguyen, A. Tran
  */
-public class Skill {
+public class Skill implements Serializable {
 
     /** Creates a new skill starting at rank 0 with BASEDAMAGE and BASEMP. Also
      *  takes in a NAME and DESCRIPTION.
