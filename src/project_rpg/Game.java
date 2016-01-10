@@ -112,20 +112,32 @@ public class Game implements Serializable {
     /** Increments to the next day. */
     void nextDay() {
         day = day.next();
+        if (day == MONDAY) {
+            nextWeek();
+        }
     }
 
     /** Increments to the next week. */
     void nextWeek() {
-        if (week == 10) {
-            week = 1;
+        if (week < 10) {
+            for (Course course : enrolledCourses) {
+                if (course.getAssignments(week).isEmpty()) {
+                    course.getSkill().completedAssignments(week);
+                }
+            }
+            week += 1;
         } else {
-            week = week + 1;
+            week = 1;
+            nextQuarter();
         }
     }
 
     /** Increments to the next quarter. */
     void nextQuarter() {
         quarter = quarter.next();
+        if (quarter == FALL) {
+            nextYear();
+        }
     }
 
     /** Increments to the next year. */

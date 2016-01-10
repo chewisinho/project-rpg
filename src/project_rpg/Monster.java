@@ -80,6 +80,7 @@ public class Monster implements Serializable {
         while (!(line = input.readLine().split("=="))[0].equals(name)) {
             continue;
         }
+        input.close();
         result = new Monster(line);
         return result;
     }
