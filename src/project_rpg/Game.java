@@ -108,6 +108,11 @@ public class Game implements Serializable {
         gameState = BATTLE;
         currentAssignment = assignment;
     }
+    
+    /** Travels to Gym. */
+    void startGym() {
+    	gameState = GYM;
+    }
 
     /** Increments to the next day. */
     void nextDay() {

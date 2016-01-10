@@ -64,6 +64,9 @@ public class TextInterpreter {
             case SCHOOL:
                 playSchool();
                 break;
+            case GYM:
+            	playGym();
+            	break;
             default:
                 error("Unknown game state!");
                 break;
@@ -135,11 +138,15 @@ public class TextInterpreter {
         while (true) {
             System.out.println("Where would you like to go?");
             System.out.println("0: Classroom");
+            System.out.println("1: Gym");
             String command = getInput();
             switch (command) {
             case "0":
                 game.startClass();
                 break MainLoop;
+            case "1":
+            	game.startGym();
+            	break MainLoop;
             default:
                 System.out.println("Sorry, that is an invalid location.");
                 break;
@@ -357,6 +364,37 @@ public class TextInterpreter {
             }
         }
         return saveFile;
+    }
+    
+    /** Plays the game during gym. */
+    private void playGym() {
+    	MainLoop:
+            while (true) {
+                System.out.println("You are at the gym. "
+                		+ "What would you like to do?");
+                String command = getInput();
+                switch (command) {
+                case "work out":
+                    workOut();
+                    break MainLoop;
+                case "return":
+                    goBack();
+                    break MainLoop;
+                default:
+                    System.out.println("Available commands: work out, return.");
+                    break;
+                }
+            }
+    }
+    
+    /** Increases the player's HP. */
+    private void workOut() {
+    	Player player = game.getPlayer();
+    	player.increaseHealth(10);
+    	player.increaseMana(10);
+    	System.out.println("Workout completed! "
+    			+ "You increased your max health by 10 "
+    			+ "and your max mana by 10!");
     }
 
     /** Returns the player's command. */

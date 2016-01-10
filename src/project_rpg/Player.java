@@ -47,6 +47,16 @@ public class Player implements Serializable {
     void reduceMana(int amount) {
         currMP -= amount;
     }
+    
+    /** Increases my max health by AMOUNT. */
+    void increaseHealth(int amount) {
+    	maxHP += amount;
+    }
+    
+    /** Increases my max mana by AMOUNT. */
+    void increaseMana(int amount) {
+    	maxMP += amount;
+    }
 
     /** Returns true iff I am dead. */
     public boolean isDead() {
