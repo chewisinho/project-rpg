@@ -84,6 +84,7 @@ public class Player implements Serializable {
         for (Skill skill : skills) {
             System.out.printf("%s: %s (%s MP)\n", index, skill.getName(),
                 skill.getCost());
+            index += 1;
         }
     }
 
