@@ -24,6 +24,10 @@ public class Game implements Serializable {
         availableCourses.add(Course.readCourse("Introduction to Fire Magic"));
         enrolledCourses = new ArrayList<Course>();
         player = new Player();
+        Skill meditate = Skill.readSkill("Meditate");
+        Skill punch = Skill.readSkill("Punch");
+        player.addSkill(meditate);
+        player.addSkill(punch);
     }
 
     /** Prints the game state. */
