@@ -17,10 +17,11 @@ public class Skill implements Serializable {
      */
     public Skill(int baseDamage, int baseMP, String name, String description) {
         rank = 0;
+        exp = (int) BASE_EXP;
         _baseDamage = baseDamage;
         _baseMP = baseMP;
         _name = name;
-        _description = _description;
+        _description = description;
         update();
     }
 
@@ -37,9 +38,31 @@ public class Skill implements Serializable {
     }
 
     /** Increases my rank. */
-    protected void rankUp() {
+    private void rankUp() {
         rank += 1;
+        System.out.printf("Congratulations, %s ranked up! It is now rank %s.\n",
+            _name, rank);
         update();
+    }
+
+    /** Returns the amount of EXP needed for RANK. */
+    private static int requiredEXP(int rank) {
+        return (int) (BASE_EXP * Math.pow(EXP_SCALE, rank));
+    }
+
+    /** Adds POINTS to skill EXP, ranking up the skill if needed. */
+    void increaseEXP(int points) {
+        exp += points;
+        if (rank <= 10) {
+            if (exp >= requiredEXP(rank + 1)) {
+                rankUp();
+            }
+        }
+    }
+
+    /** Allocates skill EXP after completing the assignments for WEEK. */
+    void completedAssignments(int week) {
+        increaseEXP(requiredEXP(week) - requiredEXP(week - 1));
     }
 
     /** Returns the damage caused by me. */
@@ -72,6 +95,7 @@ public class Skill implements Serializable {
         while (!(line = input.readLine().split("=="))[0].equals(name)) {
             continue;
         }
+        input.close();
         result = new Skill(line);
         return result;
     }
@@ -80,9 +104,9 @@ public class Skill implements Serializable {
     protected String _name, _description;
 
     /** Contains the parameters of the skill. */
-    protected int rank, damage, mp, _baseDamage, _baseMP;
+    protected int rank, damage, mp, _baseDamage, _baseMP, exp;
 
     /** Contains the scaling of the skill by rank. */
-    public static final double SCALE = 1.2;
+    public static final double SCALE = 1.2, BASE_EXP = 35.0, EXP_SCALE = 1.6;
 
 }

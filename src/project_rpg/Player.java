@@ -52,9 +52,10 @@ public class Player implements Serializable {
     public boolean isDead() {
         return currHP <= 0;
     }
-    
+
+    /** Returns true iff I am out of MP. */
     public boolean isOutOfMana() {
-    	return currMP <=0;
+        return currMP <= 0;
     }
 
     /** Restores HP and MP to max values. */
@@ -84,6 +85,7 @@ public class Player implements Serializable {
         for (Skill skill : skills) {
             System.out.printf("%s: %s (%s MP)\n", index, skill.getName(),
                 skill.getCost());
+            index += 1;
         }
     }
 

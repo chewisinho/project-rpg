@@ -42,6 +42,11 @@ public class Course implements Serializable {
         return courseTitle;
     }
 
+    /** Returns the skill of the course. */
+    Skill getSkill() {
+        return skill;
+    }
+
     /** Returns a list of the course's assignments for the given WEEK. */
     protected ArrayList<Assignment> getAssignments(int week) {
         ArrayList<Assignment> assignmentList = null;
@@ -71,6 +76,7 @@ public class Course implements Serializable {
         while (!(line = input.readLine().split("=="))[0].equals(name)) {
             continue;
         }
+        input.close();
         result = new Course(line);
         return result;
     }

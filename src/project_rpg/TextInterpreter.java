@@ -163,15 +163,6 @@ public class TextInterpreter {
     /** Rests for a day. */
     private void rest() {
         game.nextDay();
-        if (game.getDay() == 0) {
-            game.nextWeek();
-            if (game.getWeek() == 1) {
-                game.nextQuarter();
-                if (game.getQuarter() == 0) {
-                    game.nextYear();
-                }
-            }
-        }
         game.getPlayer().restore();
         game.printGameInfo();
     }
@@ -196,9 +187,9 @@ public class TextInterpreter {
                     System.out.println("Sorry, you died! Tough luck.");
                     System.exit(0);
                 } else if (player.isOutOfMana()) {
-                	System.out.println("You're out of mana!");
-                	System.out.println("You punched " + 
-                            monsters.get(0).getName() + " in the face.");
+                    System.out.println("You're out of mana!");
+                    System.out.println("You punched "
+                        + monsters.get(0).getName() + " in the face.");
                     battle.punch();
                     break;
                 }
