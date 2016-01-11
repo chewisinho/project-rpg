@@ -36,10 +36,10 @@ public class Course implements Serializable {
     public String description() {
         return courseTitle + ": " + description;
     }
-    
+
     @Override
     public String toString() {
-    	return courseTitle + ": " + description;
+        return courseTitle;
     }
 
     /** Returns the title of the course.*/
