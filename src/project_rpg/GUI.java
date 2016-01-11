@@ -158,7 +158,36 @@ public class GUI extends JPanel {
     
     /** Renders the game for the gym game state. */
     void paintGym() {
-        // TODO
+    	removeAll();
+        add(new JLabel("What would you like to do?"));
+        JButton workOutButton = new JButton("Work Out");
+        JButton returnButton = new JButton("Return");
+        workOutButton.addActionListener(new WorkOutListener());
+        add(returnButton);
+        add(workOutButton);
+        updateUI();
+    }
+    
+    /** Class that listens for the Work Out button. */
+    public class WorkOutListener implements ActionListener {
+
+        @Override
+        public void actionPerformed(ActionEvent ignored) {
+            _game.startGym();
+        	repaint();
+        }
+
+    }
+    
+    /** Class that listens for the Return button. */
+    public class ReturnListener implements ActionListener {
+
+        @Override
+        public void actionPerformed(ActionEvent ignored) {
+            _game.startSchool();
+        	repaint();
+        }
+
     }
     
     /** Renders the game for the school game state. */
