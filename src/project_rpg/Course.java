@@ -36,6 +36,11 @@ public class Course implements Serializable {
     public String description() {
         return courseTitle + ": " + description;
     }
+    
+    @Override
+    public String toString() {
+    	return courseTitle + ": " + description;
+    }
 
     /** Returns the title of the course.*/
     public String getTitle() {
