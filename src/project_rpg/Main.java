@@ -5,9 +5,13 @@ package project_rpg;
  */
 public class Main {
 
-    /** Initializes Project RPG. */
-    public static void main(String[] ignored) {
-        new TextInterpreter();
+    /** Initializes Project RPG (with a GUI if ARGS[0] is --display). */
+    public static void main(String[] args) {
+        if (args[0].equals("--display")) {
+            new GUI().start();
+        } else {
+            new TextInterpreter();
+        }
     }
 
 }
