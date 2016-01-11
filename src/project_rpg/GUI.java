@@ -1,5 +1,6 @@
 package project_rpg;
 
+import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -51,6 +52,24 @@ public class GUI extends JPanel {
 
     }
 
+    /** Class that listens for a save slot button. */
+    public class SaveSlotListener implements ActionListener {
+
+        /** Sets my number to BUTTONNUMBER. */
+        public SaveSlotListener(int buttonNumber) {
+            number = buttonNumber;
+        }
+
+        @Override
+        public void actionPerformed(ActionEvent ignored) {
+            // TODO
+        }
+
+        /** Contains the number of my button. */
+        private int number;
+
+    }
+
     /** Class that listens for the Load Game button. */
     public class LoadGameListener implements ActionListener {
 
@@ -67,6 +86,25 @@ public class GUI extends JPanel {
         if (game != null) {
             System.out.println("Successfully set game!");
         }
+    }
+
+    /** Displays the load or save screen. */
+    void displaySaveSlots() {
+        removeAll();
+        add(new JLabel("Please choose a save slot!"));
+        for (int number = 1; number <= 10; number += 1) {
+            JButton saveSlot = new JButton("Save Slot " + number);
+            saveSlot.addActionListener(new SaveSlotListener(number));
+            add(saveSlot);
+        }
+        JButton returnButton = new JButton("Return");
+        returnButton.addActionListener(new SaveSlotListener(0));
+        add(returnButton);
+    }
+
+    @Override
+    public synchronized void paintComponent(Graphics g) {
+        super.paintComponent(g);
     }
 
     /** Contains the frame which displays everything. */
