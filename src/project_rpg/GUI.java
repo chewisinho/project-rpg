@@ -145,6 +145,26 @@ public class GUI extends JPanel {
     void paintEnrollment() {
         // TODO
     }
+    
+    /** Renders the game for the class game state. */
+    void paintClass() {
+        // TODO
+    }
+    
+    /** Renders the game for the battle game state. */
+    void paintBattle() {
+        // TODO
+    }
+    
+    /** Renders the game for the gym game state. */
+    void paintGym() {
+        // TODO
+    }
+    
+    /** Renders the game for the school game state. */
+    void paintSchool() {
+        // TODO
+    }
 
     /** Contains the frame which displays everything. */
     private final JFrame frame;
