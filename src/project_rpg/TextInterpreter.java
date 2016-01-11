@@ -179,13 +179,13 @@ public class TextInterpreter {
         game.getPlayer().status();
     }
 
-    /** Plays the game during a battle. */
+    /** Plays the game during a battle consisting of MONSTERS. */
     private void playBattle(ArrayList<Monster> monsters) {
         Player player = game.getPlayer();
         while (!monsters.isEmpty()) {
             Battle battle = new Battle(player, monsters.get(0));
             while (true) {
-        	    if (battle.isWon()) {
+                if (battle.isWon()) {
                     monsters.remove(0);
                     break;
                 } else if (battle.isLost()) {
@@ -400,24 +400,24 @@ public class TextInterpreter {
 
     /** Increases the player's HP. */
     private void workOut() {
-	    Mainloop:
-	    while (true) {
-    	    Player player = game.getPlayer();
-	    	try {
-		    	Monster arnold = Monster.readMonster("Arnold The Governator");
-		    	ArrayList<Monster> monsters = new ArrayList<Monster>();
-		    	monsters.add(arnold);
-		    	playBattle(monsters);
-	    	} catch (IOException exception) {
-	    		error("Can't find Arnie");
-	    	}
-	    	player.increaseHealth(20);
-	    	player.increaseMana(20);
-	    	System.out.println("Workout completed! "
-	    			+ "You increased your max health by 20 "
-	    			+ "and your max mana by 20!");
-	    	break Mainloop;
-	    }
+        Mainloop:
+        while (true) {
+            Player player = game.getPlayer();
+            try {
+                Monster arnold = Monster.readMonster("Arnold The Governator");
+                ArrayList<Monster> monsters = new ArrayList<Monster>();
+                monsters.add(arnold);
+                playBattle(monsters);
+            } catch (IOException exception) {
+                error("Can't find Arnie");
+            }
+            player.increaseHealth(20);
+            player.increaseMana(20);
+            System.out.println("Workout completed! "
+                    + "You increased your max health by 20 "
+                    + "and your max mana by 20!");
+            break Mainloop;
+        }
     }
 
     /** Returns the player's command. */
