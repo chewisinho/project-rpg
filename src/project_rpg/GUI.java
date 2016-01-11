@@ -73,7 +73,8 @@ public class GUI extends JPanel {
                 GUI.this.removeAll();
                 start();
             } else {
-                // LOAD SAVE SLOT
+                Game game = Game.loadGame(number);
+            	setGame(game);
             }
         }
 
