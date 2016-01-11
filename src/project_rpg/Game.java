@@ -95,11 +95,11 @@ public class Game implements Serializable {
             throw new IllegalArgumentException();
         }
     }
-    
+
     /** Returns the save file at INDEX. */
     public static Game loadGame(int index) {
         Game saveFile = null;
-    	try {
+        try {
             ObjectInputStream reader = new ObjectInputStream(
                 new FileInputStream(new File("save"
                 + Integer.toString(index) + ".sav")));
@@ -110,7 +110,7 @@ public class Game implements Serializable {
         } catch (ClassNotFoundException exception) {
             TextInterpreter.error("Sorry, corrupt or outdated save file.");
         }
-    	return saveFile;
+        return saveFile;
     }
 
     /** Starts school after the enrollment phase. */

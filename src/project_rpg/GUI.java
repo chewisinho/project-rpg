@@ -17,6 +17,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.ScrollPaneConstants;
+import static project_rpg.GameState.*;
 
 /** Displays an interactive GUI for the game.
  *  @author S. Chewi, T. Nguyen, A. Tran
@@ -62,7 +63,7 @@ public class GUI extends JPanel {
             } catch (IOException exception) {
                 TextInterpreter.error("Could not load courses.");
             }
-        } 
+        }
 
     }
 
@@ -81,7 +82,7 @@ public class GUI extends JPanel {
                 start();
             } else {
                 Game game = Game.loadGame(number);
-            	setGame(game);
+                setGame(game);
             }
         }
 
@@ -110,9 +111,7 @@ public class GUI extends JPanel {
 
         @Override
         public void itemStateChanged(ItemEvent event) {
-            if (event.getStateChange() == ItemEvent.SELECTED) {
-                text.setText(((Course) event.getItem()).description());
-            }
+            text.setText(((Course) event.getItem()).description());
         }
 
         /** The text box that I update. */
@@ -164,8 +163,9 @@ public class GUI extends JPanel {
         case CLASS:
             break;
         case ENROLLMENT:
-        	if (lastSeen != GameState.ENROLLMENT) {
-            paintEnrollment(); }
+            if (lastSeen != ENROLLMENT) {
+                paintEnrollment();
+            }
             break;
         case GYM:
             break;
@@ -179,40 +179,43 @@ public class GUI extends JPanel {
 
     /** Renders the game for the enrollment game state. */
     void paintEnrollment() {
-    	lastSeen = GameState.ENROLLMENT;
+        lastSeen = ENROLLMENT;
         removeAll();
         add(new JLabel("Please choose a course!"));
         System.out.println("I'm here");
-        JComboBox<Course> courses = new JComboBox<Course>(new Vector<Course>(
-            _game.getAvailableCourses()));
+        Vector<Course> courseList = new Vector<Course>(
+            _game.getAvailableCourses());
+        JComboBox<Course> courses = new JComboBox<Course>(courseList);
         add(courses);
-        JTextArea courseDescription = new JTextArea(4, 20);
+        JTextArea courseDescription = new JTextArea(4, 30);
+        courseDescription.setLineWrap(true);
+        courseDescription.setText(courseList.get(0).description());
         courses.addItemListener(new ClassSelectionListener(courseDescription));
         JScrollPane scroller = new JScrollPane(courseDescription);
         scroller.setHorizontalScrollBarPolicy(
             ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         scroller.setVerticalScrollBarPolicy(
-            ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
+            ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
         add(scroller);
         JButton enroll = new JButton("Enroll in this course!");
         enroll.addActionListener(new EnrollmentListener());
         add(enroll);
         updateUI();
     }
-    
+
     /** Renders the game for the class game state. */
     void paintClass() {
         // TODO
     }
-    
+
     /** Renders the game for the battle game state. */
     void paintBattle() {
         // TODO
     }
-    
+
     /** Renders the game for the gym game state. */
     void paintGym() {
-    	removeAll();
+        removeAll();
         add(new JLabel("What would you like to do?"));
         JButton workOutButton = new JButton("Work Out");
         JButton returnButton = new JButton("Return");
@@ -221,29 +224,29 @@ public class GUI extends JPanel {
         add(workOutButton);
         updateUI();
     }
-    
+
     /** Class that listens for the Work Out button. */
     public class WorkOutListener implements ActionListener {
 
         @Override
         public void actionPerformed(ActionEvent ignored) {
             _game.startGym();
-        	repaint();
+            repaint();
         }
 
     }
-    
+
     /** Class that listens for the Return button. */
     public class ReturnListener implements ActionListener {
 
         @Override
         public void actionPerformed(ActionEvent ignored) {
             _game.startSchool();
-        	repaint();
+            repaint();
         }
 
     }
-    
+
     /** Renders the game for the school game state. */
     void paintSchool() {
         // TODO
@@ -258,5 +261,7 @@ public class GUI extends JPanel {
     /** Contains the game I am displaying. */
     private Game _game;
 
-    GameState lastSeen;
+    /** Contains the last seen game state. */
+    private GameState lastSeen;
+
 }
