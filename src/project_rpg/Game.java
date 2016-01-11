@@ -210,6 +210,11 @@ public class Game implements Serializable {
         currentAssignment = null;
     }
 
+    /** Returns an array of available courses. */
+    ArrayList<Course> getAvailableCourses() {
+        return availableCourses;
+    }
+
     /** Returns the player of the game. */
     Player getPlayer() {
         return player;
