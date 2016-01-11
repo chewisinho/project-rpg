@@ -61,11 +61,11 @@ public class TextInterpreter {
             case ENROLLMENT:
                 playEnrollment();
                 break;
-            case SCHOOL:
-                playSchool();
-                break;
             case GYM:
                 playGym();
+                break;
+            case SCHOOL:
+                playSchool();
                 break;
             default:
                 error("Unknown game state!");

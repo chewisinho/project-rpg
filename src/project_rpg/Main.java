@@ -7,7 +7,7 @@ public class Main {
 
     /** Initializes Project RPG (with a GUI if ARGS[0] is --display). */
     public static void main(String[] args) {
-        if (args[0].equals("--display")) {
+        if (args.length > 0 && args[0].equals("--display")) {
             new GUI().start();
         } else {
             new TextInterpreter();

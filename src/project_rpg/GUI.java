@@ -5,6 +5,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
+import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -118,6 +119,30 @@ public class GUI extends JPanel {
     @Override
     public synchronized void paintComponent(Graphics g) {
         super.paintComponent(g);
+        if (_game == null) {
+            return;
+        }
+        switch (_game.getState()) {
+        case BATTLE:
+            break;
+        case CLASS:
+            break;
+        case ENROLLMENT:
+            paintEnrollment();
+            break;
+        case GYM:
+            break;
+        case SCHOOL:
+            break;
+        default:
+            TextInterpreter.error("Invalid game state.");
+            break;
+        }
+    }
+
+    /** Renders the game for the enrollment game state. */
+    void paintEnrollment() {
+        // TODO
     }
 
     /** Contains the frame which displays everything. */
