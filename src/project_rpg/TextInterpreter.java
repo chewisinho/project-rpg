@@ -53,7 +53,7 @@ public class TextInterpreter {
             GameState gameState = game.getState();
             switch (gameState) {
             case BATTLE:
-                playBattle();
+                playAssignment();
                 break;
             case CLASS:
                 playClass();
@@ -180,14 +180,12 @@ public class TextInterpreter {
     }
 
     /** Plays the game during a battle. */
-    private void playBattle() {
-        Assignment assignment = game.getAssignment();
+    private void playBattle(ArrayList<Monster> monsters) {
         Player player = game.getPlayer();
-        ArrayList<Monster> monsters = assignment.getMonsters();
         while (!monsters.isEmpty()) {
             Battle battle = new Battle(player, monsters.get(0));
             while (true) {
-                if (battle.isWon()) {
+        	    if (battle.isWon()) {
                     monsters.remove(0);
                     break;
                 } else if (battle.isLost()) {
@@ -201,6 +199,7 @@ public class TextInterpreter {
                     break;
                 }
                 String index;
+                SkillSelectionLoop:
                 while (true) {
                     System.out.println("Select a skill:");
                     player.printSkills();
@@ -210,15 +209,27 @@ public class TextInterpreter {
                     if (!index.matches("\\d+")) {
                         continue;
                     } else {
-                        break;
+                        try {
+                            battle.useSkill(Integer.parseInt(index));
+                            break SkillSelectionLoop;
+                        } catch (IndexOutOfBoundsException exception) {
+                            continue SkillSelectionLoop;
+                        }
                     }
                 }
-                battle.useSkill(Integer.parseInt(index));
             }
         }
-        assignment.getCourse().removeAssignment(assignment, game.getWeek());
-        System.out.println("Congratulations, you finished the assignment!");
+    }
+
+    /** Plays an assignment. */
+    private void playAssignment() {
+        Assignment assignment = game.getAssignment();
+        ArrayList<Monster> monsters = assignment.getMonsters();
+        playBattle(monsters);
         game.startClass();
+        assignment.getCourse().removeAssignment(assignment, game.getWeek());
+        game.clearAssignment();
+        System.out.println("Congratulations, you finished the assignment!");
     }
 
     /** Plays the game during class. */
@@ -389,12 +400,24 @@ public class TextInterpreter {
     
     /** Increases the player's HP. */
     private void workOut() {
-    	Player player = game.getPlayer();
-    	player.increaseHealth(10);
-    	player.increaseMana(10);
-    	System.out.println("Workout completed! "
-    			+ "You increased your max health by 10 "
-    			+ "and your max mana by 10!");
+	    Mainloop:
+	    while (true) {
+    	    Player player = game.getPlayer();
+	    	try {
+		    	Monster arnold = Monster.readMonster("Arnold The Governator");
+		    	ArrayList<Monster> monsters = new ArrayList<Monster>();
+		    	monsters.add(arnold);
+		    	playBattle(monsters);
+	    	} catch (IOException exception) {
+	    		error("Can't find Arnie");
+	    	}
+	    	player.increaseHealth(20);
+	    	player.increaseMana(20);
+	    	System.out.println("Workout completed! "
+	    			+ "You increased your max health by 20 "
+	    			+ "and your max mana by 20!");
+	    	break Mainloop;
+	    }
     }
 
     /** Returns the player's command. */

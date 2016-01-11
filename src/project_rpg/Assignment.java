@@ -14,6 +14,15 @@ public class Assignment implements Serializable {
         _title = title;
         _description = description;
     }
+    
+    /** Constructor for assignment that takes in an array of MONSTERS,
+     *  TITLE, and a Description. */
+    public Assignment(ArrayList<Monster> monsters, String title,
+    		String description) {
+    	_monsters = monsters;
+    	_title = title;
+    	_description = description;
+    }
 
     /** Constructor for assignment that takes in an array of MONSTERS, TITLE,
      *  a DESCRIPTION, and my PARENT course. */

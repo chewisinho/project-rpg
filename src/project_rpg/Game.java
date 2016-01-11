@@ -185,6 +185,11 @@ public class Game implements Serializable {
         return currentAssignment;
     }
 
+    /** Clears the current assignment. */
+    void clearAssignment() {
+        currentAssignment = null;
+    }
+
     /** Returns the player of the game. */
     Player getPlayer() {
         return player;
