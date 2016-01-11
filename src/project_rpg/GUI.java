@@ -49,10 +49,10 @@ public class GUI extends JPanel {
         @Override
         public void actionPerformed(ActionEvent ignored) {
             try {
-	        	Game game = new Game();
-	        	setGame(game);
+                Game game = new Game();
+                setGame(game);
             } catch (IOException exception) {
-            	TextInterpreter.error("Could not load courses.");
+                TextInterpreter.error("Could not load courses.");
             }
         } 
 
@@ -68,7 +68,12 @@ public class GUI extends JPanel {
 
         @Override
         public void actionPerformed(ActionEvent ignored) {
-            // TODO
+            if (number == 0) {
+                GUI.this.removeAll();
+                start();
+            } else {
+                // LOAD SAVE SLOT
+            }
         }
 
         /** Contains the number of my button. */
@@ -81,7 +86,7 @@ public class GUI extends JPanel {
 
         @Override
         public void actionPerformed(ActionEvent ignored) {
-            // FILL IN
+            displaySaveSlots();
         }
 
     }
@@ -96,6 +101,7 @@ public class GUI extends JPanel {
 
     /** Displays the load or save screen. */
     void displaySaveSlots() {
+        System.out.println("I entered here.");
         removeAll();
         add(new JLabel("Please choose a save slot!"));
         for (int number = 1; number <= 10; number += 1) {
@@ -106,6 +112,7 @@ public class GUI extends JPanel {
         JButton returnButton = new JButton("Return");
         returnButton.addActionListener(new SaveSlotListener(0));
         add(returnButton);
+        updateUI();
     }
 
     @Override
