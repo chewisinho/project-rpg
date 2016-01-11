@@ -1,6 +1,9 @@
 package project_rpg;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import static project_rpg.Day.*;
@@ -91,6 +94,23 @@ public class Game implements Serializable {
         } catch (IndexOutOfBoundsException exception) {
             throw new IllegalArgumentException();
         }
+    }
+    
+    /** Returns the save file at INDEX. */
+    public static Game loadGame(int index) {
+        Game saveFile = null;
+    	try {
+            ObjectInputStream reader = new ObjectInputStream(
+                new FileInputStream(new File("save"
+                + Integer.toString(index) + ".sav")));
+            saveFile = (Game) reader.readObject();
+            reader.close();
+        } catch (IOException exception) {
+            TextInterpreter.error("Sorry, could not load file.");
+        } catch (ClassNotFoundException exception) {
+            TextInterpreter.error("Sorry, corrupt or outdated save file.");
+        }
+    	return saveFile;
     }
 
     /** Starts school after the enrollment phase. */

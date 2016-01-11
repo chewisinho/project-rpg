@@ -361,18 +361,8 @@ public class TextInterpreter {
                 System.out.println("Not a valid save file.");
                 continue;
             }
-            try {
-                ObjectInputStream reader = new ObjectInputStream(
-                    new FileInputStream(new File("save"
-                    + Integer.parseInt(response)) + ".sav"));
-                saveFile = (Game) reader.readObject();
-                reader.close();
-                break;
-            } catch (IOException exception) {
-                error("Sorry, could not load file.");
-            } catch (ClassNotFoundException exception) {
-                error("Sorry, corrupt or outdated save file.");
-            }
+            saveFile = Game.loadGame(Integer.parseInt(response));
+            break;
         }
         return saveFile;
     }
