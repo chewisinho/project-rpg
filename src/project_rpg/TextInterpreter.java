@@ -65,8 +65,8 @@ public class TextInterpreter {
                 playSchool();
                 break;
             case GYM:
-            	playGym();
-            	break;
+                playGym();
+                break;
             default:
                 error("Unknown game state!");
                 break;
@@ -145,8 +145,8 @@ public class TextInterpreter {
                 game.startClass();
                 break MainLoop;
             case "1":
-            	game.startGym();
-            	break MainLoop;
+                game.startGym();
+                break MainLoop;
             default:
                 System.out.println("Sorry, that is an invalid location.");
                 break;
@@ -376,28 +376,28 @@ public class TextInterpreter {
         }
         return saveFile;
     }
-    
+
     /** Plays the game during gym. */
     private void playGym() {
-    	MainLoop:
-            while (true) {
-                System.out.println("You are at the gym. "
-                		+ "What would you like to do?");
-                String command = getInput();
-                switch (command) {
-                case "work out":
-                    workOut();
-                    break MainLoop;
-                case "return":
-                    goBack();
-                    break MainLoop;
-                default:
-                    System.out.println("Available commands: work out, return.");
-                    break;
-                }
+        MainLoop:
+        while (true) {
+            System.out.println("You are at the gym. "
+                + "What would you like to do?");
+            String command = getInput();
+            switch (command) {
+            case "return":
+                goBack();
+                break MainLoop;
+            case "work out":
+                workOut();
+                break MainLoop;
+            default:
+                System.out.println("Available commands: return, work out.");
+                break;
             }
+        }
     }
-    
+
     /** Increases the player's HP. */
     private void workOut() {
 	    Mainloop:
