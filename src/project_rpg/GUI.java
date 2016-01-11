@@ -132,6 +132,7 @@ public class GUI extends JPanel {
             paintEnrollment();
             break;
         case GYM:
+        	paintGym();
             break;
         case SCHOOL:
             break;
