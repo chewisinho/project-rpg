@@ -3,6 +3,7 @@ package project_rpg;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.io.IOException;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -46,8 +47,13 @@ public class GUI extends JPanel {
 
         @Override
         public void actionPerformed(ActionEvent ignored) {
-            // FILL IN
-        }
+            try {
+	        	Game game = new Game();
+	        	setGame(game);
+            } catch (IOException exception) {
+            	TextInterpreter.error("Could not load courses.");
+            }
+        } 
 
     }
 
