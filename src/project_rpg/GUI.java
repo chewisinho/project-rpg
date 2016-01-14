@@ -1,5 +1,6 @@
 package project_rpg;
 
+import java.awt.BorderLayout;
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -29,7 +30,7 @@ public class GUI extends JPanel {
         frame = new JFrame("Project RPG Version 2.0");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(WIDTH, HEIGHT);
-        frame.getContentPane().add(this);
+        frame.getContentPane().add(BorderLayout.CENTER, this);
     }
 
     /** Starts a new game session. */
@@ -43,6 +44,12 @@ public class GUI extends JPanel {
         loadGame.addActionListener(new LoadGameListener());
         add(loadGame);
         frame.setVisible(true);
+    }
+
+    /** Displays a menu bar at the bottom of the screen. */
+    void displayMenuBar() {
+        JPanel menuBar = new MenuBar();
+        frame.getContentPane().add(BorderLayout.SOUTH, menuBar);
     }
 
     /** Returns an Image from NAME. */
@@ -271,6 +278,7 @@ public class GUI extends JPanel {
         JButton save = new JButton("Save");
         save.addActionListener(new SaveListener());
         add(save);
+        displayMenuBar();
         updateUI();
     }
 
@@ -317,6 +325,43 @@ public class GUI extends JPanel {
     	public void actionPerformed(ActionEvent ignored) {
     		//TODO
     	}
+    }
+
+    /** Inner class that displays a menu bar at the bottom of the screen. */
+    public class MenuBar extends JPanel {
+
+        /** No-argument constructor. */
+        public MenuBar() {
+            status = new JTextArea();
+            notifications = new JTextArea(6, 40);
+            notifications.setText("Welcome to Project RPG!");
+            time = new JTextArea();
+            JScrollPane scroller = new JScrollPane(notifications);
+            scroller.setHorizontalScrollBarPolicy(
+                ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+            scroller.setVerticalScrollBarPolicy(
+                ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+            add(status);
+            add(scroller);
+            add(time);
+            repaint();
+        }
+
+        @Override
+        public synchronized void paintComponent(Graphics g) {
+            super.paintComponent(g);
+            Player player = _game.getPlayer();
+            status.setText(String.format("HP: %s/%s\nMP: %s/%s",
+                player.getHP(), player.getMaxHP(), player.getMP(),
+                player.getMaxMP()));
+            time.setText(String.format("Year: %s\nQuarter: %s\nWeek: %s\nDay:"
+                + " %s", _game.getYear(), _game.getQuarter(), _game.getWeek(),
+                _game.getDay()));
+        }
+
+        /** Contains the components of the menu bar. */
+        private JTextArea status, notifications, time;
+
     }
 
     /** Contains the frame which displays everything. */

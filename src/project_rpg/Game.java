@@ -171,13 +171,13 @@ public class Game implements Serializable {
     }
 
     /** Returns the year the game is in. */
-    public int getYear() {
-        return year.ordinal();
+    public Year getYear() {
+        return year;
     }
 
     /** Returns the quarter the game is in. */
-    public int getQuarter() {
-        return quarter.ordinal();
+    public Quarter getQuarter() {
+        return quarter;
     }
 
     /** Returns the week the game is in. */
@@ -186,8 +186,8 @@ public class Game implements Serializable {
     }
 
     /** Returns the day the game is in. */
-    public int getDay() {
-        return day.ordinal();
+    public Day getDay() {
+        return day;
     }
 
     /** Returns the state of the game. */
