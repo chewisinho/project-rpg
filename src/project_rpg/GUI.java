@@ -124,8 +124,12 @@ public class GUI extends JPanel {
 
         @Override
         public void actionPerformed(ActionEvent ignored) {
-            // TODO
+        	_game.startSchool();
+            repaint();
         }
+        
+        /** Contains the number of classes I have enrolled in. */
+        private int number;
 
     }
     /** Sets the game I am displaying to GAME. */
@@ -154,7 +158,7 @@ public class GUI extends JPanel {
     @Override
     public synchronized void paintComponent(Graphics g) {
         super.paintComponent(g);
-        if (_game == null) {
+        if (_game == null || _game.getState() == lastSeen) {
             return;
         }
         switch (_game.getState()) {
@@ -163,14 +167,13 @@ public class GUI extends JPanel {
         case CLASS:
             break;
         case ENROLLMENT:
-            if (lastSeen != ENROLLMENT) {
-                paintEnrollment();
-            }
+            paintEnrollment();
             break;
         case GYM:
         	paintGym();
             break;
         case SCHOOL:
+        	paintSchool();
             break;
         default:
             TextInterpreter.error("Invalid game state.");
@@ -183,7 +186,6 @@ public class GUI extends JPanel {
         lastSeen = ENROLLMENT;
         removeAll();
         add(new JLabel("Please choose a course!"));
-        System.out.println("I'm here");
         Vector<Course> courseList = new Vector<Course>(
             _game.getAvailableCourses());
         JComboBox<Course> courses = new JComboBox<Course>(courseList);
@@ -250,7 +252,71 @@ public class GUI extends JPanel {
 
     /** Renders the game for the school game state. */
     void paintSchool() {
-        // TODO
+        lastSeen = SCHOOL;
+    	removeAll();
+        System.out.println("I'm in school!");
+        add(new JLabel("What would you like to do?"));
+        JButton status = new JButton("Status");
+        status.addActionListener(new StatusListener());
+        add(status);
+        JButton courses = new JButton("Courses");
+        courses.addActionListener(new CoursesListener());
+        add(courses);
+        JButton go = new JButton("Go");
+        go.addActionListener(new GoListener());
+        add(go);
+        JButton rest = new JButton("Rest");
+        rest.addActionListener(new RestListener());
+        add(rest);
+        JButton save = new JButton("Save");
+        save.addActionListener(new SaveListener());
+        add(save);
+        updateUI();
+    }
+
+    /** Class that listens for the Status button. */
+    public class StatusListener implements ActionListener {
+    	
+    	@Override
+    	public void actionPerformed(ActionEvent ignored) {
+    		//TODO
+    	}
+    }
+    
+    /** Class that listens for the Courses button. */
+    public class CoursesListener implements ActionListener {
+    	
+    	@Override
+    	public void actionPerformed(ActionEvent ignored) {
+    		//TODO
+    	}
+    }
+    
+    /** Class that listens for the Go button. */
+    public class GoListener implements ActionListener {
+    	
+    	@Override
+    	public void actionPerformed(ActionEvent ignored) {
+    		//TODO
+    	}
+    }
+    
+    /** Class that listens for the Rest button. */
+    public class RestListener implements ActionListener {
+    	
+    	@Override
+    	public void actionPerformed(ActionEvent ignored) {
+    		//TODO
+    	}
+    }
+    
+    /** Class that listens for the Save button. */
+    public class SaveListener implements ActionListener {
+    	
+    	@Override
+    	public void actionPerformed(ActionEvent ignored) {
+    		//TODO
+    	}
     }
 
     /** Contains the frame which displays everything. */
