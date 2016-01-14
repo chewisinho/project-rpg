@@ -66,7 +66,7 @@ public class GUI extends JPanel {
             try {
                 Game game = new Game();
                 setGame(game);
-                paintEnrollment();
+                paintEnrollment(0);
             } catch (IOException exception) {
                 TextInterpreter.error("Could not load courses.");
             }
@@ -128,15 +128,30 @@ public class GUI extends JPanel {
 
     /** Class that listens for class enrollment. */
     public class EnrollmentListener implements ActionListener {
-
+        
+    	/** Constructor for EnrollmentListener. */
+    	EnrollmentListener(JComboBox box, int number) {
+    		_box = box;
+    		_number = number;
+    	}
         @Override
         public void actionPerformed(ActionEvent ignored) {
-        	_game.startSchool();
-            repaint();
+        	Course course = (Course) _box.getSelectedItem();
+        	_game.registerCourse(course);
+        	_number += 1;
+        	if (_number == 4) {
+	        	_game.startSchool();
+	            repaint();
+        	} else {
+        		paintEnrollment(_number);
+        	}
         }
         
         /** Contains the number of classes I have enrolled in. */
-        private int number;
+        private int _number;
+        
+        /**Contains the course that I am enrolling for. */
+        private final JComboBox _box;
 
     }
     /** Sets the game I am displaying to GAME. */
@@ -174,7 +189,7 @@ public class GUI extends JPanel {
         case CLASS:
             break;
         case ENROLLMENT:
-            paintEnrollment();
+            paintEnrollment(0);
             break;
         case GYM:
         	paintGym();
@@ -189,8 +204,8 @@ public class GUI extends JPanel {
     }
 
     /** Renders the game for the enrollment game state. */
-    void paintEnrollment() {
-        lastSeen = ENROLLMENT;
+    void paintEnrollment(int number) {
+    	lastSeen = ENROLLMENT;
         removeAll();
         add(new JLabel("Please choose a course!"));
         Vector<Course> courseList = new Vector<Course>(
@@ -208,7 +223,7 @@ public class GUI extends JPanel {
             ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
         add(scroller);
         JButton enroll = new JButton("Enroll in this course!");
-        enroll.addActionListener(new EnrollmentListener());
+        enroll.addActionListener(new EnrollmentListener(courses, number));
         add(enroll);
         updateUI();
     }

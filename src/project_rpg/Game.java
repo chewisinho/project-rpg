@@ -25,6 +25,10 @@ public class Game implements Serializable {
         gameState = ENROLLMENT;
         availableCourses = new ArrayList<Course>();
         availableCourses.add(Course.readCourse("Introduction to Fire Magic"));
+        availableCourses.add(Course.readCourse("Introduction to Fire Magic I"));
+        availableCourses.add(Course.readCourse("Introduction to Fire Magic II"));
+        availableCourses.add(Course.readCourse("Introduction to Fire Magic III"));
+        availableCourses.add(Course.readCourse("Introduction to Fire Magic IV"));
         enrolledCourses = new ArrayList<Course>();
         player = new Player();
         Skill meditate = Skill.readSkill("Meditate");
@@ -74,6 +78,14 @@ public class Game implements Serializable {
         } catch (IndexOutOfBoundsException exception) {
             throw new IllegalArgumentException();
         }
+    }
+    
+    /**Registers the COURSE into the schedule. */
+    void registerCourse(Course course) {
+    	enrolledCourses.add(course);
+    	player.addCourse(course);
+    	player.addSkill(course.skill);
+    	availableCourses.remove(course);
     }
 
     /** Views the course description at INDEX. */
