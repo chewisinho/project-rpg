@@ -402,6 +402,8 @@ public class GUI extends JPanel {
             status = new JTextArea();
             notifications = new JTextArea(6, 40);
             notifications.setText("Welcome to Project RPG!");
+            notifications.setEditable(false);
+            notifications.setWrapStyleWord(true);
             time = new JTextArea();
             JScrollPane scroller = new JScrollPane(notifications);
             scroller.setHorizontalScrollBarPolicy(
