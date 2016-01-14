@@ -1,13 +1,16 @@
 package project_rpg;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Vector;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -33,14 +36,20 @@ public class GUI extends JPanel {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(WIDTH, HEIGHT);
         frame.getContentPane().add(BorderLayout.CENTER, this);
+        menu = new MenuBar();
+        options = new OptionBar();
     }
 
     /* ORDINARY METHODS. */
 
     /** Displays a menu bar at the bottom of the screen. */
     void displayMenuBar() {
-        JPanel menuBar = new MenuBar();
-        frame.getContentPane().add(BorderLayout.SOUTH, menuBar);
+        frame.getContentPane().add(BorderLayout.SOUTH, menu);
+    }
+
+    /** Displays an option bar at the right-hand side of the screen. */
+    void displayOptionBar() {
+        frame.getContentPane().add(BorderLayout.EAST, options);
     }
 
     /** Displays the load or save screen. */
@@ -167,17 +176,20 @@ public class GUI extends JPanel {
     void paintSchool() {
         lastSeen = SCHOOL;
         removeAll();
+        ArrayList<JButton> schoolOptions = new ArrayList<JButton>();
         add(new JLabel("What would you like to do?"));
         JButton go = new JButton("Go");
         go.addActionListener(new GoListener());
-        add(go);
+        schoolOptions.add(go);
         JButton rest = new JButton("Rest");
         rest.addActionListener(new RestListener());
-        add(rest);
+        schoolOptions.add(rest);
         JButton save = new JButton("Save");
         save.addActionListener(new SaveListener());
-        add(save);
+        schoolOptions.add(save);
         displayMenuBar();
+        displayOptionBar();
+        options.setOptions(schoolOptions);
         updateUI();
     }
 
@@ -248,7 +260,22 @@ public class GUI extends JPanel {
 
         @Override
         public void actionPerformed(ActionEvent ignored) {
+            ArrayList<JButton> locations = new ArrayList<JButton>();
+            JButton classroom = new JButton("Classroom");
+            classroom.addActionListener(new GoClassroomListener());
+            locations.add(classroom);
+            options.setOptions(locations);
+        }
+
+    }
+
+    /** Class that listens for the Classroom button. */
+    public class GoClassroomListener implements ActionListener {
+
+        @Override
+        public void actionPerformed(ActionEvent ignored) {
             _game.startClass();
+            options.setOptions(new ArrayList<JButton>());
             repaint();
         }
 
@@ -387,6 +414,28 @@ public class GUI extends JPanel {
 
     }
 
+    /** Inner class that displays an option bar on the right-hand side of the
+     *  screen. Updates the options list dynamically.
+     */
+    public class OptionBar extends JPanel {
+
+        /** Constructor that sets up the option bar. */
+        public OptionBar() {
+            setLayout(new GridLayout(0, 1));
+            setPreferredSize(new Dimension(100, 450));
+        }
+
+        /** Sets options to OPTIONSLIST. */
+        public void setOptions(ArrayList<JButton> optionsList) {
+            removeAll();
+            for (JButton button : optionsList) {
+                add(button);
+            }
+            updateUI();
+        }
+
+    }
+
     /* STATIC HELPER METHODS. */
 
     /** Returns an Image from NAME. */
@@ -408,5 +457,11 @@ public class GUI extends JPanel {
 
     /** Contains the last seen game state. */
     private GameState lastSeen;
+
+    /** Contains my menu bar. */
+    private MenuBar menu;
+
+    /** Contains my option bar. */
+    private OptionBar options;
 
 }
