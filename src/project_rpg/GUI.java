@@ -10,7 +10,6 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -41,9 +40,9 @@ public class GUI extends JPanel {
         frame.getContentPane().add(BorderLayout.CENTER, this);
         menu = new MenuBar();
         options = new OptionBar();
-        options.addKeyListener(new RestKeyListener());
-        options.setFocusable(true);
-        options.requestFocusInWindow();
+        addKeyListener(new RestKeyListener());
+        setFocusable(true);
+        requestFocusInWindow();
     }
 
     /* ORDINARY METHODS. */
@@ -103,7 +102,7 @@ public class GUI extends JPanel {
         case BATTLE:
             break;
         case CLASS:
-        	paintClass();
+            paintClass();
             break;
         case ENROLLMENT:
             paintEnrollment(0);
@@ -132,8 +131,8 @@ public class GUI extends JPanel {
         JButton courses = new JButton("Courses");
         courses.addActionListener(new CoursesListener());
         add(courses);
-    	System.out.print("I'm in class!");
-    	updateUI();
+        System.out.print("I'm in class!");
+        updateUI();
     }
 
     /** Renders the game for the enrollment game state. Takes in the NUMBER of
@@ -315,7 +314,7 @@ public class GUI extends JPanel {
 
         @Override
         public void actionPerformed(ActionEvent ignored) {
-        	_game.nextDay();
+            _game.nextDay();
             _game.getPlayer().restore();
             paintSchool();
         }
@@ -324,38 +323,17 @@ public class GUI extends JPanel {
     
     /** Class that listens for the Rest shortcut. */
     public class RestKeyListener extends KeyAdapter {
-    	
-    	@Override
-    	public void keyTyped(KeyEvent ignored) {
-    		if (ignored.getKeyChar() == (char) '\u0072') {
-    			_game.nextDay();
-    			_game.getPlayer().restore();
-    			System.out.println("typed");
-    			paintSchool();
-    		}
 
-    	}
-    	
-    	@Override
-    	public void keyPressed(KeyEvent ignored) {
-    		if (ignored.getKeyCode() == KeyEvent.VK_DELETE) {
-    			_game.nextDay();
-    			_game.getPlayer().restore();
-    			System.out.println("pressed");
-    			paintSchool();
-    		}
-    	}
-    	
-    	@Override
-    	public void keyReleased(KeyEvent ignored) {
-    		if (ignored.getKeyCode() == KeyEvent.VK_DELETE) {
-    			_game.nextDay();
-    			_game.getPlayer().restore();
-    			System.out.println("released");
-    			paintSchool();
-    		}
-    	}
-    	
+        @Override
+        public void keyTyped(KeyEvent event) {
+            if (event.getKeyChar() == (char) '\u0072') {
+                _game.nextDay();
+                _game.getPlayer().restore();
+                menu.repaint();
+                paintSchool();
+            }
+        }
+
     }
 
     /** Class that listens for the Return button. */
