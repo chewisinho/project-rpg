@@ -326,7 +326,7 @@ public class GUI extends JPanel {
 
         @Override
         public void keyTyped(KeyEvent event) {
-            if (event.getKeyChar() == (char) '\u0072') {
+            if (event.getKeyChar() == '\u0072') {
                 _game.nextDay();
                 _game.getPlayer().restore();
                 menu.repaint();
