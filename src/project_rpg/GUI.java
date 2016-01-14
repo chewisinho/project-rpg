@@ -91,6 +91,7 @@ public class GUI extends JPanel {
         case BATTLE:
             break;
         case CLASS:
+        	paintClass();
             break;
         case ENROLLMENT:
             paintEnrollment(0);
@@ -114,7 +115,13 @@ public class GUI extends JPanel {
 
     /** Renders the game for the class game state. */
     void paintClass() {
-        // TODO
+        lastSeen = CLASS;
+        removeAll();
+        JButton courses = new JButton("Courses");
+        courses.addActionListener(new CoursesListener());
+        add(courses);
+    	System.out.print("I'm in class!");
+    	updateUI();
     }
 
     /** Renders the game for the enrollment game state. Takes in the NUMBER of
@@ -160,11 +167,7 @@ public class GUI extends JPanel {
     void paintSchool() {
         lastSeen = SCHOOL;
         removeAll();
-        System.out.println("I'm in school!");
         add(new JLabel("What would you like to do?"));
-        JButton courses = new JButton("Courses");
-        courses.addActionListener(new CoursesListener());
-        add(courses);
         JButton go = new JButton("Go");
         go.addActionListener(new GoListener());
         add(go);
@@ -245,7 +248,8 @@ public class GUI extends JPanel {
 
         @Override
         public void actionPerformed(ActionEvent ignored) {
-            //TODO
+            _game.startClass();
+            repaint();
         }
 
     }
@@ -281,7 +285,9 @@ public class GUI extends JPanel {
 
         @Override
         public void actionPerformed(ActionEvent ignored) {
-            //TODO
+        	_game.nextDay();
+            _game.getPlayer().restore();
+            paintSchool();
         }
 
     }
