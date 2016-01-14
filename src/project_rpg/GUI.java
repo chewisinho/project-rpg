@@ -8,6 +8,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -38,6 +41,9 @@ public class GUI extends JPanel {
         frame.getContentPane().add(BorderLayout.CENTER, this);
         menu = new MenuBar();
         options = new OptionBar();
+        options.addKeyListener(new RestKeyListener());
+        options.setFocusable(true);
+        options.requestFocusInWindow();
     }
 
     /* ORDINARY METHODS. */
@@ -70,9 +76,6 @@ public class GUI extends JPanel {
     /** Sets the game I am displaying to GAME. */
     void setGame(Game game) {
         _game = game;
-        if (game != null) {
-            System.out.println("Successfully set game!");
-        }
     }
 
     /** Starts a new game session. */
@@ -317,6 +320,42 @@ public class GUI extends JPanel {
             paintSchool();
         }
 
+    }
+    
+    /** Class that listens for the Rest shortcut. */
+    public class RestKeyListener extends KeyAdapter {
+    	
+    	@Override
+    	public void keyTyped(KeyEvent ignored) {
+    		if (ignored.getKeyChar() == (char) '\u0072') {
+    			_game.nextDay();
+    			_game.getPlayer().restore();
+    			System.out.println("typed");
+    			paintSchool();
+    		}
+
+    	}
+    	
+    	@Override
+    	public void keyPressed(KeyEvent ignored) {
+    		if (ignored.getKeyCode() == KeyEvent.VK_DELETE) {
+    			_game.nextDay();
+    			_game.getPlayer().restore();
+    			System.out.println("pressed");
+    			paintSchool();
+    		}
+    	}
+    	
+    	@Override
+    	public void keyReleased(KeyEvent ignored) {
+    		if (ignored.getKeyCode() == KeyEvent.VK_DELETE) {
+    			_game.nextDay();
+    			_game.getPlayer().restore();
+    			System.out.println("released");
+    			paintSchool();
+    		}
+    	}
+    	
     }
 
     /** Class that listens for the Return button. */
