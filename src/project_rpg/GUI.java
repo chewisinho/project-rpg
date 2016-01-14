@@ -25,12 +25,45 @@ import static project_rpg.GameState.*;
  */
 public class GUI extends JPanel {
 
+    /* CONSTRUCTORS. */
+
     /** Default constructor for the GUI. Sets up the graphical display. */
     public GUI() {
         frame = new JFrame("Project RPG Version 2.0");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(WIDTH, HEIGHT);
         frame.getContentPane().add(BorderLayout.CENTER, this);
+    }
+
+    /* ORDINARY METHODS. */
+
+    /** Displays a menu bar at the bottom of the screen. */
+    void displayMenuBar() {
+        JPanel menuBar = new MenuBar();
+        frame.getContentPane().add(BorderLayout.SOUTH, menuBar);
+    }
+
+    /** Displays the load or save screen. */
+    void displaySaveSlots() {
+        removeAll();
+        add(new JLabel("Please choose a save slot!"));
+        for (int number = 1; number <= 10; number += 1) {
+            JButton saveSlot = new JButton("Save Slot " + number);
+            saveSlot.addActionListener(new SaveSlotListener(number));
+            add(saveSlot);
+        }
+        JButton returnButton = new JButton("Return");
+        returnButton.addActionListener(new SaveSlotListener(0));
+        add(returnButton);
+        updateUI();
+    }
+
+    /** Sets the game I am displaying to GAME. */
+    void setGame(Game game) {
+        _game = game;
+        if (game != null) {
+            System.out.println("Successfully set game!");
+        }
     }
 
     /** Starts a new game session. */
@@ -46,16 +79,185 @@ public class GUI extends JPanel {
         frame.setVisible(true);
     }
 
-    /** Displays a menu bar at the bottom of the screen. */
-    void displayMenuBar() {
-        JPanel menuBar = new MenuBar();
-        frame.getContentPane().add(BorderLayout.SOUTH, menuBar);
+    /* PAINT METHODS FOR EACH GAME STATE. */
+
+    @Override
+    public synchronized void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        if (_game == null || _game.getState() == lastSeen) {
+            return;
+        }
+        switch (_game.getState()) {
+        case BATTLE:
+            break;
+        case CLASS:
+            break;
+        case ENROLLMENT:
+            paintEnrollment(0);
+            break;
+        case GYM:
+            paintGym();
+            break;
+        case SCHOOL:
+            paintSchool();
+            break;
+        default:
+            TextInterpreter.error("Invalid game state.");
+            break;
+        }
     }
 
-    /** Returns an Image from NAME. */
-    ImageIcon getImage(String name) {
-        return new ImageIcon("project_rpg" + File.separator + "database"
-            + File.separator + name);
+    /** Renders the game for the battle game state. */
+    void paintBattle() {
+        // TODO
+    }
+
+    /** Renders the game for the class game state. */
+    void paintClass() {
+        // TODO
+    }
+
+    /** Renders the game for the enrollment game state. Takes in the NUMBER of
+     *  enrolled courses.
+     */
+    void paintEnrollment(int number) {
+        lastSeen = ENROLLMENT;
+        removeAll();
+        add(new JLabel("Please choose a course!"));
+        Vector<Course> courseList = new Vector<Course>(
+            _game.getAvailableCourses());
+        JComboBox<Course> courses = new JComboBox<Course>(courseList);
+        add(courses);
+        JTextArea courseDescription = new JTextArea(4, 30);
+        courseDescription.setLineWrap(true);
+        courseDescription.setText(courseList.get(0).description());
+        courses.addItemListener(new ClassSelectionListener(courseDescription));
+        JScrollPane scroller = new JScrollPane(courseDescription);
+        scroller.setHorizontalScrollBarPolicy(
+            ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        scroller.setVerticalScrollBarPolicy(
+            ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+        add(scroller);
+        JButton enroll = new JButton("Enroll in this course!");
+        enroll.addActionListener(new EnrollmentListener(courses, number));
+        add(enroll);
+        updateUI();
+    }
+
+    /** Renders the game for the gym game state. */
+    void paintGym() {
+        removeAll();
+        add(new JLabel("What would you like to do?"));
+        JButton workOutButton = new JButton("Work Out");
+        JButton returnButton = new JButton("Return");
+        workOutButton.addActionListener(new WorkOutListener());
+        add(returnButton);
+        add(workOutButton);
+        updateUI();
+    }
+
+    /** Renders the game for the school game state. */
+    void paintSchool() {
+        lastSeen = SCHOOL;
+        removeAll();
+        System.out.println("I'm in school!");
+        add(new JLabel("What would you like to do?"));
+        JButton courses = new JButton("Courses");
+        courses.addActionListener(new CoursesListener());
+        add(courses);
+        JButton go = new JButton("Go");
+        go.addActionListener(new GoListener());
+        add(go);
+        JButton rest = new JButton("Rest");
+        rest.addActionListener(new RestListener());
+        add(rest);
+        JButton save = new JButton("Save");
+        save.addActionListener(new SaveListener());
+        add(save);
+        displayMenuBar();
+        updateUI();
+    }
+
+    /* LISTENER INNER CLASSES. */
+
+    /** Class that listens for class selection. */
+    public class ClassSelectionListener implements ItemListener {
+
+        /** Constructor that takes in a TEXTBOX to update. */
+        public ClassSelectionListener(JTextArea textBox) {
+            text = textBox;
+        }
+
+        @Override
+        public void itemStateChanged(ItemEvent event) {
+            text.setText(((Course) event.getItem()).description());
+        }
+
+        /** The text box that I update. */
+        private JTextArea text;
+
+    }
+
+    /** Class that listens for the Courses button. */
+    public class CoursesListener implements ActionListener {
+
+        @Override
+        public void actionPerformed(ActionEvent ignored) {
+            //TODO
+        }
+
+    }
+
+    /** Class that listens for class enrollment. */
+    public class EnrollmentListener implements ActionListener {
+
+        /** Constructor that takes in a BOX of courses and the NUMBER of
+         *  enrolled courses.
+         */
+        EnrollmentListener(JComboBox<Course> box, int number) {
+            _box = box;
+            _number = number;
+        }
+
+        @Override
+        public void actionPerformed(ActionEvent ignored) {
+            Course course = (Course) _box.getSelectedItem();
+            _game.registerCourse(course);
+            _number += 1;
+            if (_number == 4) {
+                _game.startSchool();
+                repaint();
+            } else {
+                paintEnrollment(_number);
+            }
+        }
+
+        /** Contains the number of classes I have enrolled in. */
+        private int _number;
+
+        /**Contains the course that I am enrolling for. */
+        private final JComboBox<Course> _box;
+
+    }
+
+    /** Class that listens for the Go button. */
+    public class GoListener implements ActionListener {
+
+        @Override
+        public void actionPerformed(ActionEvent ignored) {
+            //TODO
+        }
+
+    }
+
+    /** Class that listens for the Load Game button. */
+    public class LoadGameListener implements ActionListener {
+
+        @Override
+        public void actionPerformed(ActionEvent ignored) {
+            displaySaveSlots();
+        }
+
     }
 
     /** Class that listens for the New Game button. */
@@ -70,6 +272,37 @@ public class GUI extends JPanel {
             } catch (IOException exception) {
                 TextInterpreter.error("Could not load courses.");
             }
+        }
+
+    }
+
+    /** Class that listens for the Rest button. */
+    public class RestListener implements ActionListener {
+
+        @Override
+        public void actionPerformed(ActionEvent ignored) {
+            //TODO
+        }
+
+    }
+
+    /** Class that listens for the Return button. */
+    public class ReturnListener implements ActionListener {
+
+        @Override
+        public void actionPerformed(ActionEvent ignored) {
+            _game.startSchool();
+            repaint();
+        }
+
+    }
+
+    /** Class that listens for the Save button. */
+    public class SaveListener implements ActionListener {
+
+        @Override
+        public void actionPerformed(ActionEvent ignored) {
+            //TODO
         }
 
     }
@@ -98,158 +331,6 @@ public class GUI extends JPanel {
 
     }
 
-    /** Class that listens for the Load Game button. */
-    public class LoadGameListener implements ActionListener {
-
-        @Override
-        public void actionPerformed(ActionEvent ignored) {
-            displaySaveSlots();
-        }
-
-    }
-
-    /** Class that listens for class selection. */
-    public class ClassSelectionListener implements ItemListener {
-
-        /** Constructor that takes in a TEXTBOX to update. */
-        public ClassSelectionListener(JTextArea textBox) {
-            text = textBox;
-        }
-
-        @Override
-        public void itemStateChanged(ItemEvent event) {
-            text.setText(((Course) event.getItem()).description());
-        }
-
-        /** The text box that I update. */
-        private JTextArea text;
-
-    }
-
-    /** Class that listens for class enrollment. */
-    public class EnrollmentListener implements ActionListener {
-        
-    	/** Constructor for EnrollmentListener. */
-    	EnrollmentListener(JComboBox box, int number) {
-    		_box = box;
-    		_number = number;
-    	}
-        @Override
-        public void actionPerformed(ActionEvent ignored) {
-        	Course course = (Course) _box.getSelectedItem();
-        	_game.registerCourse(course);
-        	_number += 1;
-        	if (_number == 4) {
-	        	_game.startSchool();
-	            repaint();
-        	} else {
-        		paintEnrollment(_number);
-        	}
-        }
-        
-        /** Contains the number of classes I have enrolled in. */
-        private int _number;
-        
-        /**Contains the course that I am enrolling for. */
-        private final JComboBox _box;
-
-    }
-    /** Sets the game I am displaying to GAME. */
-    void setGame(Game game) {
-        _game = game;
-        if (game != null) {
-            System.out.println("Successfully set game!");
-        }
-    }
-
-    /** Displays the load or save screen. */
-    void displaySaveSlots() {
-        removeAll();
-        add(new JLabel("Please choose a save slot!"));
-        for (int number = 1; number <= 10; number += 1) {
-            JButton saveSlot = new JButton("Save Slot " + number);
-            saveSlot.addActionListener(new SaveSlotListener(number));
-            add(saveSlot);
-        }
-        JButton returnButton = new JButton("Return");
-        returnButton.addActionListener(new SaveSlotListener(0));
-        add(returnButton);
-        updateUI();
-    }
-
-    @Override
-    public synchronized void paintComponent(Graphics g) {
-        super.paintComponent(g);
-        if (_game == null || _game.getState() == lastSeen) {
-            return;
-        }
-        switch (_game.getState()) {
-        case BATTLE:
-            break;
-        case CLASS:
-            break;
-        case ENROLLMENT:
-            paintEnrollment(0);
-            break;
-        case GYM:
-        	paintGym();
-            break;
-        case SCHOOL:
-        	paintSchool();
-            break;
-        default:
-            TextInterpreter.error("Invalid game state.");
-            break;
-        }
-    }
-
-    /** Renders the game for the enrollment game state. */
-    void paintEnrollment(int number) {
-    	lastSeen = ENROLLMENT;
-        removeAll();
-        add(new JLabel("Please choose a course!"));
-        Vector<Course> courseList = new Vector<Course>(
-            _game.getAvailableCourses());
-        JComboBox<Course> courses = new JComboBox<Course>(courseList);
-        add(courses);
-        JTextArea courseDescription = new JTextArea(4, 30);
-        courseDescription.setLineWrap(true);
-        courseDescription.setText(courseList.get(0).description());
-        courses.addItemListener(new ClassSelectionListener(courseDescription));
-        JScrollPane scroller = new JScrollPane(courseDescription);
-        scroller.setHorizontalScrollBarPolicy(
-            ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-        scroller.setVerticalScrollBarPolicy(
-            ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
-        add(scroller);
-        JButton enroll = new JButton("Enroll in this course!");
-        enroll.addActionListener(new EnrollmentListener(courses, number));
-        add(enroll);
-        updateUI();
-    }
-
-    /** Renders the game for the class game state. */
-    void paintClass() {
-        // TODO
-    }
-
-    /** Renders the game for the battle game state. */
-    void paintBattle() {
-        // TODO
-    }
-
-    /** Renders the game for the gym game state. */
-    void paintGym() {
-        removeAll();
-        add(new JLabel("What would you like to do?"));
-        JButton workOutButton = new JButton("Work Out");
-        JButton returnButton = new JButton("Return");
-        workOutButton.addActionListener(new WorkOutListener());
-        add(returnButton);
-        add(workOutButton);
-        updateUI();
-    }
-
     /** Class that listens for the Work Out button. */
     public class WorkOutListener implements ActionListener {
 
@@ -261,86 +342,7 @@ public class GUI extends JPanel {
 
     }
 
-    /** Class that listens for the Return button. */
-    public class ReturnListener implements ActionListener {
-
-        @Override
-        public void actionPerformed(ActionEvent ignored) {
-            _game.startSchool();
-            repaint();
-        }
-
-    }
-
-    /** Renders the game for the school game state. */
-    void paintSchool() {
-        lastSeen = SCHOOL;
-    	removeAll();
-        System.out.println("I'm in school!");
-        add(new JLabel("What would you like to do?"));
-        JButton status = new JButton("Status");
-        status.addActionListener(new StatusListener());
-        add(status);
-        JButton courses = new JButton("Courses");
-        courses.addActionListener(new CoursesListener());
-        add(courses);
-        JButton go = new JButton("Go");
-        go.addActionListener(new GoListener());
-        add(go);
-        JButton rest = new JButton("Rest");
-        rest.addActionListener(new RestListener());
-        add(rest);
-        JButton save = new JButton("Save");
-        save.addActionListener(new SaveListener());
-        add(save);
-        displayMenuBar();
-        updateUI();
-    }
-
-    /** Class that listens for the Status button. */
-    public class StatusListener implements ActionListener {
-    	
-    	@Override
-    	public void actionPerformed(ActionEvent ignored) {
-    		//TODO
-    	}
-    }
-    
-    /** Class that listens for the Courses button. */
-    public class CoursesListener implements ActionListener {
-    	
-    	@Override
-    	public void actionPerformed(ActionEvent ignored) {
-    		//TODO
-    	}
-    }
-    
-    /** Class that listens for the Go button. */
-    public class GoListener implements ActionListener {
-    	
-    	@Override
-    	public void actionPerformed(ActionEvent ignored) {
-    		//TODO
-    	}
-    }
-    
-    /** Class that listens for the Rest button. */
-    public class RestListener implements ActionListener {
-    	
-    	@Override
-    	public void actionPerformed(ActionEvent ignored) {
-    		//TODO
-    	}
-    }
-    
-    /** Class that listens for the Save button. */
-    public class SaveListener implements ActionListener {
-    	
-    	@Override
-    	public void actionPerformed(ActionEvent ignored) {
-    		//TODO
-    	}
-    }
+    /* OTHER INNER CLASSES. */
 
     /** Inner class that displays a menu bar at the bottom of the screen. */
     public class MenuBar extends JPanel {
@@ -378,6 +380,16 @@ public class GUI extends JPanel {
         private JTextArea status, notifications, time;
 
     }
+
+    /* STATIC HELPER METHODS. */
+
+    /** Returns an Image from NAME. */
+    ImageIcon getImage(String name) {
+        return new ImageIcon("project_rpg" + File.separator + "database"
+            + File.separator + name);
+    }
+
+    /* CLASS FIELDS. */
 
     /** Contains the frame which displays everything. */
     private final JFrame frame;
