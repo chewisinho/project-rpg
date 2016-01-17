@@ -102,13 +102,18 @@ public class GUI extends JPanel {
         JButton classroom = new JButton("Classroom (0)");
         classroom.addActionListener(new GoClassroomListener());
         locations.add(classroom);
-        options.setOptions(locations);
+        // options.setOptions(locations);
     }
     
     /** Allows the player to go to the classroom. */
     void goClassroom() {
     	_game.startClass();
-        options.setOptions(new ArrayList<JButton>());
+        // options.setOptions(new ArrayList<JButton>());
+    }
+
+    /** Responds to the press of a KEY. */
+    void keyPress(char key) {
+        options.pressedKey(key);
     }
 
     /** Allows the player to save the game. */
@@ -139,6 +144,7 @@ public class GUI extends JPanel {
     void rest() {
     	_game.nextDay();
         _game.getPlayer().restore();
+        menu.repaint();
     }
 
     /* PAINT METHODS FOR EACH GAME STATE. */
@@ -229,17 +235,17 @@ public class GUI extends JPanel {
     void paintSchool() {
         lastSeen = SCHOOL;
         removeAll();
-        ArrayList<JButton> schoolOptions = new ArrayList<JButton>();
+        ArrayList<ShortcutButton> schoolOptions = new ArrayList();
         add(new JLabel("What would you like to do?"));
-        JButton go = new JButton("Go (G)");
+        /* JButton go = new JButton("Go (G)");
         go.addActionListener(new GoListener());
-        schoolOptions.add(go);
-        JButton rest = new JButton("Rest (R)");
+        schoolOptions.add(go); */
+        ShortcutButton rest = new ShortcutButton("Rest (R)", 'r');
         rest.addActionListener(new RestListener());
         schoolOptions.add(rest);
-        JButton save = new JButton("Save (S)");
+        /* JButton save = new JButton("Save (S)");
         save.addActionListener(new SaveListener());
-        schoolOptions.add(save);
+        schoolOptions.add(save); */
         displayMenuBar();
         displayOptionBar();
         options.setOptions(schoolOptions);
@@ -365,13 +371,14 @@ public class GUI extends JPanel {
         }
 
     }
-    
+
     /** Class that listens for the Rest shortcut. */
     public class ShortcutKeyListener extends KeyAdapter {
 
         @Override
         public void keyTyped(KeyEvent event) {
-        	if (_game == null) {
+            keyPress(event.getKeyChar());
+        	/* if (_game == null) {
         		return;
         	}
         	switch (_game.getState()) {
@@ -393,9 +400,9 @@ public class GUI extends JPanel {
             default:
                 TextInterpreter.error("No such shortcut.");
                 break;
-            }
+            } */
         }
-        
+
         /** Shortcuts for battle state. */
         private void battleEvent(KeyEvent event) {
         	// TODO
@@ -540,13 +547,54 @@ public class GUI extends JPanel {
         }
 
         /** Sets options to OPTIONSLIST. */
-        public void setOptions(ArrayList<JButton> optionsList) {
+        public void setOptions(ArrayList<ShortcutButton> optionsList) {
+            _options = optionsList;
             removeAll();
-            for (JButton button : optionsList) {
+            for (ShortcutButton button : optionsList) {
                 add(button);
             }
             updateUI();
         }
+
+        /** Responds to a key press of KEY. */
+        public void pressedKey(char key) {
+            for (ShortcutButton button : _options) {
+                if (key == button.getShortcut()) {
+                    button.doEvent();
+                }
+            }
+        }
+
+        /** Contains my buttons. */
+        private ArrayList<ShortcutButton> _options;
+
+    }
+
+    /** Same as an ActionListener, but with an additional field that contains
+     *  the shortcut key for the button.
+     */
+    public class ShortcutButton extends JButton {
+
+        /** Constructor that takes in a MESSAGE for the button and the character
+         *  of its SHORTCUT key.
+         */
+        public ShortcutButton(String message, char shortcut) {
+            super(message);
+            _shortcut = shortcut;
+        }
+
+        /** Returns my shortcut key. */
+        public char getShortcut() {
+            return _shortcut;
+        }
+
+        /** Notifies the listener. */
+        public void doEvent() {
+            fireActionPerformed(new ActionEvent(this, 0, ""));
+        }
+
+        /** Contains my shortcut key. */
+        private char _shortcut;
 
     }
 
