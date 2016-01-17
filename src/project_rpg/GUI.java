@@ -81,9 +81,7 @@ public class GUI extends JPanel {
     /** Allows the player to go to different locations. */
     void go() {
         ArrayList<ShortcutButton> locations = new ArrayList<ShortcutButton>();
-        ShortcutButton classroom = new ShortcutButton("Classroom (0)", '0');
-        classroom.addActionListener(new GoClassroomListener());
-        locations.add(classroom);
+        locations.add(classroomButton);
         options.setOptions(locations);
     }
 
@@ -102,7 +100,9 @@ public class GUI extends JPanel {
 
     /** Initializes all buttons to their defaults. */
     void initializeButtons() {
-        courseButton = new ShortcutButton("Courses (C)", 'c');
+    	classroomButton = new ShortcutButton("Classroom (0)", '0');
+        classroomButton.addActionListener(new GoClassroomListener());
+    	courseButton = new ShortcutButton("Courses (C)", 'c');
         courseButton.addActionListener(new CourseListener());
         goButton = new ShortcutButton("Go (G)", 'g');
         goButton.addActionListener(new GoListener());
@@ -285,7 +285,7 @@ public class GUI extends JPanel {
     }
 
     /* LISTENER INNER CLASSES. */
-
+    
     /** Class that listens for class selection. */
     public class ClassSelectionListener implements ItemListener {
 
@@ -309,9 +309,46 @@ public class GUI extends JPanel {
 
         @Override
         public void actionPerformed(ActionEvent ignored) {
-            //TODO
+        	ArrayList<ShortcutButton> courses = new ArrayList();
+            int i = 0;
+            ShortcutButton button;
+        	for (Course course : _game.getEnrolledCourses()) {
+        		button = new ShortcutButton(course.getTitle() + " (" + i + ")",
+        				(char) i);
+        		button.addActionListener(new CourseSelectionListener(course));
+            	courses.add(button);
+            	i += 1;
+            }
+            options.setOptions(courses);
         }
 
+    }
+    
+    /** Class that listens for the Course Selection button. */
+    public class CourseSelectionListener implements ActionListener {
+    	
+    	/** Basic constructor that takes in a COURSE. */
+    	CourseSelectionListener(Course course) {
+    		_course = course;
+    	}
+    	
+    	@Override
+    	public void actionPerformed(ActionEvent ignored) {
+    		ArrayList<ShortcutButton> assignments = new ArrayList();
+    		ShortcutButton button;
+    		int i = 0;
+    		for (Assignment assignment : _course.getAssignments(
+    				_game.getWeek())) {
+    			button = new ShortcutButton(assignment.getTitle() +
+    				" (" + i + ")", (char) i);
+    			i += 1;
+    			assignments.add(button);
+    		}
+    		options.setOptions(assignments);
+    	}
+    	
+    	/** My course. */
+    	private Course _course;
     }
 
     /** Class that listens for class enrollment. */
@@ -548,7 +585,7 @@ public class GUI extends JPanel {
         /** Constructor that sets up the option bar. */
         public OptionBar() {
             setLayout(new GridLayout(0, 1));
-            setPreferredSize(new Dimension(100, 450));
+            setPreferredSize(new Dimension(150, 450));
         }
 
         /** Sets options to OPTIONSLIST. */
@@ -609,8 +646,9 @@ public class GUI extends JPanel {
     private JButton returnFromLoad, returnFromSave;
 
     /** Individual buttons with shortcut keys. */
-    private ShortcutButton courseButton, goButton, restButton, 
-        returnButton, saveButton, testButton;
+    private ShortcutButton classroomButton, courseButton, goButton,
+        restButton, returnButton, saveButton,
+        testButton;
 
     /** Lists of buttons. */
     private ArrayList<JButton> saveSlots;
