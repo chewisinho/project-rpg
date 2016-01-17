@@ -75,6 +75,11 @@ public class GUI extends JPanel {
         updateUI();
     }
 
+    /** Returns true iff the game is already initialized. */
+    boolean gameInitialized() {
+        return _game == null;
+    }
+
     /** Hides all of the menu bars. */
     void hideMenu() {
         frame.getContentPane().removeAll();
@@ -121,7 +126,16 @@ public class GUI extends JPanel {
         hideMenu();
         displaySaveSlots(-1);
     }
-    
+
+    /** Saves the current game. */
+    void saveGame(int slot) {
+        try {
+            _game.save(slot);
+        } catch (IOException exception) {
+            TextInterpreter.error("Error while saving game.");
+        }
+    }
+
     /** Sets the game I am displaying to GAME. */
     void setGame(Game game) {
         _game = game;
@@ -472,9 +486,18 @@ public class GUI extends JPanel {
             if (number == 0) {
                 GUI.this.removeAll();
                 start();
+            } else if (number == -1) {
+                GUI.this.removeAll();
+                displayMenuBar();
+                displayOptionBar();
+                paintSchool();
             } else {
-                Game game = Game.loadGame(number);
-                setGame(game);
+                if (gameInitialized()) {
+                    Game game = Game.loadGame(number);
+                    setGame(game);
+                } else {
+                    saveGame(number);
+                }
             }
         }
 
