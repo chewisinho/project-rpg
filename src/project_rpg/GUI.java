@@ -93,6 +93,7 @@ public class GUI extends JPanel {
         returnFromLoad.addActionListener(new SaveSlotListener(0));
         returnFromSave = new JButton("Return");
         returnFromSave.addActionListener(new SaveSlotListener(-1));
+        testButton = new ShortcutButton("Test (T)", 't');
         saveSlots = new ArrayList<JButton>();
         for (int number = 1; number <= 10; number += 1) {
             JButton saveSlot = new JButton("Save Slot " + number);
@@ -152,6 +153,11 @@ public class GUI extends JPanel {
         loadGame.addActionListener(new LoadGameListener());
         add(loadGame);
         frame.setVisible(true);
+    }
+
+    /** Used for testing purposes. The effect of this button changes. */
+    void test() {
+        
     }
 
     /** Allows the player to rest. */
@@ -260,6 +266,7 @@ public class GUI extends JPanel {
         ShortcutButton save = new ShortcutButton("Save (S)", 's');
         save.addActionListener(new SaveListener());
         schoolOptions.add(save);
+        schoolOptions.add(testButton);
         displayMenuBar();
         displayOptionBar();
         options.setOptions(schoolOptions);
@@ -454,6 +461,16 @@ public class GUI extends JPanel {
 
     }
 
+    /** Class that listens for the Test button. */
+    public class TestListener implements ActionListener {
+
+        @Override
+        public void actionPerformed(ActionEvent ignored) {
+            test();
+        }
+
+    }
+
     /** Class that listens for the Work Out button. */
     public class WorkOutListener implements ActionListener {
 
@@ -581,6 +598,9 @@ public class GUI extends JPanel {
 
     /** Individual buttons. */
     private JButton returnFromLoad, returnFromSave;
+
+    /** Individual buttons with shortcut keys. */
+    private ShortcutButton testButton;
 
     /** Lists of buttons. */
     private ArrayList<JButton> saveSlots;
