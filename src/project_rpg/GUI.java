@@ -176,7 +176,7 @@ public class GUI extends JPanel {
         removeAll();
         hideMenu();
         displayMenuBar();
-        BattleGrid testDungeon = new BattleGrid();
+        BattleGrid testDungeon = new BattleGrid(_game.getPlayer(), menu);
         add(testDungeon);
         testDungeon.requestFocusInWindow();
     }

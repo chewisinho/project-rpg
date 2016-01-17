@@ -17,17 +17,22 @@ import javax.swing.JPanel;
 public class BattleGrid extends JPanel {
 
     /** Initializes the battle grid. */
-    public BattleGrid() {
+    public BattleGrid(Player player, GUI.MenuBar menu) {
         setPreferredSize(new Dimension(WIDTH * SQ_WIDTH, HEIGHT * SQ_HEIGHT));
+        _menu = menu;
         addKeyListener(new PlayerControl());
         map = new Token[WIDTH][HEIGHT];
         playerToken = new Token("player", 0, 0);
-        monsters = new HashMap<Monster, Token>();
+        _player = player;
+        monsters = new HashMap<Token, Monster>();
         try {
-            monsters.put(Monster.readMonster("Ice Pig"),
-                new Token("monster", 4, 4));
+            monsters.put(new Token("monster", 4, 4),
+                Monster.readMonster("Ice Pig"));
         } catch (IOException exception) {
             TextInterpreter.error("Error reading monster file.");
+        }
+        for (Token token : monsters.keySet()) {
+            new Thread(token).start();
         }
         setFocusable(true);
         repaint();
@@ -54,6 +59,12 @@ public class BattleGrid extends JPanel {
     /** Paints IMAGE at (X, Y) on G (using the name of the resource. */
     private void paintImage(String image, int x, int y, Graphics g) {
         paintImage(getImage(image), x, y, g);
+    }
+
+    /** Returns true iff the player is adjacent to (X, Y). */
+    boolean playerAdjacentTo(int x, int y) {
+        return (playerToken == map[x - 1][y]) || (playerToken == map[x][y - 1])
+            || (playerToken == map[x + 1][y]) || (playerToken == map[x][y + 1]);
     }
 
     /** Returns true iff (X, Y) is a valid square. */
@@ -92,7 +103,7 @@ public class BattleGrid extends JPanel {
     }
 
     /** Represents a token on the map. */
-    public class Token {
+    public class Token implements Runnable {
 
         /** Creates a new token with IMAGE at (X, Y). */
         public Token(String image, int x, int y) {
@@ -100,6 +111,7 @@ public class BattleGrid extends JPanel {
             _x = x;
             _y = y;
             map[x][y] = this;
+            lastAction = System.currentTimeMillis();
         }
 
         /** Returns my x-coordinate. */
@@ -148,22 +160,44 @@ public class BattleGrid extends JPanel {
             return _image;
         }
 
+        @Override
+        public void run() {
+            while (true) {
+                if (System.currentTimeMillis() - lastAction > 500) {
+                    if (playerAdjacentTo(_x, _y)) {
+                        _player.reduceHealth(monsters.get(this).attack());
+                    }
+                    _menu.repaint();
+                    lastAction = System.currentTimeMillis();
+                }
+            }
+        }
+
         /** My coordinates. */
         private int _x, _y;
 
         /** Contains my image. */
         ImageIcon _image;
 
+        /** Contains the time of my last action. */
+        private long lastAction;
+
     }
+
+    /** Contains the menu bar of the GUI. */
+    private GUI.MenuBar _menu;
 
     /** Contains the map. */
     private Token[][] map;
 
-    /** Contains the player. */
+    /** Contains the player token. */
     private Token playerToken;
 
+    /** Contains the player. */
+    private Player _player;
+
     /** Contains the monsters and their tokens. */
-    private HashMap<Monster, Token> monsters;
+    private HashMap<Token, Monster> monsters;
 
     /** Contains the parameters of the grid. */
     public static final int WIDTH = 15, HEIGHT = 8, SQ_WIDTH = 50,
