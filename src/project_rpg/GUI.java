@@ -75,6 +75,11 @@ public class GUI extends JPanel {
         updateUI();
     }
 
+    /** Returns true iff the game is already initialized. */
+    boolean gameInitialized() {
+        return _game == null;
+    }
+
     /** Hides all of the menu bars. */
     void hideMenu() {
         frame.getContentPane().removeAll();
@@ -88,6 +93,7 @@ public class GUI extends JPanel {
         returnFromLoad.addActionListener(new SaveSlotListener(0));
         returnFromSave = new JButton("Return");
         returnFromSave.addActionListener(new SaveSlotListener(-1));
+        testButton = new ShortcutButton("Test (T)", 't');
         saveSlots = new ArrayList<JButton>();
         for (int number = 1; number <= 10; number += 1) {
             JButton saveSlot = new JButton("Save Slot " + number);
@@ -98,16 +104,16 @@ public class GUI extends JPanel {
 
     /** Allows the player to go to different locations. */
     void go() {
-    	ArrayList<ShortcutButton> locations = new ArrayList<ShortcutButton>();
+        ArrayList<ShortcutButton> locations = new ArrayList<ShortcutButton>();
         ShortcutButton classroom = new ShortcutButton("Classroom (0)", '0');
         classroom.addActionListener(new GoClassroomListener());
         locations.add(classroom);
         options.setOptions(locations);
     }
-    
+
     /** Allows the player to go to the classroom. */
     void goClassroom() {
-    	_game.startClass();
+        _game.startClass();
         options.setOptions(new ArrayList<ShortcutButton>());
     }
 
@@ -121,7 +127,16 @@ public class GUI extends JPanel {
         hideMenu();
         displaySaveSlots(-1);
     }
-    
+
+    /** Saves the current game. */
+    void saveGame(int slot) {
+        try {
+            _game.save(slot);
+        } catch (IOException exception) {
+            TextInterpreter.error("Error while saving game.");
+        }
+    }
+
     /** Sets the game I am displaying to GAME. */
     void setGame(Game game) {
         _game = game;
@@ -139,10 +154,15 @@ public class GUI extends JPanel {
         add(loadGame);
         frame.setVisible(true);
     }
-    
+
+    /** Used for testing purposes. The effect of this button changes. */
+    void test() {
+        
+    }
+
     /** Allows the player to rest. */
     void rest() {
-    	_game.nextDay();
+        _game.nextDay();
         _game.getPlayer().restore();
         menu.repaint();
     }
@@ -251,6 +271,7 @@ public class GUI extends JPanel {
         ShortcutButton save = new ShortcutButton("Save (S)", 's');
         save.addActionListener(new SaveListener());
         schoolOptions.add(save);
+        schoolOptions.add(testButton);
         displayMenuBar();
         displayOptionBar();
         options.setOptions(schoolOptions);
@@ -384,7 +405,6 @@ public class GUI extends JPanel {
         public void keyTyped(KeyEvent event) {
         	System.out.print("" + event.getKeyChar());
             if (event.getKeyChar() == '\u001B') {
-            	System.out.println("I escaped");
             	lastSeen = null;
             	repaint();
             } else {
@@ -428,14 +448,37 @@ public class GUI extends JPanel {
             if (number == 0) {
                 GUI.this.removeAll();
                 start();
+            } else if (number == -1) {
+                GUI.this.removeAll();
+                displayMenuBar();
+                displayOptionBar();
+                paintSchool();
             } else {
-                Game game = Game.loadGame(number);
-                setGame(game);
+                if (gameInitialized()) {
+                    Game game = Game.loadGame(number);
+                    setGame(game);
+                } else {
+                    saveGame(number);
+                }
+                GUI.this.removeAll();
+                displayMenuBar();
+                displayOptionBar();
+                paintSchool();
             }
         }
 
         /** Contains the number of my button. */
         private int number;
+
+    }
+
+    /** Class that listens for the Test button. */
+    public class TestListener implements ActionListener {
+
+        @Override
+        public void actionPerformed(ActionEvent ignored) {
+            test();
+        }
 
     }
 
@@ -566,6 +609,9 @@ public class GUI extends JPanel {
 
     /** Individual buttons. */
     private JButton returnFromLoad, returnFromSave;
+
+    /** Individual buttons with shortcut keys. */
+    private ShortcutButton testButton;
 
     /** Lists of buttons. */
     private ArrayList<JButton> saveSlots;
