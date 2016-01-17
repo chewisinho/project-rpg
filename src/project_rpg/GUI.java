@@ -134,7 +134,7 @@ public class GUI extends JPanel {
         displaySaveSlots(-1);
     }
 
-    /** Saves the current game. */
+    /** Saves the current game in SLOT. */
     void saveGame(int slot) {
         try {
             _game.save(slot);
@@ -406,12 +406,12 @@ public class GUI extends JPanel {
 
         @Override
         public void keyTyped(KeyEvent event) {
-        	System.out.print("" + event.getKeyChar());
+            System.out.print("" + event.getKeyChar());
             if (event.getKeyChar() == '\u001B') {
-            	lastSeen = null;
-            	repaint();
+                lastSeen = null;
+                repaint();
             } else {
-        	    keyPress(event.getKeyChar());
+                keyPress(event.getKeyChar());
             }
         }
 
