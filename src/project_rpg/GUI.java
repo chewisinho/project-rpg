@@ -310,11 +310,11 @@ public class GUI extends JPanel {
         @Override
         public void actionPerformed(ActionEvent ignored) {
         	ArrayList<ShortcutButton> courses = new ArrayList();
-            int i = 0;
+            char i = '0';
             ShortcutButton button;
         	for (Course course : _game.getEnrolledCourses()) {
-        		button = new ShortcutButton(course.getTitle() + " (" + i + ")",
-        				(char) i);
+        		button = new ShortcutButton(
+        				course.getTitle() + " (" + i + ")", i);
         		button.addActionListener(new CourseSelectionListener(course));
             	courses.add(button);
             	i += 1;
@@ -336,7 +336,7 @@ public class GUI extends JPanel {
     	public void actionPerformed(ActionEvent ignored) {
     		ArrayList<ShortcutButton> assignments = new ArrayList();
     		ShortcutButton button;
-    		int i = 0;
+    		char i = '0';
     		for (Assignment assignment : _course.getAssignments(
     				_game.getWeek())) {
     			button = new ShortcutButton(assignment.getTitle() +
