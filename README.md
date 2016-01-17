@@ -50,6 +50,7 @@ The game is currently a work-in-progress, with a text-based interface.
 * ~~rename all buttons to include shortcut keys~~
 * allow monster to move
 * exit when HP is 0
+* player orientation
 * allow player to cast Fireball
 * make Fireball damage monster
 * make monster die when HP is 0
