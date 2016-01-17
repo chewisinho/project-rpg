@@ -178,6 +178,7 @@ public class GUI extends JPanel {
         displayMenuBar();
         BattleGrid testDungeon = new BattleGrid();
         add(testDungeon);
+        testDungeon.requestFocusInWindow();
     }
 
     /* PAINT METHODS FOR EACH GAME STATE. */
