@@ -157,7 +157,6 @@ public class GUI extends JPanel {
         JButton courses = new JButton("Courses");
         courses.addActionListener(new CoursesListener());
         add(courses);
-        System.out.print("I'm in class!");
         updateUI();
     }
 
@@ -174,6 +173,7 @@ public class GUI extends JPanel {
         add(courses);
         JTextArea courseDescription = new JTextArea(4, 30);
         courseDescription.setLineWrap(true);
+        courseDescription.setEditable(false);
         courseDescription.setText(courseList.get(0).description());
         courses.addItemListener(new ClassSelectionListener(courseDescription));
         JScrollPane scroller = new JScrollPane(courseDescription);
@@ -472,6 +472,8 @@ public class GUI extends JPanel {
             status = new JTextArea();
             notifications = new JTextArea(6, 40);
             notifications.setText("Welcome to Project RPG!");
+            notifications.setEditable(false);
+            notifications.setLineWrap(true);
             time = new JTextArea();
             JScrollPane scroller = new JScrollPane(notifications);
             scroller.setHorizontalScrollBarPolicy(
