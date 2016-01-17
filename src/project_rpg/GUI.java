@@ -102,7 +102,17 @@ public class GUI extends JPanel {
 
     /** Initializes all buttons to their defaults. */
     void initializeButtons() {
-        returnFromLoad = new JButton("Return");
+        courseButton = new ShortcutButton("Courses (C)", 'c');
+        courseButton.addActionListener(new CourseListener());
+        goButton = new ShortcutButton("Go (G)", 'g');
+        goButton.addActionListener(new GoListener());
+        saveButton = new ShortcutButton("Save (S)", 's');
+        saveButton.addActionListener(new SaveListener());
+        restButton = new ShortcutButton("Rest (R)", 'r');
+        restButton.addActionListener(new RestListener());
+    	returnButton = new ShortcutButton("Return (R)", 'r');
+        returnButton.addActionListener(new ReturnListener());
+    	returnFromLoad = new JButton("Return");
         returnFromLoad.addActionListener(new SaveSlotListener(0));
         returnFromSave = new JButton("Return");
         returnFromSave.addActionListener(new SaveSlotListener(-1));
@@ -209,12 +219,10 @@ public class GUI extends JPanel {
         lastSeen = CLASS;
         removeAll();
         ArrayList<ShortcutButton> classOptions = new ArrayList();
-        ShortcutButton courses = new ShortcutButton("Courses (C)", 'c');
-        courses.addActionListener(new CoursesListener());
-        classOptions.add(courses);
-        ShortcutButton returns = new ShortcutButton("Return (R)", 'r');
-        returns.addActionListener(new ReturnListener());
-        classOptions.add(returns);
+        add(courseButton);
+        classOptions.add(courseButton);
+        add(returnButton);
+        classOptions.add(returnButton);
         options.setOptions(classOptions);
         updateUI();
     }
@@ -265,15 +273,9 @@ public class GUI extends JPanel {
         removeAll();
         ArrayList<ShortcutButton> schoolOptions = new ArrayList();
         add(new JLabel("What would you like to do?"));
-        ShortcutButton go = new ShortcutButton("Go (G)", 'g');
-        go.addActionListener(new GoListener());
-        schoolOptions.add(go);
-        ShortcutButton rest = new ShortcutButton("Rest (R)", 'r');
-        rest.addActionListener(new RestListener());
-        schoolOptions.add(rest);
-        ShortcutButton save = new ShortcutButton("Save (S)", 's');
-        save.addActionListener(new SaveListener());
-        schoolOptions.add(save);
+        schoolOptions.add(goButton);
+        schoolOptions.add(restButton);
+        schoolOptions.add(saveButton);
         schoolOptions.add(testButton);
         displayMenuBar();
         displayOptionBar();
@@ -302,7 +304,7 @@ public class GUI extends JPanel {
     }
 
     /** Class that listens for the Courses button. */
-    public class CoursesListener implements ActionListener {
+    public class CourseListener implements ActionListener {
 
         @Override
         public void actionPerformed(ActionEvent ignored) {
@@ -606,7 +608,8 @@ public class GUI extends JPanel {
     private JButton returnFromLoad, returnFromSave;
 
     /** Individual buttons with shortcut keys. */
-    private ShortcutButton testButton;
+    private ShortcutButton courseButton, goButton, restButton, 
+        returnButton, saveButton, testButton;
 
     /** Lists of buttons. */
     private ArrayList<JButton> saveSlots;
