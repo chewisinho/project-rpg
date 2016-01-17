@@ -103,16 +103,16 @@ public class GUI extends JPanel {
 
     /** Allows the player to go to different locations. */
     void go() {
-    	ArrayList<ShortcutButton> locations = new ArrayList<ShortcutButton>();
+        ArrayList<ShortcutButton> locations = new ArrayList<ShortcutButton>();
         ShortcutButton classroom = new ShortcutButton("Classroom (0)", '0');
         classroom.addActionListener(new GoClassroomListener());
         locations.add(classroom);
         options.setOptions(locations);
     }
-    
+
     /** Allows the player to go to the classroom. */
     void goClassroom() {
-    	_game.startClass();
+        _game.startClass();
         options.setOptions(new ArrayList<ShortcutButton>());
     }
 
@@ -153,10 +153,10 @@ public class GUI extends JPanel {
         add(loadGame);
         frame.setVisible(true);
     }
-    
+
     /** Allows the player to rest. */
     void rest() {
-    	_game.nextDay();
+        _game.nextDay();
         _game.getPlayer().restore();
         menu.repaint();
     }
@@ -392,7 +392,6 @@ public class GUI extends JPanel {
         @Override
         public void keyTyped(KeyEvent event) {
             keyPress(event.getKeyChar());
-        	
         }
 
     }
@@ -443,6 +442,10 @@ public class GUI extends JPanel {
                 } else {
                     saveGame(number);
                 }
+                GUI.this.removeAll();
+                displayMenuBar();
+                displayOptionBar();
+                paintSchool();
             }
         }
 
