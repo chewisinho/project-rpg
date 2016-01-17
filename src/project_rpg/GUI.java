@@ -80,6 +80,21 @@ public class GUI extends JPanel {
         return _game == null;
     }
 
+    /** Allows the player to go to different locations. */
+    void go() {
+        ArrayList<ShortcutButton> locations = new ArrayList<ShortcutButton>();
+        ShortcutButton classroom = new ShortcutButton("Classroom (0)", '0');
+        classroom.addActionListener(new GoClassroomListener());
+        locations.add(classroom);
+        options.setOptions(locations);
+    }
+
+    /** Allows the player to go to the classroom. */
+    void goClassroom() {
+        _game.startClass();
+        options.setOptions(new ArrayList<ShortcutButton>());
+    }
+
     /** Hides all of the menu bars. */
     void hideMenu() {
         frame.getContentPane().removeAll();
@@ -94,27 +109,13 @@ public class GUI extends JPanel {
         returnFromSave = new JButton("Return");
         returnFromSave.addActionListener(new SaveSlotListener(-1));
         testButton = new ShortcutButton("Test (T)", 't');
+        testButton.addActionListener(new TestListener());
         saveSlots = new ArrayList<JButton>();
         for (int number = 1; number <= 10; number += 1) {
             JButton saveSlot = new JButton("Save Slot " + number);
             saveSlot.addActionListener(new SaveSlotListener(number));
             saveSlots.add(saveSlot);
         }
-    }
-
-    /** Allows the player to go to different locations. */
-    void go() {
-        ArrayList<ShortcutButton> locations = new ArrayList<ShortcutButton>();
-        ShortcutButton classroom = new ShortcutButton("Classroom (0)", '0');
-        classroom.addActionListener(new GoClassroomListener());
-        locations.add(classroom);
-        options.setOptions(locations);
-    }
-
-    /** Allows the player to go to the classroom. */
-    void goClassroom() {
-        _game.startClass();
-        options.setOptions(new ArrayList<ShortcutButton>());
     }
 
     /** Responds to the press of a KEY. */
@@ -157,7 +158,10 @@ public class GUI extends JPanel {
 
     /** Used for testing purposes. The effect of this button changes. */
     void test() {
-        
+        System.out.println("Entering test stage.");
+        removeAll();
+        hideMenu();
+        displayMenuBar();
     }
 
     /** Allows the player to rest. */
