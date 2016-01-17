@@ -5,6 +5,8 @@ import java.awt.Graphics;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.io.File;
+import java.io.IOException;
+import java.util.HashMap;
 
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
@@ -17,9 +19,16 @@ public class BattleGrid extends JPanel {
     /** Initializes the battle grid. */
     public BattleGrid() {
         setPreferredSize(new Dimension(WIDTH * SQ_WIDTH, HEIGHT * SQ_HEIGHT));
-        playerX = 0;
-        playerY = 0;
         addKeyListener(new PlayerControl());
+        map = new Token[WIDTH][HEIGHT];
+        playerToken = new Token("player", 0, 0);
+        monsters = new HashMap<Monster, Token>();
+        try {
+            monsters.put(Monster.readMonster("Ice Pig"),
+                new Token("monster", 4, 4));
+        } catch (IOException exception) {
+            TextInterpreter.error("Error reading monster file.");
+        }
         setFocusable(true);
         repaint();
     }
@@ -28,10 +37,13 @@ public class BattleGrid extends JPanel {
     public synchronized void paintComponent(Graphics g) {
         for (int x = 0; x < WIDTH; x += 1) {
             for (int y = 0; y < HEIGHT; y += 1) {
-                paintImage("default", x, y, g);
+                if (map[x][y] == null) {
+                    paintImage("default", x, y, g);
+                } else {
+                    paintImage(map[x][y].image(), x, y, g);
+                }
             }
         }
-        paintImage("player", playerX, playerY, g);
     }
 
     /** Paints IMAGE at (X, Y) on G. */
@@ -42,6 +54,12 @@ public class BattleGrid extends JPanel {
     /** Paints IMAGE at (X, Y) on G (using the name of the resource. */
     private void paintImage(String image, int x, int y, Graphics g) {
         paintImage(getImage(image), x, y, g);
+    }
+
+    /** Returns true iff (X, Y) is a valid square. */
+    boolean valid(int x, int y) {
+    	return (x >= 0) && (y >= 0) && (x < WIDTH) && (y < HEIGHT)
+            && (map[x][y] == null);
     }
 
     /** Returns an Image from NAME. */
@@ -55,36 +73,97 @@ public class BattleGrid extends JPanel {
 
         @Override
         public void keyPressed(KeyEvent event) {
-            System.out.printf("Player at (%s, %s).\n", playerX, playerY);
             switch (event.getKeyCode()) {
             case KeyEvent.VK_DOWN:
-                if (playerY < HEIGHT - 1) {
-                    playerY += 1;
-                }
+                playerToken.down();
                 break;
             case KeyEvent.VK_LEFT:
-                if (playerX > 0) {
-                    playerX -= 1;
-                }
+                playerToken.left();
                 break;
             case KeyEvent.VK_RIGHT:
-                if (playerX < WIDTH - 1) {
-                    playerX += 1;
-                }
+                playerToken.right();
                 break;
             case KeyEvent.VK_UP:
-                if (playerY > 0) {
-                    playerY -= 1;
-                }
+                playerToken.up();
                 break;
             }
-            repaint();
         }
 
     }
 
-    /** Contains the location of the player. */
-    private int playerX, playerY;
+    /** Represents a token on the map. */
+    public class Token {
+
+        /** Creates a new token with IMAGE at (X, Y). */
+        public Token(String image, int x, int y) {
+            _image = getImage(image);
+            _x = x;
+            _y = y;
+            map[x][y] = this;
+        }
+
+        /** Returns my x-coordinate. */
+        public int x() {
+            return _x;
+        }
+
+        /** Returns my y-coordinate. */
+        public int y() {
+            return _y;
+        }
+
+        /** Move one space down. */
+        public void down() {
+            move(_x, _y + 1);
+        }
+
+        /** Move one space left. */
+        public void left() {
+            move(_x - 1, _y);
+        }
+
+        /** Move one space right. */
+        public void right() {
+            move(_x + 1, _y);
+        }
+
+        /** Move one space up. */
+        public void up() {
+            move(_x, _y - 1);
+        }
+
+        /** Makes a movement to (X, Y). */
+        public void move(int x, int y) {
+            if (valid(x, y)) {
+                map[_x][_y] = null;
+                _x = x;
+                _y = y;
+                map[_x][_y] = this;
+                repaint();
+            }
+        }
+
+        /** Returns my image. */
+        public ImageIcon image() {
+            return _image;
+        }
+
+        /** My coordinates. */
+        private int _x, _y;
+
+        /** Contains my image. */
+        ImageIcon _image;
+
+    }
+
+    /** Contains the map. */
+    private Token[][] map;
+
+    /** Contains the player. */
+    private Token playerToken;
+
+    /** Contains the monsters and their tokens. */
+    private HashMap<Monster, Token> monsters;
 
     /** Contains the parameters of the grid. */
     public static final int WIDTH = 15, HEIGHT = 8, SQ_WIDTH = 50,
