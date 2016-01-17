@@ -10,11 +10,9 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Vector;
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
@@ -123,6 +121,13 @@ public class GUI extends JPanel {
         options.pressedKey(key);
     }
 
+    /** Allows the player to rest. */
+    void rest() {
+        _game.nextDay();
+        _game.getPlayer().restore();
+        menu.repaint();
+    }
+
     /** Allows the player to save the game. */
     void save() {
         hideMenu();
@@ -145,7 +150,7 @@ public class GUI extends JPanel {
 
     /** Starts a new game session. */
     void start() {
-        JLabel titleScreen = new JLabel(getImage("title_screen.png"));
+        JLabel titleScreen = new JLabel(BattleGrid.getImage("title_screen"));
         add(titleScreen);
         JButton newGame = new JButton("New Game");
         newGame.addActionListener(new NewGameListener());
@@ -158,17 +163,11 @@ public class GUI extends JPanel {
 
     /** Used for testing purposes. The effect of this button changes. */
     void test() {
-        System.out.println("Entering test stage.");
         removeAll();
         hideMenu();
         displayMenuBar();
-    }
-
-    /** Allows the player to rest. */
-    void rest() {
-        _game.nextDay();
-        _game.getPlayer().restore();
-        menu.repaint();
+        BattleGrid testDungeon = new BattleGrid();
+        add(testDungeon);
     }
 
     /* PAINT METHODS FOR EACH GAME STATE. */
@@ -599,14 +598,6 @@ public class GUI extends JPanel {
         /** Contains my shortcut key. */
         private char _shortcut;
 
-    }
-
-    /* STATIC HELPER METHODS. */
-
-    /** Returns an Image from NAME. */
-    ImageIcon getImage(String name) {
-        return new ImageIcon("project_rpg" + File.separator + "database"
-            + File.separator + name);
     }
 
     /* BUTTONS. */
