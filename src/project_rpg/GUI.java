@@ -185,9 +185,14 @@ public class GUI extends JPanel {
     void paintClass() {
         lastSeen = CLASS;
         removeAll();
-        JButton courses = new JButton("Courses");
+        ArrayList<ShortcutButton> classOptions = new ArrayList();
+        ShortcutButton courses = new ShortcutButton("Courses (C)", 'c');
         courses.addActionListener(new CoursesListener());
-        add(courses);
+        classOptions.add(courses);
+        ShortcutButton returns = new ShortcutButton("Return (R)", 'r');
+        returns.addActionListener(new ReturnListener());
+        classOptions.add(returns);
+        options.setOptions(classOptions);
         updateUI();
     }
 
@@ -377,8 +382,14 @@ public class GUI extends JPanel {
 
         @Override
         public void keyTyped(KeyEvent event) {
-            keyPress(event.getKeyChar());
-        	
+        	System.out.print("" + event.getKeyChar());
+            if (event.getKeyChar() == '\u001B') {
+            	System.out.println("I escaped");
+            	lastSeen = null;
+            	repaint();
+            } else {
+        	    keyPress(event.getKeyChar());
+            }
         }
 
     }
