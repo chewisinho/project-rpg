@@ -2,8 +2,10 @@ package project_rpg;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import static project_rpg.Day.*;
@@ -40,6 +42,106 @@ public class Game implements Serializable {
         player.addSkill(punch);
     }
 
+    /** Clears the current assignment. */
+    void clearAssignment() {
+        currentAssignment = null;
+    }
+
+    /** Returns the current assignment. */
+    Assignment getAssignment() {
+        return currentAssignment;
+    }
+
+    /** Returns an array of available courses. */
+    ArrayList<Course> getAvailableCourses() {
+        return availableCourses;
+    }
+
+    /** Returns the enrolled course at INDEX. */
+    Course getEnrolledCourse(int index) {
+        try {
+            return enrolledCourses.get(index);
+        } catch (IndexOutOfBoundsException exception) {
+            throw new IllegalArgumentException();
+        }
+    }
+
+    /** Returns the list of enrolled courses of the game. */
+    ArrayList<Course> getEnrolledCourses() {
+        return enrolledCourses;
+    }
+
+    /** Returns the day the game is in. */
+    public Day getDay() {
+        return day;
+    }
+
+    /** Returns the player of the game. */
+    Player getPlayer() {
+        return player;
+    }
+
+    /** Returns the quarter the game is in. */
+    public Quarter getQuarter() {
+        return quarter;
+    }
+
+    /** Returns the state of the game. */
+    public GameState getState() {
+        return gameState;
+    }
+
+    /** Returns the week the game is in. */
+    public int getWeek() {
+        return week;
+    }
+
+    /** Returns the year the game is in. */
+    public Year getYear() {
+        return year;
+    }
+
+    /** Increments to the next day. */
+    void nextDay() {
+        day = day.next();
+        if (day == MONDAY) {
+            nextWeek();
+        }
+    }
+
+    /** Increments to the next quarter. */
+    void nextQuarter() {
+        quarter = quarter.next();
+        if (quarter == FALL) {
+            nextYear();
+        }
+    }
+
+    /** Increments to the next week. */
+    void nextWeek() {
+        if (week < 10) {
+            for (Course course : enrolledCourses) {
+                if (course.getAssignments(week).isEmpty()) {
+                    course.getSkill().completedAssignments(week);
+                }
+            }
+            week += 1;
+        } else {
+            week = 1;
+            nextQuarter();
+        }
+    }
+
+    /** Increments to the next year. */
+    void nextYear() {
+        year = year.next();
+    }
+
+    /** Prints the available courses. */
+    public void printAvailableCourses() {
+        printCourses(availableCourses);
+    }
+
     /** Prints the game state. */
     public void printGameInfo() {
         System.out.println("Welcome back! Here's some info to refresh your "
@@ -48,21 +150,6 @@ public class Game implements Serializable {
         System.out.println("Quarter: " + quarter);
         System.out.println("Week: " + week);
         System.out.println("Day: " + day);
-    }
-
-    /** Prints the courses in COURSES. */
-    public static void printCourses(ArrayList<Course> courses) {
-        courses.sort(Course.TITLE_COMPARATOR);
-        int index = 0;
-        for (Course course : courses) {
-            System.out.println(index + ": " + course.getTitle());
-            index += 1;
-        }
-    }
-
-    /** Prints the available courses. */
-    public void printAvailableCourses() {
-        printCourses(availableCourses);
     }
 
     /** Prints the enrolled courses. */
@@ -83,12 +170,41 @@ public class Game implements Serializable {
         }
     }
 
-    /**Registers the COURSE into the schedule. */
+    /** Registers the COURSE into the schedule. */
     void registerCourse(Course course) {
         enrolledCourses.add(course);
         player.addCourse(course);
         player.addSkill(course.skill);
         availableCourses.remove(course);
+    }
+
+    /** Saves the game into SLOT. */
+    void save(int slot) throws IOException {
+        ObjectOutputStream writer = new ObjectOutputStream(new FileOutputStream(
+            new File("save" + slot + ".sav")));
+        writer.writeObject(this);
+        writer.close();
+    }
+
+    /** Starts ASSIGNMENT. */
+    void startBattle(Assignment assignment) {
+        gameState = BATTLE;
+        currentAssignment = assignment;
+    }
+
+    /** Travels to classroom. */
+    void startClass() {
+        gameState = CLASS;
+    }
+
+    /** Travels to Gym. */
+    void startGym() {
+        gameState = GYM;
+    }
+
+    /** Starts school after the enrollment phase. */
+    void startSchool() {
+        gameState = SCHOOL;
     }
 
     /** Views the course description at INDEX. */
@@ -97,15 +213,6 @@ public class Game implements Serializable {
             System.out.println(availableCourses.get(index).description());
             System.out.println("Are you sure you want to enroll in this "
                 + "class?");
-        } catch (IndexOutOfBoundsException exception) {
-            throw new IllegalArgumentException();
-        }
-    }
-
-    /** Returns the enrolled course at INDEX. */
-    Course getEnrolledCourse(int index) {
-        try {
-            return enrolledCourses.get(index);
         } catch (IndexOutOfBoundsException exception) {
             throw new IllegalArgumentException();
         }
@@ -128,111 +235,14 @@ public class Game implements Serializable {
         return saveFile;
     }
 
-    /** Starts school after the enrollment phase. */
-    void startSchool() {
-        gameState = SCHOOL;
-    }
-
-    /** Travels to classroom. */
-    void startClass() {
-        gameState = CLASS;
-    }
-
-    /** Starts ASSIGNMENT. */
-    void startBattle(Assignment assignment) {
-        gameState = BATTLE;
-        currentAssignment = assignment;
-    }
-
-    /** Travels to Gym. */
-    void startGym() {
-        gameState = GYM;
-    }
-
-    /** Increments to the next day. */
-    void nextDay() {
-        day = day.next();
-        if (day == MONDAY) {
-            nextWeek();
+    /** Prints the courses in COURSES. */
+    public static void printCourses(ArrayList<Course> courses) {
+        courses.sort(Course.TITLE_COMPARATOR);
+        int index = 0;
+        for (Course course : courses) {
+            System.out.println(index + ": " + course.getTitle());
+            index += 1;
         }
-    }
-
-    /** Increments to the next week. */
-    void nextWeek() {
-        if (week < 10) {
-            for (Course course : enrolledCourses) {
-                if (course.getAssignments(week).isEmpty()) {
-                    course.getSkill().completedAssignments(week);
-                }
-            }
-            week += 1;
-        } else {
-            week = 1;
-            nextQuarter();
-        }
-    }
-
-    /** Increments to the next quarter. */
-    void nextQuarter() {
-        quarter = quarter.next();
-        if (quarter == FALL) {
-            nextYear();
-        }
-    }
-
-    /** Increments to the next year. */
-    void nextYear() {
-        year = year.next();
-    }
-
-    /** Returns the year the game is in. */
-    public Year getYear() {
-        return year;
-    }
-
-    /** Returns the quarter the game is in. */
-    public Quarter getQuarter() {
-        return quarter;
-    }
-
-    /** Returns the week the game is in. */
-    public int getWeek() {
-        return week;
-    }
-
-    /** Returns the day the game is in. */
-    public Day getDay() {
-        return day;
-    }
-
-    /** Returns the state of the game. */
-    public GameState getState() {
-        return gameState;
-    }
-
-    /** Returns the list of enrolled courses of the game. */
-    ArrayList<Course> getEnrolledCourses() {
-        return enrolledCourses;
-    }
-
-    /** Returns the current assignment. */
-    Assignment getAssignment() {
-        return currentAssignment;
-    }
-
-    /** Clears the current assignment. */
-    void clearAssignment() {
-        currentAssignment = null;
-    }
-
-    /** Returns an array of available courses. */
-    ArrayList<Course> getAvailableCourses() {
-        return availableCourses;
-    }
-
-    /** Returns the player of the game. */
-    Player getPlayer() {
-        return player;
     }
 
     /** The year this game is in. */

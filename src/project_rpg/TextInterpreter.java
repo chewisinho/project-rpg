@@ -318,11 +318,7 @@ public class TextInterpreter {
                 }
             }
             try {
-                ObjectOutputStream writer = new ObjectOutputStream(
-                    new FileOutputStream(new File("save"
-                    + Integer.parseInt(selection)) + ".sav"));
-                writer.writeObject(game);
-                writer.close();
+                game.save(Integer.parseInt(selection));
                 System.out.println("Quit now?");
                 while (true) {
                     String response = getInput();

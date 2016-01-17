@@ -40,6 +40,7 @@ public class GUI extends JPanel {
         frame.getContentPane().add(BorderLayout.CENTER, this);
         menu = new MenuBar();
         options = new OptionBar();
+        initializeButtons();
         addKeyListener(new RestKeyListener());
         setFocusable(true);
         requestFocusInWindow();
@@ -57,24 +58,53 @@ public class GUI extends JPanel {
         frame.getContentPane().add(BorderLayout.EAST, options);
     }
 
-    /** Displays the load or save screen. */
-    void displaySaveSlots() {
+    /** Displays the load or save screen. CODE is either 0 for the load screen
+     *  or -1 for the save screen.
+     */
+    void displaySaveSlots(int code) {
         removeAll();
         add(new JLabel("Please choose a save slot!"));
+        for (JButton button : saveSlots) {
+            add(button);
+        }
+        if (code == 0) {
+            add(returnFromLoad);
+        } else if (code == -1) {
+            add(returnFromSave);
+        }
+        updateUI();
+    }
+
+    /** Hides all of the menu bars. */
+    void hideMenu() {
+        frame.getContentPane().removeAll();
+        frame.getContentPane().add(BorderLayout.CENTER, this);
+        frame.repaint();
+    }
+
+    /** Initializes all buttons to their defaults. */
+    void initializeButtons() {
+        returnFromLoad = new JButton("Return");
+        returnFromLoad.addActionListener(new SaveSlotListener(0));
+        returnFromSave = new JButton("Return");
+        returnFromSave.addActionListener(new SaveSlotListener(-1));
+        saveSlots = new ArrayList<JButton>();
         for (int number = 1; number <= 10; number += 1) {
             JButton saveSlot = new JButton("Save Slot " + number);
             saveSlot.addActionListener(new SaveSlotListener(number));
-            add(saveSlot);
+            saveSlots.add(saveSlot);
         }
-        JButton returnButton = new JButton("Return");
-        returnButton.addActionListener(new SaveSlotListener(0));
-        add(returnButton);
-        updateUI();
     }
 
     /** Sets the game I am displaying to GAME. */
     void setGame(Game game) {
         _game = game;
+    }
+
+    /** Saves the current game. */
+    void save() {
+        hideMenu();
+        displaySaveSlots(-1);
     }
 
     /** Starts a new game session. */
@@ -288,7 +318,7 @@ public class GUI extends JPanel {
 
         @Override
         public void actionPerformed(ActionEvent ignored) {
-            displaySaveSlots();
+            displaySaveSlots(0);
         }
 
     }
@@ -352,7 +382,7 @@ public class GUI extends JPanel {
 
         @Override
         public void actionPerformed(ActionEvent ignored) {
-            //TODO
+            save();
         }
 
     }
@@ -463,13 +493,18 @@ public class GUI extends JPanel {
             + File.separator + name);
     }
 
+    /* BUTTONS. */
+
+    /** Individual buttons. */
+    private JButton returnFromLoad, returnFromSave;
+
+    /** Lists of buttons. */
+    private ArrayList<JButton> saveSlots;
+
     /* CLASS FIELDS. */
 
     /** Contains the frame which displays everything. */
     private final JFrame frame;
-
-    /** Contains the frame width and height. */
-    private static final int WIDTH = 800, HEIGHT = 600;
 
     /** Contains the game I am displaying. */
     private Game _game;
@@ -482,5 +517,8 @@ public class GUI extends JPanel {
 
     /** Contains my option bar. */
     private OptionBar options;
+
+    /** Contains the frame width and height. */
+    private static final int WIDTH = 800, HEIGHT = 600;
 
 }
