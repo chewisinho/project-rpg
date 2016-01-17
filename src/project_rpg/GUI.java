@@ -41,7 +41,7 @@ public class GUI extends JPanel {
         menu = new MenuBar();
         options = new OptionBar();
         initializeButtons();
-        addKeyListener(new RestKeyListener());
+        addKeyListener(new ShortcutKeyListener());
         setFocusable(true);
         requestFocusInWindow();
     }
@@ -96,15 +96,30 @@ public class GUI extends JPanel {
         }
     }
 
-    /** Sets the game I am displaying to GAME. */
-    void setGame(Game game) {
-        _game = game;
+    /** Allows the player to go to different locations. */
+    void go() {
+    	ArrayList<JButton> locations = new ArrayList<JButton>();
+        JButton classroom = new JButton("Classroom (0)");
+        classroom.addActionListener(new GoClassroomListener());
+        locations.add(classroom);
+        options.setOptions(locations);
+    }
+    
+    /** Allows the player to go to the classroom. */
+    void goClassroom() {
+    	_game.startClass();
+        options.setOptions(new ArrayList<JButton>());
     }
 
-    /** Saves the current game. */
+    /** Allows the player to save the game. */
     void save() {
         hideMenu();
         displaySaveSlots(-1);
+    }
+    
+    /** Sets the game I am displaying to GAME. */
+    void setGame(Game game) {
+        _game = game;
     }
 
     /** Starts a new game session. */
@@ -118,6 +133,12 @@ public class GUI extends JPanel {
         loadGame.addActionListener(new LoadGameListener());
         add(loadGame);
         frame.setVisible(true);
+    }
+    
+    /** Allows the player to rest. */
+    void rest() {
+    	_game.nextDay();
+        _game.getPlayer().restore();
     }
 
     /* PAINT METHODS FOR EACH GAME STATE. */
@@ -186,7 +207,7 @@ public class GUI extends JPanel {
         scroller.setVerticalScrollBarPolicy(
             ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
         add(scroller);
-        JButton enroll = new JButton("Enroll in this course!");
+        JButton enroll = new JButton("Enroll in this course! (Enter)");
         enroll.addActionListener(new EnrollmentListener(courses, number));
         add(enroll);
         updateUI();
@@ -210,13 +231,13 @@ public class GUI extends JPanel {
         removeAll();
         ArrayList<JButton> schoolOptions = new ArrayList<JButton>();
         add(new JLabel("What would you like to do?"));
-        JButton go = new JButton("Go");
+        JButton go = new JButton("Go (G)");
         go.addActionListener(new GoListener());
         schoolOptions.add(go);
-        JButton rest = new JButton("Rest");
+        JButton rest = new JButton("Rest (R)");
         rest.addActionListener(new RestListener());
         schoolOptions.add(rest);
-        JButton save = new JButton("Save");
+        JButton save = new JButton("Save (S)");
         save.addActionListener(new SaveListener());
         schoolOptions.add(save);
         displayMenuBar();
@@ -292,11 +313,7 @@ public class GUI extends JPanel {
 
         @Override
         public void actionPerformed(ActionEvent ignored) {
-            ArrayList<JButton> locations = new ArrayList<JButton>();
-            JButton classroom = new JButton("Classroom");
-            classroom.addActionListener(new GoClassroomListener());
-            locations.add(classroom);
-            options.setOptions(locations);
+            go();
         }
 
     }
@@ -306,8 +323,7 @@ public class GUI extends JPanel {
 
         @Override
         public void actionPerformed(ActionEvent ignored) {
-            _game.startClass();
-            options.setOptions(new ArrayList<JButton>());
+            goClassroom();
             repaint();
         }
 
@@ -344,23 +360,72 @@ public class GUI extends JPanel {
 
         @Override
         public void actionPerformed(ActionEvent ignored) {
-            _game.nextDay();
-            _game.getPlayer().restore();
+            rest();
             paintSchool();
         }
 
     }
     
     /** Class that listens for the Rest shortcut. */
-    public class RestKeyListener extends KeyAdapter {
+    public class ShortcutKeyListener extends KeyAdapter {
 
         @Override
         public void keyTyped(KeyEvent event) {
-            if (event.getKeyChar() == '\u0072') {
-                _game.nextDay();
-                _game.getPlayer().restore();
+        	if (_game == null) {
+        		return;
+        	}
+        	switch (_game.getState()) {
+            case BATTLE:
+            	battleEvent(event);
+                break;
+            case CLASS:
+                classEvent(event);
+                break;
+            case ENROLLMENT:
+                enrollmentEvent(event);
+                break;
+            case GYM:
+                gymEvent(event);
+                break;
+            case SCHOOL:
+            	schoolEvent(event);
+                break;
+            default:
+                TextInterpreter.error("No such shortcut.");
+                break;
+            }
+        }
+        
+        /** Shortcuts for battle state. */
+        private void battleEvent(KeyEvent event) {
+        	// TODO
+        }
+        
+        /** Shortcuts for class state. */
+        private void classEvent(KeyEvent event) {
+        	// TODO
+        }
+        
+        /** Shortcuts for enrollment state. */
+        private void enrollmentEvent(KeyEvent event) {
+        	// TODO
+        }
+        
+        /** Shortcuts for gym state. */
+        private void gymEvent(KeyEvent event) {
+        	// TODO
+        }
+        
+        /** Shortcuts for school state. */
+        private void schoolEvent(KeyEvent event) {
+            if (event.getKeyChar() == '\u0067') {
+            	go();
+            } else if (event.getKeyChar() == '\u0072') {
+                rest();
                 menu.repaint();
                 paintSchool();
+            } else if (event.getKeyChar() == '\u0073') {
+            	save();
             }
         }
 

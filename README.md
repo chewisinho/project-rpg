@@ -41,3 +41,10 @@ The game is currently a work-in-progress, with a text-based interface.
 * develop damage calculation formula
 * create weakness/strength system
 * ~~create battle system~~
+
+**GUI**
+
+* move RestKeyListener to ShortcutKeyListener
+* implement switch statements within ShortcutKeyListener
+* store lists of buttons, initialize in setupButtons() method
+* rename all buttons to include shortcut keys
