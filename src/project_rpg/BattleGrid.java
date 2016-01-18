@@ -84,18 +84,33 @@ public class BattleGrid extends JPanel {
 
         @Override
         public void keyPressed(KeyEvent event) {
-            switch (event.getKeyCode()) {
-            case KeyEvent.VK_DOWN:
+            switch (event.getKeyChar()) {
+            case '\u0073':
                 playerToken.down();
                 break;
-            case KeyEvent.VK_LEFT:
+            case '\u0061':
                 playerToken.left();
                 break;
-            case KeyEvent.VK_RIGHT:
+            case '\u0064':
                 playerToken.right();
                 break;
-            case KeyEvent.VK_UP:
+            case '\u0077':
                 playerToken.up();
+                break;
+            case '\u0020':
+            	playerToken.attack();
+            	break;
+            case (char) KeyEvent.VK_UP:
+            	playerToken.switchAttack1();
+                break;
+            case (char) KeyEvent.VK_DOWN:
+            	playerToken.switchAttack2();
+                break;
+            case (char) KeyEvent.VK_LEFT:
+            	playerToken.switchAttack3();
+                break;
+            case (char) KeyEvent.VK_RIGHT:
+            	playerToken.switchAttack4();
                 break;
             }
         }
@@ -153,6 +168,31 @@ public class BattleGrid extends JPanel {
                 map[_x][_y] = this;
                 repaint();
             }
+        }
+        
+        /** Attacks. */
+        public void attack() {
+        	// TODO
+        }
+        
+        /** Switches to Skill 1. */
+        public void switchAttack1() {
+        	// TODO
+        }
+        
+        /** Switches to Skill 2. */
+        public void switchAttack2() {
+        	//TODO
+        }
+        
+        /** Switches to Skill 3. */
+        public void switchAttack3() {
+        	//TODO
+        }
+        
+        /** Switches to Skill 4. */
+        public void switchAttack4() {
+        	//TODO
         }
 
         /** Returns my image. */
