@@ -2,8 +2,13 @@ package project_rpg;
 
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Image;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.geom.AffineTransform;
+import java.awt.image.AffineTransformOp;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
@@ -21,6 +26,7 @@ public class BattleGrid extends JPanel {
         setPreferredSize(new Dimension(WIDTH * SQ_WIDTH, HEIGHT * SQ_HEIGHT));
         _gui = gui;
         _player = player;
+        rotation = makeRotation(RIGHT_ANGLE);
         addKeyListener(new PlayerControl());
         map = new Token[WIDTH][HEIGHT];
         playerToken = new Token("player", 0, 0);
@@ -45,20 +51,41 @@ public class BattleGrid extends JPanel {
                 if (map[x][y] == null) {
                     paintImage("default", x, y, g);
                 } else {
-                    paintImage(map[x][y].image(), x, y, g);
+                    paintImage(map[x][y], x, y, g);
                 }
             }
         }
     }
 
     /** Paints IMAGE at (X, Y) on G. */
-    private void paintImage(ImageIcon image, int x, int y, Graphics g) {
-        g.drawImage(image.getImage(), x * SQ_WIDTH, y * SQ_HEIGHT, null);
+    private void paintImage(Image image, int x, int y, Graphics g) {
+        g.drawImage(image, x * SQ_WIDTH, y * SQ_HEIGHT, null);
     }
 
-    /** Paints IMAGE at (X, Y) on G (using the name of the resource. */
+    /** Paints IMAGE at (X, Y) on G. */
+    private void paintImage(ImageIcon image, int x, int y, Graphics g) {
+        paintImage(image.getImage(), x, y, g);
+    }
+
+    /** Paints IMAGE at (X, Y) on G (using the name of the resource). */
     private void paintImage(String image, int x, int y, Graphics g) {
         paintImage(getImage(image), x, y, g);
+    }
+
+    /** Paints a TOKEN at (X, Y) on G. */
+    private void paintImage(Token token, int x, int y, Graphics g) {
+        BufferedImage image = token.bufferedImage();
+        switch (token.orientation()) {
+        case RIGHT_ANGLE * 3:
+            image = rotation.filter(image, null);
+        case RIGHT_ANGLE * 2:
+            image = rotation.filter(image, null);
+        case RIGHT_ANGLE:
+            image = rotation.filter(image, null);
+        default:
+            break;
+        }
+        paintImage(image, x, y, g);
     }
 
     /** Returns true iff the player is adjacent to (X, Y). */
@@ -79,6 +106,26 @@ public class BattleGrid extends JPanel {
     static ImageIcon getImage(String name) {
         return new ImageIcon("project_rpg" + File.separator + "resources"
             + File.separator + name + ".png");
+    }
+
+    /** Returns an AffineTransformOp which rotates by DEGREES. */
+    static AffineTransformOp makeRotation(int degrees) {
+        return new AffineTransformOp(AffineTransform.getRotateInstance(
+            Math.toRadians(degrees), SQ_WIDTH / 2.0, SQ_HEIGHT / 2.0),
+            AffineTransformOp.TYPE_BILINEAR);
+    }
+
+    /** Returns a given IMAGE converted into a BufferedImage. */
+    public static BufferedImage toBufferedImage(Image image) {
+        if (image instanceof BufferedImage) {
+            return (BufferedImage) image;
+        }
+        BufferedImage bimage = new BufferedImage(image.getWidth(null),
+            image.getHeight(null), BufferedImage.TYPE_INT_ARGB);
+        Graphics2D bgr = bimage.createGraphics();
+        bgr.drawImage(image, 0, 0, null);
+        bgr.dispose();
+        return bimage;
     }
 
     /** Class that listens for actions. */
@@ -112,8 +159,10 @@ public class BattleGrid extends JPanel {
         /** Creates a new token with IMAGE at (X, Y). */
         public Token(String image, int x, int y) {
             _image = getImage(image);
+            buffered = toBufferedImage(_image.getImage());
             _x = x;
             _y = y;
+            orientation = 0;
             map[x][y] = this;
             lastAction = System.currentTimeMillis();
         }
@@ -128,24 +177,33 @@ public class BattleGrid extends JPanel {
             return _y;
         }
 
+        /** Returns my orientation. */
+        public int orientation() {
+            return orientation;
+        }
+
         /** Move one space down. */
         public void down() {
             move(_x, _y + 1);
+            orientation = RIGHT_ANGLE;
         }
 
         /** Move one space left. */
         public void left() {
             move(_x - 1, _y);
+            orientation = RIGHT_ANGLE * 2;
         }
 
         /** Move one space right. */
         public void right() {
             move(_x + 1, _y);
+            orientation = 0;
         }
 
         /** Move one space up. */
         public void up() {
             move(_x, _y - 1);
+            orientation = RIGHT_ANGLE * 3;
         }
 
         /** Makes a movement to (X, Y). */
@@ -174,6 +232,11 @@ public class BattleGrid extends JPanel {
             }
         }
 
+        /** Returns my buffered image. */
+        public BufferedImage bufferedImage() {
+            return buffered;
+        }
+
         /** Returns my image. */
         public ImageIcon image() {
             return _image;
@@ -198,11 +261,14 @@ public class BattleGrid extends JPanel {
             }
         }
 
-        /** My coordinates. */
-        private int _x, _y;
+        /** My coordinates and orientation. */
+        private int _x, _y, orientation;
 
         /** Contains my image. */
         private ImageIcon _image;
+
+        /** Contains my buffered image. */
+        private BufferedImage buffered;
 
         /** Contains the time of my last action. */
         private long lastAction;
@@ -224,8 +290,14 @@ public class BattleGrid extends JPanel {
     /** Contains the monsters and their tokens. */
     private HashMap<Token, Monster> monsters;
 
+    /** Represents a pi/2 rotation. */
+    private AffineTransformOp rotation;
+
     /** Contains the parameters of the grid. */
     public static final int WIDTH = 15, HEIGHT = 8, SQ_WIDTH = 50,
         SQ_HEIGHT = 50;
+
+    /** Contains the number of degrees in a right angle. */
+    public static final int RIGHT_ANGLE = 90;
 
 }
