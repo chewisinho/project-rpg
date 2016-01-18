@@ -16,14 +16,14 @@ import javax.swing.JPanel;
  */
 public class BattleGrid extends JPanel {
 
-    /** Initializes the battle grid. */
-    public BattleGrid(Player player, GUI.MenuBar menu) {
+    /** Initializes the battle grid with a PLAYER and a GUI. */
+    public BattleGrid(Player player, GUI gui) {
         setPreferredSize(new Dimension(WIDTH * SQ_WIDTH, HEIGHT * SQ_HEIGHT));
-        _menu = menu;
+        _gui = gui;
+        _player = player;
         addKeyListener(new PlayerControl());
         map = new Token[WIDTH][HEIGHT];
         playerToken = new Token("player", 0, 0);
-        _player = player;
         monsters = new HashMap<Token, Monster>();
         try {
             monsters.put(new Token("monster", 4, 4),
@@ -63,13 +63,15 @@ public class BattleGrid extends JPanel {
 
     /** Returns true iff the player is adjacent to (X, Y). */
     boolean playerAdjacentTo(int x, int y) {
-        return (playerToken == map[x - 1][y]) || (playerToken == map[x][y - 1])
-            || (playerToken == map[x + 1][y]) || (playerToken == map[x][y + 1]);
+        return (valid(x - 1, y) && playerToken == map[x - 1][y])
+            || (valid(x, y - 1) && playerToken == map[x][y - 1])
+            || (valid(x + 1, y) && playerToken == map[x + 1][y])
+            || (valid(x, y + 1) && playerToken == map[x][y + 1]);
     }
 
     /** Returns true iff (X, Y) is a valid square. */
     boolean valid(int x, int y) {
-    	return (x >= 0) && (y >= 0) && (x < WIDTH) && (y < HEIGHT)
+        return (x >= 0) && (y >= 0) && (x < WIDTH) && (y < HEIGHT)
             && (map[x][y] == null);
     }
 
@@ -111,6 +113,7 @@ public class BattleGrid extends JPanel {
                 break;
             case (char) KeyEvent.VK_RIGHT:
             	playerToken.switchAttack4();
+            default:
                 break;
             }
         }
@@ -195,6 +198,21 @@ public class BattleGrid extends JPanel {
         	//TODO
         }
 
+        /** Moves towards the player. */
+        void moveTowardsPlayer() {
+            if (playerToken.x() > _x) {
+                right();
+            } else if (playerToken.x() < _x) {
+                left();
+            } else {
+                if (playerToken.y() > _y) {
+                    down();
+                } else if (playerToken.y() < _y) {
+                    up();
+                }
+            }
+        }
+
         /** Returns my image. */
         public ImageIcon image() {
             return _image;
@@ -206,8 +224,14 @@ public class BattleGrid extends JPanel {
                 if (System.currentTimeMillis() - lastAction > 500) {
                     if (playerAdjacentTo(_x, _y)) {
                         _player.reduceHealth(monsters.get(this).attack());
+                        if (_player.isDead()) {
+                            _gui.gameOver();
+                            break;
+                        }
+                    } else {
+                        moveTowardsPlayer();
                     }
-                    _menu.repaint();
+                    _gui.refreshMenu();
                     lastAction = System.currentTimeMillis();
                 }
             }
@@ -217,15 +241,15 @@ public class BattleGrid extends JPanel {
         private int _x, _y;
 
         /** Contains my image. */
-        ImageIcon _image;
+        private ImageIcon _image;
 
         /** Contains the time of my last action. */
         private long lastAction;
 
     }
 
-    /** Contains the menu bar of the GUI. */
-    private GUI.MenuBar _menu;
+    /** Contains the GUI from before the start of the battle. */
+    private GUI _gui;
 
     /** Contains the map. */
     private Token[][] map;
