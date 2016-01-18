@@ -124,5 +124,8 @@ public class Player implements Serializable {
 
     /** An array of assignments the player has completed. */
     private ArrayList<Assignment> pastAssignments = new ArrayList<Assignment>();
+    
+    /** An array of skills that the player can bring to battle. */
+    private ArrayList<Skill> battleSkills = new ArrayList<Skill>();
 
 }

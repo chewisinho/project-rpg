@@ -130,6 +130,8 @@ public class GUI extends JPanel {
         gymButton.addActionListener(new GoGymListener());
         saveButton = new ShortcutButton("Save (S)", 's');
         saveButton.addActionListener(new SaveListener());
+        skillsButton = new ShorcutButton("Skills (A)", 'a');
+        skillsButton.addActionListener(new SkillsListener());
         restButton = new ShortcutButton("Rest (R)", 'r');
         restButton.addActionListener(new RestListener());
         returnButton = new ShortcutButton("Return (R)", 'r');
@@ -304,6 +306,7 @@ public class GUI extends JPanel {
         ArrayList<ShortcutButton> schoolOptions = new ArrayList();
         add(new JLabel("What would you like to do?"));
         schoolOptions.add(goButton);
+        schoolOptions.addAll(skillsButton);
         schoolOptions.add(restButton);
         schoolOptions.add(saveButton);
         schoolOptions.add(testButton);
@@ -686,7 +689,7 @@ public class GUI extends JPanel {
 
     /** Individual buttons with shortcut keys. */
     private ShortcutButton classroomButton, courseButton, goButton, gymButton,
-        restButton, returnButton, saveButton, testButton, workOutButton;
+        restButton, returnButton, saveButton, testButton, workOutButton, skillsButton;
 
     /** Lists of buttons. */
     private ArrayList<JButton> saveSlots;
