@@ -17,9 +17,9 @@ import javax.swing.JPanel;
 public class BattleGrid extends JPanel {
 
     /** Initializes the battle grid. */
-    public BattleGrid(Player player, GUI.MenuBar menu) {
+    public BattleGrid(Player player, GUI gui) {
         setPreferredSize(new Dimension(WIDTH * SQ_WIDTH, HEIGHT * SQ_HEIGHT));
-        _menu = menu;
+        _gui = gui;
         addKeyListener(new PlayerControl());
         map = new Token[WIDTH][HEIGHT];
         playerToken = new Token("player", 0, 0);
@@ -166,8 +166,11 @@ public class BattleGrid extends JPanel {
                 if (System.currentTimeMillis() - lastAction > 500) {
                     if (playerAdjacentTo(_x, _y)) {
                         _player.reduceHealth(monsters.get(this).attack());
+                        if (_player.isDead()) {
+                            _gui.gameOver();
+                        }
                     }
-                    _menu.repaint();
+                    _gui.refreshMenu();
                     lastAction = System.currentTimeMillis();
                 }
             }
@@ -184,8 +187,8 @@ public class BattleGrid extends JPanel {
 
     }
 
-    /** Contains the menu bar of the GUI. */
-    private GUI.MenuBar _menu;
+    /** Contains the GUI from before the start of the battle. */
+    private GUI _gui;
 
     /** Contains the map. */
     private Token[][] map;

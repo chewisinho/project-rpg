@@ -17,6 +17,7 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
@@ -78,6 +79,16 @@ public class GUI extends JPanel {
         return _game == null;
     }
 
+    /** Produces a Game Over if the player dies. */
+    void gameOver() {
+        frame.getContentPane().removeAll();
+        frame.getContentPane().add(BorderLayout.CENTER, this);
+        start();
+        JOptionPane.showMessageDialog(frame, "You died! Start a new game or "
+            + "load an existing save file.", "Game Over!",
+            JOptionPane.PLAIN_MESSAGE);
+    }
+
     /** Allows the player to go to different locations. */
     void go() {
         ArrayList<ShortcutButton> locations = new ArrayList<ShortcutButton>();
@@ -131,6 +142,11 @@ public class GUI extends JPanel {
         options.pressedKey(key);
     }
 
+    /** Refreshes the menu bar. */
+    void refreshMenu() {
+        menu.repaint();
+    }
+
     /** Allows the player to rest. */
     void rest() {
         _game.nextDay();
@@ -176,7 +192,7 @@ public class GUI extends JPanel {
         removeAll();
         hideMenu();
         displayMenuBar();
-        BattleGrid testDungeon = new BattleGrid(_game.getPlayer(), menu);
+        BattleGrid testDungeon = new BattleGrid(_game.getPlayer(), this);
         add(testDungeon);
         testDungeon.requestFocusInWindow();
     }
@@ -647,8 +663,7 @@ public class GUI extends JPanel {
 
     /** Individual buttons with shortcut keys. */
     private ShortcutButton classroomButton, courseButton, goButton,
-        restButton, returnButton, saveButton,
-        testButton;
+        restButton, returnButton, saveButton, testButton;
 
     /** Lists of buttons. */
     private ArrayList<JButton> saveSlots;
