@@ -93,6 +93,7 @@ public class GUI extends JPanel {
     void go() {
         ArrayList<ShortcutButton> locations = new ArrayList<ShortcutButton>();
         locations.add(classroomButton);
+        locations.add(gymButton);
         options.setOptions(locations);
     }
 
@@ -100,6 +101,12 @@ public class GUI extends JPanel {
     void goClassroom() {
         _game.startClass();
         options.setOptions(new ArrayList<ShortcutButton>());
+    }
+    
+    /** Allows the player to go to the gym. */
+    void goGym() {
+    	_game.startGym();
+    	options.setOptions(new ArrayList<ShortcutButton>());
     }
 
     /** Hides all of the menu bars. */
@@ -117,6 +124,8 @@ public class GUI extends JPanel {
         courseButton.addActionListener(new CourseListener());
         goButton = new ShortcutButton("Go (G)", 'g');
         goButton.addActionListener(new GoListener());
+        gymButton = new ShortcutButton("Gym (1)", '1');
+        gymButton.addActionListener(new GoGymListener());
         saveButton = new ShortcutButton("Save (S)", 's');
         saveButton.addActionListener(new SaveListener());
         restButton = new ShortcutButton("Rest (R)", 'r');
@@ -129,6 +138,8 @@ public class GUI extends JPanel {
         returnFromSave.addActionListener(new SaveSlotListener(-1));
         testButton = new ShortcutButton("Test (T)", 't');
         testButton.addActionListener(new TestListener());
+        workOutButton = new ShortcutButton("Work Out (W)", 'w');
+        workOutButton.addActionListener(new WorkOutListener());
         saveSlots = new ArrayList<JButton>();
         for (int number = 1; number <= 10; number += 1) {
             JButton saveSlot = new JButton("Save Slot " + number);
@@ -274,13 +285,13 @@ public class GUI extends JPanel {
 
     /** Renders the game for the gym game state. */
     void paintGym() {
-        removeAll();
+        lastSeen = GYM;
+    	removeAll();
+        ArrayList<ShortcutButton> gymOptions = new ArrayList();
         add(new JLabel("What would you like to do?"));
-        JButton workOutButton = new JButton("Work Out");
-        JButton returnButton = new JButton("Return");
-        workOutButton.addActionListener(new WorkOutListener());
-        add(returnButton);
-        add(workOutButton);
+        gymOptions.add(workOutButton);
+        gymOptions.add(returnButton);
+        options.setOptions(gymOptions);
         updateUI();
     }
 
@@ -419,6 +430,16 @@ public class GUI extends JPanel {
         }
 
     }
+    
+    /** Class that listens for the Gym button. */
+    public class GoGymListener implements ActionListener {
+    	
+    	@Override
+    	public void actionPerformed(ActionEvent ignored) {
+    		goGym();
+    		repaint();
+    	}
+    }
 
     /** Class that listens for the Load Game button. */
     public class LoadGameListener implements ActionListener {
@@ -546,7 +567,7 @@ public class GUI extends JPanel {
 
         @Override
         public void actionPerformed(ActionEvent ignored) {
-            _game.startGym();
+            test();
             repaint();
         }
 
@@ -662,8 +683,8 @@ public class GUI extends JPanel {
     private JButton returnFromLoad, returnFromSave;
 
     /** Individual buttons with shortcut keys. */
-    private ShortcutButton classroomButton, courseButton, goButton,
-        restButton, returnButton, saveButton, testButton;
+    private ShortcutButton classroomButton, courseButton, goButton, gymButton,
+        restButton, returnButton, saveButton, testButton, workOutButton;
 
     /** Lists of buttons. */
     private ArrayList<JButton> saveSlots;
