@@ -120,6 +120,10 @@ public class GUI extends JPanel {
 
     /** Initializes all buttons to their defaults. */
     void initializeButtons() {
+    	allSkills = new ShortcutButton("All Skills (0)", '0');
+    	allSkills.addActionListener(new AllSkillsListener());
+    	battleSkills = new ShortcutButton("Battle Skills (1)", '1');
+    	battleSkills.addActionListener(new BattleSkillsListener());
         classroomButton = new ShortcutButton("Classroom (0)", '0');
         classroomButton.addActionListener(new GoClassroomListener());
         courseButton = new ShortcutButton("Courses (C)", 'c');
@@ -130,7 +134,7 @@ public class GUI extends JPanel {
         gymButton.addActionListener(new GoGymListener());
         saveButton = new ShortcutButton("Save (S)", 's');
         saveButton.addActionListener(new SaveListener());
-        skillsButton = new ShorcutButton("Skills (A)", 'a');
+        skillsButton = new ShortcutButton("Skills (A)", 'a');
         skillsButton.addActionListener(new SkillsListener());
         restButton = new ShortcutButton("Rest (R)", 'r');
         restButton.addActionListener(new RestListener());
@@ -187,6 +191,14 @@ public class GUI extends JPanel {
     /** Sets the game I am displaying to GAME. */
     void setGame(Game game) {
         _game = game;
+    }
+    
+    /** Allows the player to view either battle skills or all skills. */
+    void skills() {
+    	ArrayList<ShortcutButton> choices = new ArrayList<ShortcutButton>();
+        choices.add(allSkills);
+    	choices.add(battleSkills);
+        options.setOptions(choices);
     }
 
     /** Starts a new game session. */
@@ -306,7 +318,7 @@ public class GUI extends JPanel {
         ArrayList<ShortcutButton> schoolOptions = new ArrayList();
         add(new JLabel("What would you like to do?"));
         schoolOptions.add(goButton);
-        schoolOptions.addAll(skillsButton);
+        schoolOptions.add(skillsButton);
         schoolOptions.add(restButton);
         schoolOptions.add(saveButton);
         schoolOptions.add(testButton);
@@ -318,6 +330,37 @@ public class GUI extends JPanel {
 
     /* LISTENER INNER CLASSES. */
 
+    /** Class that listens for the All Skills Button. */
+    public class AllSkillsListener implements ActionListener {
+    	
+    	@Override
+    	public void actionPerformed(ActionEvent ignored) {
+    		ArrayList<ShortcutButton> skills = new ArrayList();
+    		ShortcutButton skill;
+    		for (char i = 0; i < _game.getPlayer().getSkills().size(); i += 1) {
+    			Skill spell = _game.getPlayer().getSkill(i);
+    			String description ="<html>" + spell.getName() + " "
+    			    + spell.getRank() + "<br>" + "Damage: " + spell.getDamage()
+    			    + "<br>" + "MP Cost: " + spell.getCost();
+    			skill = new ShortcutButton(description, i);
+    			skills.add(skill);
+    		}
+    		options.setOptions(skills);
+    		updateUI();
+    	}
+    	
+    }
+    
+    /** Class that listens for the Battle Skills Button. */
+    public class BattleSkillsListener implements ActionListener {
+    	
+    	@Override
+    	public void actionPerformed(ActionEvent ignored) {
+    		// TODO
+    	}
+    	
+    }
+    
     /** Class that listens for class selection. */
     public class ClassSelectionListener implements ItemListener {
 
@@ -556,6 +599,16 @@ public class GUI extends JPanel {
         }
 
     }
+    
+    /** Class that listens for the Skills button. */
+    public class SkillsListener implements ActionListener {
+    	
+    	@Override
+    	public void actionPerformed(ActionEvent ignored) {
+    		skills();
+    	}
+    	
+    }
 
     /** Class that listens for the Test button. */
     public class TestListener implements ActionListener {
@@ -689,7 +742,7 @@ public class GUI extends JPanel {
 
     /** Individual buttons with shortcut keys. */
     private ShortcutButton classroomButton, courseButton, goButton, gymButton,
-        restButton, returnButton, saveButton, testButton, workOutButton, skillsButton;
+        restButton, returnButton, saveButton, testButton, workOutButton, skillsButton, battleSkills, allSkills;
 
     /** Lists of buttons. */
     private ArrayList<JButton> saveSlots;

@@ -103,6 +103,16 @@ public class Player implements Serializable {
     Skill getSkill(int index) {
         return skills.get(index);
     }
+    
+    /** Returns the player's skills. */
+    ArrayList<Skill> getSkills() {
+    	return skills;
+    }
+    
+    /** Getter method for battleSkills. */
+    ArrayList<Skill> getBattleSkills() {
+    	return battleSkills;
+    }
 
     /** Prints the status of the player. */
     public void status() {

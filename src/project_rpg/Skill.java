@@ -79,6 +79,15 @@ public class Skill implements Serializable {
     public int getCost() {
         return mp;
     }
+    
+    /** Returns my damage. */
+    public int getDamage() {
+    	return damage;
+    }
+    
+    public int getRank() {
+    	return rank;
+    }
 
     /** Returns my description. */
     public String description() {
