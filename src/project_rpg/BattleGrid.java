@@ -44,6 +44,11 @@ public class BattleGrid extends JPanel {
         repaint();
     }
 
+    /** Returns true iff (X, Y) is in bounds. */
+    public boolean inBounds(int x, int y) {
+        return (x >= 0) && (y >= 0) && (x < WIDTH) && (y < HEIGHT);
+    }
+
     @Override
     public synchronized void paintComponent(Graphics g) {
         for (int x = 0; x < WIDTH; x += 1) {
@@ -90,16 +95,15 @@ public class BattleGrid extends JPanel {
 
     /** Returns true iff the player is adjacent to (X, Y). */
     boolean playerAdjacentTo(int x, int y) {
-        return (valid(x - 1, y) && playerToken == map[x - 1][y])
-            || (valid(x, y - 1) && playerToken == map[x][y - 1])
-            || (valid(x + 1, y) && playerToken == map[x + 1][y])
-            || (valid(x, y + 1) && playerToken == map[x][y + 1]);
+        return (inBounds(x - 1, y) && playerToken == map[x - 1][y])
+            || (inBounds(x, y - 1) && playerToken == map[x][y - 1])
+            || (inBounds(x + 1, y) && playerToken == map[x + 1][y])
+            || (inBounds(x, y + 1) && playerToken == map[x][y + 1]);
     }
 
     /** Returns true iff (X, Y) is a valid square. */
     boolean valid(int x, int y) {
-        return (x >= 0) && (y >= 0) && (x < WIDTH) && (y < HEIGHT)
-            && (map[x][y] == null);
+        return inBounds(x, y) && (map[x][y] == null);
     }
 
     /** Returns an Image from NAME. */
@@ -284,7 +288,7 @@ public class BattleGrid extends JPanel {
         @Override
         public void run() {
             while (true) {
-                if (System.currentTimeMillis() - lastAction > 500) {
+                if (System.currentTimeMillis() - lastAction > 250) {
                     if (playerAdjacentTo(_x, _y)) {
                         _player.reduceHealth(monsters.get(this).attack());
                         if (_player.isDead()) {
