@@ -27,7 +27,7 @@ public class BattleGrid extends JPanel {
         monsters = new HashMap<Token, Monster>();
         try {
             monsters.put(new Token("monster", 4, 4),
-                Monster.readMonster("Ice Dragon"));
+                Monster.readMonster("Ice Pig"));
         } catch (IOException exception) {
             TextInterpreter.error("Error reading monster file.");
         }
@@ -63,8 +63,10 @@ public class BattleGrid extends JPanel {
 
     /** Returns true iff the player is adjacent to (X, Y). */
     boolean playerAdjacentTo(int x, int y) {
-        return (playerToken == map[x - 1][y]) || (playerToken == map[x][y - 1])
-            || (playerToken == map[x + 1][y]) || (playerToken == map[x][y + 1]);
+        return (valid(x - 1, y) && playerToken == map[x - 1][y])
+            || (valid(x, y - 1) && playerToken == map[x][y - 1])
+            || (valid(x + 1, y) && playerToken == map[x + 1][y])
+            || (valid(x, y + 1) && playerToken == map[x][y + 1]);
     }
 
     /** Returns true iff (X, Y) is a valid square. */
@@ -157,6 +159,21 @@ public class BattleGrid extends JPanel {
             }
         }
 
+        /** Moves towards the player. */
+        void moveTowardsPlayer() {
+            if (playerToken.x() > _x) {
+                right();
+            } else if (playerToken.x() < _x) {
+                left();
+            } else {
+                if (playerToken.y() > _y) {
+                    down();
+                } else if (playerToken.y() < _y) {
+                    up();
+                }
+            }
+        }
+
         /** Returns my image. */
         public ImageIcon image() {
             return _image;
@@ -172,6 +189,8 @@ public class BattleGrid extends JPanel {
                             _gui.gameOver();
                             break;
                         }
+                    } else {
+                        moveTowardsPlayer();
                     }
                     _gui.refreshMenu();
                     lastAction = System.currentTimeMillis();
