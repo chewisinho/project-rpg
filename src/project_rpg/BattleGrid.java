@@ -147,19 +147,19 @@ public class BattleGrid extends JPanel {
                 playerToken.up();
                 break;
             case '\u0020':
-            	playerToken.attack();
-            	break;
+                playerToken.attack();
+                break;
             case (char) KeyEvent.VK_UP:
-            	playerToken.switchAttack1();
+                playerToken.switchAttack1();
                 break;
             case (char) KeyEvent.VK_DOWN:
-            	playerToken.switchAttack2();
+                playerToken.switchAttack2();
                 break;
             case (char) KeyEvent.VK_LEFT:
-            	playerToken.switchAttack3();
+                playerToken.switchAttack3();
                 break;
             case (char) KeyEvent.VK_RIGHT:
-            	playerToken.switchAttack4();
+                playerToken.switchAttack4();
             default:
                 break;
             }
@@ -230,30 +230,30 @@ public class BattleGrid extends JPanel {
                 repaint();
             }
         }
-        
+
         /** Attacks. */
         public void attack() {
-        	// TODO
+            // TODO
         }
-        
+
         /** Switches to Skill 1. */
         public void switchAttack1() {
-        	// TODO
+            // TODO
         }
-        
+
         /** Switches to Skill 2. */
         public void switchAttack2() {
-        	//TODO
+            //TODO
         }
-        
+
         /** Switches to Skill 3. */
         public void switchAttack3() {
-        	//TODO
+            //TODO
         }
-        
+
         /** Switches to Skill 4. */
         public void switchAttack4() {
-        	//TODO
+            //TODO
         }
 
         /** Moves towards the player. */

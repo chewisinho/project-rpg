@@ -689,7 +689,8 @@ public class GUI extends JPanel {
 
     /** Individual buttons with shortcut keys. */
     private ShortcutButton classroomButton, courseButton, goButton, gymButton,
-        restButton, returnButton, saveButton, testButton, workOutButton, skillsButton;
+        restButton, returnButton, saveButton, testButton, workOutButton,
+        skillsButton;
 
     /** Lists of buttons. */
     private ArrayList<JButton> saveSlots;
