@@ -16,18 +16,18 @@ import javax.swing.JPanel;
  */
 public class BattleGrid extends JPanel {
 
-    /** Initializes the battle grid. */
+    /** Initializes the battle grid with a PLAYER and a GUI. */
     public BattleGrid(Player player, GUI gui) {
         setPreferredSize(new Dimension(WIDTH * SQ_WIDTH, HEIGHT * SQ_HEIGHT));
         _gui = gui;
+        _player = player;
         addKeyListener(new PlayerControl());
         map = new Token[WIDTH][HEIGHT];
         playerToken = new Token("player", 0, 0);
-        _player = player;
         monsters = new HashMap<Token, Monster>();
         try {
             monsters.put(new Token("monster", 4, 4),
-                Monster.readMonster("Ice Pig"));
+                Monster.readMonster("Ice Dragon"));
         } catch (IOException exception) {
             TextInterpreter.error("Error reading monster file.");
         }
@@ -69,7 +69,7 @@ public class BattleGrid extends JPanel {
 
     /** Returns true iff (X, Y) is a valid square. */
     boolean valid(int x, int y) {
-    	return (x >= 0) && (y >= 0) && (x < WIDTH) && (y < HEIGHT)
+        return (x >= 0) && (y >= 0) && (x < WIDTH) && (y < HEIGHT)
             && (map[x][y] == null);
     }
 
@@ -96,6 +96,8 @@ public class BattleGrid extends JPanel {
                 break;
             case KeyEvent.VK_UP:
                 playerToken.up();
+                break;
+            default:
                 break;
             }
         }
@@ -168,6 +170,7 @@ public class BattleGrid extends JPanel {
                         _player.reduceHealth(monsters.get(this).attack());
                         if (_player.isDead()) {
                             _gui.gameOver();
+                            break;
                         }
                     }
                     _gui.refreshMenu();
@@ -180,7 +183,7 @@ public class BattleGrid extends JPanel {
         private int _x, _y;
 
         /** Contains my image. */
-        ImageIcon _image;
+        private ImageIcon _image;
 
         /** Contains the time of my last action. */
         private long lastAction;

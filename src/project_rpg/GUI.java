@@ -81,7 +81,9 @@ public class GUI extends JPanel {
 
     /** Produces a Game Over if the player dies. */
     void gameOver() {
+        _game = null;
         frame.getContentPane().removeAll();
+        removeAll();
         frame.getContentPane().add(BorderLayout.CENTER, this);
         start();
         JOptionPane.showMessageDialog(frame, "You died! Start a new game or "
@@ -102,11 +104,11 @@ public class GUI extends JPanel {
         _game.startClass();
         options.setOptions(new ArrayList<ShortcutButton>());
     }
-    
+
     /** Allows the player to go to the gym. */
     void goGym() {
-    	_game.startGym();
-    	options.setOptions(new ArrayList<ShortcutButton>());
+        _game.startGym();
+        options.setOptions(new ArrayList<ShortcutButton>());
     }
 
     /** Hides all of the menu bars. */
@@ -118,9 +120,9 @@ public class GUI extends JPanel {
 
     /** Initializes all buttons to their defaults. */
     void initializeButtons() {
-    	classroomButton = new ShortcutButton("Classroom (0)", '0');
+        classroomButton = new ShortcutButton("Classroom (0)", '0');
         classroomButton.addActionListener(new GoClassroomListener());
-    	courseButton = new ShortcutButton("Courses (C)", 'c');
+        courseButton = new ShortcutButton("Courses (C)", 'c');
         courseButton.addActionListener(new CourseListener());
         goButton = new ShortcutButton("Go (G)", 'g');
         goButton.addActionListener(new GoListener());
@@ -130,9 +132,9 @@ public class GUI extends JPanel {
         saveButton.addActionListener(new SaveListener());
         restButton = new ShortcutButton("Rest (R)", 'r');
         restButton.addActionListener(new RestListener());
-    	returnButton = new ShortcutButton("Return (R)", 'r');
+        returnButton = new ShortcutButton("Return (R)", 'r');
         returnButton.addActionListener(new ReturnListener());
-    	returnFromLoad = new JButton("Return");
+        returnFromLoad = new JButton("Return");
         returnFromLoad.addActionListener(new SaveSlotListener(0));
         returnFromSave = new JButton("Return");
         returnFromSave.addActionListener(new SaveSlotListener(-1));
@@ -286,7 +288,7 @@ public class GUI extends JPanel {
     /** Renders the game for the gym game state. */
     void paintGym() {
         lastSeen = GYM;
-    	removeAll();
+        removeAll();
         ArrayList<ShortcutButton> gymOptions = new ArrayList();
         add(new JLabel("What would you like to do?"));
         gymOptions.add(workOutButton);
@@ -312,7 +314,7 @@ public class GUI extends JPanel {
     }
 
     /* LISTENER INNER CLASSES. */
-    
+
     /** Class that listens for class selection. */
     public class ClassSelectionListener implements ItemListener {
 
@@ -336,46 +338,46 @@ public class GUI extends JPanel {
 
         @Override
         public void actionPerformed(ActionEvent ignored) {
-        	ArrayList<ShortcutButton> courses = new ArrayList();
+            ArrayList<ShortcutButton> courses = new ArrayList();
             char i = '0';
             ShortcutButton button;
-        	for (Course course : _game.getEnrolledCourses()) {
-        		button = new ShortcutButton(
-        				course.getTitle() + " (" + i + ")", i);
-        		button.addActionListener(new CourseSelectionListener(course));
-            	courses.add(button);
-            	i += 1;
+            for (Course course : _game.getEnrolledCourses()) {
+                button = new ShortcutButton(
+                        course.getTitle() + " (" + i + ")", i);
+                button.addActionListener(new CourseSelectionListener(course));
+                courses.add(button);
+                i += 1;
             }
             options.setOptions(courses);
         }
 
     }
-    
+
     /** Class that listens for the Course Selection button. */
     public class CourseSelectionListener implements ActionListener {
-    	
-    	/** Basic constructor that takes in a COURSE. */
-    	CourseSelectionListener(Course course) {
-    		_course = course;
-    	}
-    	
-    	@Override
-    	public void actionPerformed(ActionEvent ignored) {
-    		ArrayList<ShortcutButton> assignments = new ArrayList();
-    		ShortcutButton button;
-    		char i = '0';
-    		for (Assignment assignment : _course.getAssignments(
-    				_game.getWeek())) {
-    			button = new ShortcutButton(assignment.getTitle() +
-    				" (" + i + ")", (char) i);
-    			i += 1;
-    			assignments.add(button);
-    		}
-    		options.setOptions(assignments);
-    	}
-    	
-    	/** My course. */
-    	private Course _course;
+
+        /** Basic constructor that takes in a COURSE. */
+        CourseSelectionListener(Course course) {
+            _course = course;
+        }
+
+        @Override
+        public void actionPerformed(ActionEvent ignored) {
+            ArrayList<ShortcutButton> assignments = new ArrayList();
+            ShortcutButton button;
+            char i = '0';
+            for (Assignment assignment : _course.getAssignments(
+                    _game.getWeek())) {
+                button = new ShortcutButton(assignment.getTitle()
+                    + " (" + i + ")", (char) i);
+                i += 1;
+                assignments.add(button);
+            }
+            options.setOptions(assignments);
+        }
+
+        /** My course. */
+        private Course _course;
     }
 
     /** Class that listens for class enrollment. */
@@ -430,15 +432,15 @@ public class GUI extends JPanel {
         }
 
     }
-    
+
     /** Class that listens for the Gym button. */
     public class GoGymListener implements ActionListener {
-    	
-    	@Override
-    	public void actionPerformed(ActionEvent ignored) {
-    		goGym();
-    		repaint();
-    	}
+
+        @Override
+        public void actionPerformed(ActionEvent ignored) {
+            goGym();
+            repaint();
+        }
     }
 
     /** Class that listens for the Load Game button. */
@@ -474,22 +476,6 @@ public class GUI extends JPanel {
         public void actionPerformed(ActionEvent ignored) {
             rest();
             paintSchool();
-        }
-
-    }
-
-    /** Class that listens for the Rest shortcut. */
-    public class ShortcutKeyListener extends KeyAdapter {
-
-        @Override
-        public void keyTyped(KeyEvent event) {
-            System.out.print("" + event.getKeyChar());
-            if (event.getKeyChar() == '\u001B') {
-                lastSeen = null;
-                repaint();
-            } else {
-                keyPress(event.getKeyChar());
-            }
         }
 
     }
@@ -549,6 +535,22 @@ public class GUI extends JPanel {
 
         /** Contains the number of my button. */
         private int number;
+
+    }
+
+    /** Class that listens for the Rest shortcut. */
+    public class ShortcutKeyListener extends KeyAdapter {
+
+        @Override
+        public void keyTyped(KeyEvent event) {
+            System.out.print("" + event.getKeyChar());
+            if (event.getKeyChar() == '\u001B') {
+                lastSeen = null;
+                repaint();
+            } else {
+                keyPress(event.getKeyChar());
+            }
+        }
 
     }
 
