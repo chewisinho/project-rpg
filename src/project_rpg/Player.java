@@ -104,6 +104,16 @@ public class Player implements Serializable {
         return skills.get(index);
     }
 
+    /** Returns the player's skills. */
+    ArrayList<Skill> getSkills() {
+        return skills;
+    }
+
+    /** Returns battleSkills. */
+    ArrayList<Skill> getBattleSkills() {
+        return battleSkills;
+    }
+
     /** Prints the status of the player. */
     public void status() {
         System.out.printf("You have %s/%s HP remaining.\n", currHP, maxHP);
