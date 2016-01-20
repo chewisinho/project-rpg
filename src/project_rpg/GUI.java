@@ -335,7 +335,8 @@ public class GUI extends JPanel {
 
         @Override
         public void actionPerformed(ActionEvent ignored) {
-            ArrayList<ShortcutButton> skills = new ArrayList();
+            removeAll();
+        	ArrayList<ShortcutButton> skills = new ArrayList();
             ShortcutButton skill;
             for (char i = 0; i < _game.getPlayer().getSkills().size(); i += 1) {
                 Skill spell = _game.getPlayer().getSkill(i);
@@ -356,9 +357,40 @@ public class GUI extends JPanel {
 
         @Override
         public void actionPerformed(ActionEvent ignored) {
-            // TODO
+        	removeAll();
+            add(new JLabel("Please choose up to 4 active battle skills!"));
+            Vector<Skill> skillList = new Vector<Skill>(
+                _game.getPlayer().getSkills());
+            JComboBox<Skill> skills = new JComboBox<Skill>(skillList);
+            add(skills);
+            JTextArea skillDescription = new JTextArea(4, 30);
+            skillDescription.setLineWrap(true);
+            skillDescription.setEditable(false);
+            skillDescription.setText(skillList.get(0).description() + "\n"
+            		+ "Damage: " + skillList.get(0).getDamage()
+            		+ "\n MP Cost:" + skillList.get(0).getCost());
+            skills.addItemListener(new SkillSelectionListener(skillDescription));
+            JScrollPane scroller = new JScrollPane(skillDescription);
+            scroller.setHorizontalScrollBarPolicy(
+                ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+            scroller.setVerticalScrollBarPolicy(
+                ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+            add(scroller);
+            JButton chooseSkill = new JButton("I choose this skill!");
+            chooseSkill.addActionListener(new ChooseSkillListener());
+            add(chooseSkill);
+            updateUI();
         }
 
+    }
+    
+    /** Class that listens for the Choose Skill button. */
+    public class ChooseSkillListener implements ActionListener {
+    	
+    	@Override 
+    	public void actionPerformed(ActionEvent ignored) {
+    		//TODO
+    	}
     }
 
     /** Class that listens for class selection. */
@@ -607,6 +639,26 @@ public class GUI extends JPanel {
         public void actionPerformed(ActionEvent ignored) {
             skills();
         }
+
+    }
+    
+    /** Class that listens for class selection. */
+    public class SkillSelectionListener implements ItemListener {
+
+        /** Constructor that takes in a TEXTBOX to update. */
+        public SkillSelectionListener(JTextArea textBox) {
+            text = textBox;
+        }
+
+        @Override
+        public void itemStateChanged(ItemEvent event) {
+            text.setText(((Skill) event.getItem()).description() + "\n"
+            		+ "Damage: " + ((Skill) event.getItem()).getDamage()
+            		+ "\n MP Cost:" + ((Skill) event.getItem()).getCost());
+        }
+
+        /** The text box that I update. */
+        private JTextArea text;
 
     }
 

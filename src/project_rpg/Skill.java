@@ -94,6 +94,11 @@ public class Skill implements Serializable {
     public String description() {
         return _name + ": " + _description;
     }
+    
+    @Override
+    public String toString() {
+    	return _name + " " + rank;
+    }
 
     /** Returns the skill NAME from the database. */
     public static Skill readSkill(String name) throws IOException {
