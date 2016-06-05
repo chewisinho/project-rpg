@@ -110,8 +110,13 @@ public class Player implements Serializable {
     }
 
     /** Returns battleSkills. */
-    ArrayList<Skill> getBattleSkills() {
+    Skill[] getBattleSkills() {
         return battleSkills;
+    }
+    
+    /** Changes a battle SKILL at INDEX. */
+    void changeBattleSkill(int index, Skill skill) {
+    	battleSkills[index] = skill;
     }
 
     /** Prints the status of the player. */
@@ -136,6 +141,6 @@ public class Player implements Serializable {
     private ArrayList<Assignment> pastAssignments = new ArrayList<Assignment>();
 
     /** An array of skills that the player can bring to battle. */
-    private ArrayList<Skill> battleSkills = new ArrayList<Skill>();
+    private Skill[] battleSkills = new Skill[4];
 
 }

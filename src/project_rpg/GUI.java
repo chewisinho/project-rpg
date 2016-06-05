@@ -120,10 +120,10 @@ public class GUI extends JPanel {
 
     /** Initializes all buttons to their defaults. */
     void initializeButtons() {
-        allSkills = new ShortcutButton("All Skills (0)", '0');
-        allSkills.addActionListener(new AllSkillsListener());
-        battleSkills = new ShortcutButton("Battle Skills (1)", '1');
-        battleSkills.addActionListener(new BattleSkillsListener());
+    	changeSkill1 = new ShortcutButton("Change up skill (0)", '0');
+    	changeSkill2 = new ShortcutButton("Change down skill (1)", '1');
+    	changeSkill3 = new ShortcutButton("Change left skill (2)", '2');
+    	changeSkill4 = new ShortcutButton("Change right skill (3)", '3');
         classroomButton = new ShortcutButton("Classroom (0)", '0');
         classroomButton.addActionListener(new GoClassroomListener());
         courseButton = new ShortcutButton("Courses (C)", 'c');
@@ -195,10 +195,41 @@ public class GUI extends JPanel {
 
     /** Allows the player to view either battle skills or all skills. */
     void skills() {
-        ArrayList<ShortcutButton> choices = new ArrayList<ShortcutButton>();
-        choices.add(allSkills);
-        choices.add(battleSkills);
-        options.setOptions(choices);
+    	removeAll();
+        add(new JLabel("Here are your skills."));
+        Vector<Skill> skillList = new Vector<Skill>(
+            _game.getPlayer().getSkills());
+        JComboBox<Skill> skills = new JComboBox<Skill>(skillList);
+        JComboBox<Skill> battleSkills = new JComboBox<Skill>(
+        		_game.getPlayer().getBattleSkills());
+        add(skills);
+        add(battleSkills);
+        JTextArea skillDescription = new JTextArea(4, 30);
+        skillDescription.setLineWrap(true);
+        skillDescription.setEditable(false);
+        skillDescription.setText(skillList.get(0).description() + "\n"
+        		+ "Damage: " + skillList.get(0).getDamage()
+        		+ "\n MP Cost:" + skillList.get(0).getCost());
+        skills.addItemListener(new SkillSelectionListener(skillDescription));
+        battleSkills.addItemListener(new SkillSelectionListener(
+        		skillDescription));
+        JScrollPane scroller = new JScrollPane(skillDescription);
+        scroller.setHorizontalScrollBarPolicy(
+            ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        scroller.setVerticalScrollBarPolicy(
+            ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+        add(scroller);
+    	ArrayList<ShortcutButton> changeSkills = new ArrayList();
+    	changeSkills.add(changeSkill1);
+    	changeSkill1.addActionListener(new ChangeSkillListener(1, skills));
+    	changeSkills.add(changeSkill2);
+    	changeSkill2.addActionListener(new ChangeSkillListener(2, skills));
+    	changeSkills.add(changeSkill3);
+    	changeSkill3.addActionListener(new ChangeSkillListener(3, skills));
+    	changeSkills.add(changeSkill4);
+    	changeSkill4.addActionListener(new ChangeSkillListener(4, skills));
+        options.setOptions(changeSkills);
+        updateUI();
     }
 
     /** Starts a new game session. */
@@ -330,67 +361,30 @@ public class GUI extends JPanel {
 
     /* LISTENER INNER CLASSES. */
 
-    /** Class that listens for the All Skills Button. */
-    public class AllSkillsListener implements ActionListener {
-
-        @Override
-        public void actionPerformed(ActionEvent ignored) {
-            removeAll();
-        	ArrayList<ShortcutButton> skills = new ArrayList();
-            ShortcutButton skill;
-            for (char i = 0; i < _game.getPlayer().getSkills().size(); i += 1) {
-                Skill spell = _game.getPlayer().getSkill(i);
-                String description = "<html>" + spell.getName() + " "
-                    + spell.getRank() + "<br>" + "Damage: " + spell.getDamage()
-                    + "<br>" + "MP Cost: " + spell.getCost();
-                skill = new ShortcutButton(description, i);
-                skills.add(skill);
-            }
-            options.setOptions(skills);
-            updateUI();
-        }
-
-    }
-
-    /** Class that listens for the Battle Skills Button. */
-    public class BattleSkillsListener implements ActionListener {
-
-        @Override
-        public void actionPerformed(ActionEvent ignored) {
-        	removeAll();
-            add(new JLabel("Please choose up to 4 active battle skills!"));
-            Vector<Skill> skillList = new Vector<Skill>(
-                _game.getPlayer().getSkills());
-            JComboBox<Skill> skills = new JComboBox<Skill>(skillList);
-            add(skills);
-            JTextArea skillDescription = new JTextArea(4, 30);
-            skillDescription.setLineWrap(true);
-            skillDescription.setEditable(false);
-            skillDescription.setText(skillList.get(0).description() + "\n"
-            		+ "Damage: " + skillList.get(0).getDamage()
-            		+ "\n MP Cost:" + skillList.get(0).getCost());
-            skills.addItemListener(new SkillSelectionListener(skillDescription));
-            JScrollPane scroller = new JScrollPane(skillDescription);
-            scroller.setHorizontalScrollBarPolicy(
-                ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-            scroller.setVerticalScrollBarPolicy(
-                ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
-            add(scroller);
-            JButton chooseSkill = new JButton("I choose this skill!");
-            chooseSkill.addActionListener(new ChooseSkillListener());
-            add(chooseSkill);
-            updateUI();
-        }
-
-    }
-    
-    /** Class that listens for the Choose Skill button. */
-    public class ChooseSkillListener implements ActionListener {
+    /** Class that listens for the ChangeSkill Button. */
+    public class ChangeSkillListener implements ActionListener {
     	
-    	@Override 
-    	public void actionPerformed(ActionEvent ignored) {
-    		//TODO
+    	/** Constructor that takes in battle skill NUMBER. */
+    	public ChangeSkillListener(int number, JComboBox<Skill> box) {
+    		_number = number - 1;
+    		_box = box;
     	}
+    	
+    	// Bug where it apparently runs at an exponential rate when changing skills. 
+    	@Override
+    	public void actionPerformed(ActionEvent ignored) {
+    		Skill skill = (Skill) _box.getSelectedItem();
+    		System.out.println(_game.getPlayer().getBattleSkills()[_number]);
+    		_game.getPlayer().changeBattleSkill(_number, skill);
+    		System.out.println(_game.getPlayer().getBattleSkills()[_number]);
+    		skills();
+    	}
+    	
+    	/** My skill number. */
+    	private int _number;
+    	
+    	/** My box. */
+    	private JComboBox<Skill> _box;
     }
 
     /** Class that listens for class selection. */
@@ -793,9 +787,10 @@ public class GUI extends JPanel {
     private JButton returnFromLoad, returnFromSave;
 
     /** Individual buttons with shortcut keys. */
-    private ShortcutButton allSkills, battleSkills, classroomButton,
-        courseButton, goButton, gymButton, restButton, returnButton, saveButton,
-        skillsButton, testButton, workOutButton;
+    private ShortcutButton changeSkill1, changeSkill2, changeSkill3,
+        changeSkill4,classroomButton, courseButton, goButton, gymButton,
+        restButton, returnButton, saveButton, skillsButton, testButton,
+        workOutButton;
 
     /** Lists of buttons. */
     private ArrayList<JButton> saveSlots;

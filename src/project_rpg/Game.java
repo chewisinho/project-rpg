@@ -40,6 +40,10 @@ public class Game implements Serializable {
         Skill punch = Skill.readSkill("Punch");
         player.addSkill(meditate);
         player.addSkill(punch);
+        for (int i = 0; i < player.getSkills().size() &&
+        		i < player.getBattleSkills().length; i += 1) {
+        	player.changeBattleSkill(i, player.getSkill(i));
+        }
     }
 
     /** Clears the current assignment. */
