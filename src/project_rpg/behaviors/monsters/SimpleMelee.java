@@ -21,7 +21,7 @@ public class SimpleMelee extends Token {
 		disappear();
 		break;
 	    }
-            if (System.currentTimeMillis() - lastAction > 250) {
+            if (System.currentTimeMillis() - lastAction > 500) {
                 if (_grid.playerAdjacentTo(_x, _y)) {
                     _grid._player.reduceHealth(_grid.monsters.get(this).attack());
                     if (_grid._player.isDead()) {

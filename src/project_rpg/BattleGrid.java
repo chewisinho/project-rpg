@@ -37,8 +37,14 @@ public class BattleGrid extends JPanel {
         monsters = new HashMap<Token, Monster>();
         try {
 	    Monster monster = Monster.readMonster("Ice Pig");
+	    Monster monster2 = Monster.readMonster("Ice Pig");
+	    Monster monster3 = Monster.readMonster("Ice Pig");
             monsters.put(new SimpleMelee("monster", 4, 4, this, monster),
                 monster);
+            monsters.put(new SimpleMelee("monster", 1, 5, this, monster2),
+                monster2);
+            monsters.put(new SimpleMelee("monster", 5, 1, this, monster3),
+                monster3);
         } catch (IOException exception) {
             TextInterpreter.error("Error reading monster file.");
         }
