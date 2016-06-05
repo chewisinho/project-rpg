@@ -53,5 +53,5 @@ The game is currently a work-in-progress, with a text-based interface.
 * ~~player orientation~~
 * allow player to cast Fireball
 * make Fireball damage monster
-* make monster die when HP is 0
+* ~~make monster die when HP is 0~~
 * allow player to choose battle skills
