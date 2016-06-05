@@ -13,6 +13,7 @@ import java.awt.event.KeyEvent;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Vector;
+
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
@@ -22,6 +23,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.ScrollPaneConstants;
+
 import static project_rpg.GameState.*;
 
 /** Displays an interactive GUI for the game.
@@ -222,6 +224,11 @@ public class GUI extends JPanel {
         BattleGrid testDungeon = new BattleGrid(_game.getPlayer(), this);
         add(testDungeon);
         testDungeon.requestFocusInWindow();
+    }
+
+    /** Adds MESSAGE to the Menu Bar. */
+    public void updateMenuBar(String message) {
+	menu.addMessage(message);
     }
 
     /* PAINT METHODS FOR EACH GAME STATE. */
@@ -692,7 +699,7 @@ public class GUI extends JPanel {
         public MenuBar() {
             status = new JTextArea();
             notifications = new JTextArea(6, 40);
-            notifications.setText("Welcome to Project RPG!");
+            notifications.setText("Welcome to Project RPG!\n");
             notifications.setEditable(false);
             notifications.setLineWrap(true);
             time = new JTextArea();
@@ -701,11 +708,18 @@ public class GUI extends JPanel {
                 ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
             scroller.setVerticalScrollBarPolicy(
                 ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+	    new SmartScroller(scroller);
             add(status);
             add(scroller);
             add(time);
             repaint();
         }
+
+	/** Adds MESSAGE to the text box. */
+	void addMessage(String message) {
+	    notifications.append(message + "\n");
+	    repaint();
+	}
 
         @Override
         public synchronized void paintComponent(Graphics g) {

@@ -36,9 +36,10 @@ public class StraightLine extends Token {
 		} else if (_grid.monsters.containsKey(_grid.map[newX][newY])) {
 		    Monster monster = _grid.monsters.get(_grid.map[newX][newY]);
 		    monster.reduceHealth(5);
-		    if (monster.isDead()) {
-				
-		    }
+		    _grid._gui.updateMenuBar("The spell did 5 damage to "
+			+ monster.getName()
+			+ "! " + monster.getName()
+			+ " has " + monster.getHP() + " HP remaining.");
 		    disappear();
 		    return;
 		} else {

@@ -61,13 +61,18 @@ public class Monster implements Serializable {
     }
 
     /** Returns my name. */
-    String getName() {
+    public String getName() {
         return _name;
     }
 
     /** Returns the name of my attack. */
     String getAttackName() {
         return _attackName;
+    }
+
+    /** Returns the current HP level. */
+    public int getHP() {
+	return hp;
     }
 
     /** Returns a monster with NAME read from the database file. */
