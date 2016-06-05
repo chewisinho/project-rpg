@@ -39,7 +39,7 @@ public class Player implements Serializable {
     }
 
     /** Reduces my health by AMOUNT. */
-    void reduceHealth(int amount) {
+    public void reduceHealth(int amount) {
         currHP -= amount;
     }
 

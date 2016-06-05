@@ -80,7 +80,7 @@ public class GUI extends JPanel {
     }
 
     /** Produces a Game Over if the player dies. */
-    void gameOver() {
+    public void gameOver() {
         _game = null;
         frame.getContentPane().removeAll();
         removeAll();
@@ -162,7 +162,7 @@ public class GUI extends JPanel {
     }
 
     /** Refreshes the menu bar. */
-    void refreshMenu() {
+    public void refreshMenu() {
         menu.repaint();
     }
 
