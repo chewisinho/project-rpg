@@ -3,4 +3,5 @@
 
 # Vim backups
 *~
+*.swp
 

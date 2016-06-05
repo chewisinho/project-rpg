@@ -5,6 +5,7 @@ import java.awt.image.BufferedImage;
 import javax.swing.ImageIcon;
 
 import project_rpg.BattleGrid;
+import project_rpg.behaviors.skills.StraightLine;
 import static project_rpg.BattleGrid.RIGHT_ANGLE;
 
 /** Represents a token on the _grid.map.
@@ -74,9 +75,29 @@ public class Token implements Runnable {
         }
     }
 
+    /** Removes the token from the map. */
+    protected void disappear() {
+	_grid.map[_x][_y] = null;
+    }
+
     /** Attacks. */
     public void attack() {
-        // TODO
+	int[] dir = orientationToArray(orientation);
+	int x = _x + dir[0], y = _y + dir[1];
+	if (_grid.valid(x, y)) {
+	    Token token = new StraightLine(
+	        "player",
+		x,
+		y,
+		_grid,
+		dir[0],
+		dir[1]
+	    );
+	    token.orientation = orientation;
+	    _grid.map[x][y] = token;
+	    new Thread(token).start();
+	    _grid.repaint();
+	}
     }
 
     /** Switches to Skill 1. */
@@ -100,7 +121,7 @@ public class Token implements Runnable {
     }
 
     /** Moves towards the player. */
-    void moveTowardsPlayer() {
+    public void moveTowardsPlayer() {
         if (_grid.playerToken.x() > _x) {
             right();
         } else if (_grid.playerToken.x() < _x) {
@@ -143,11 +164,35 @@ public class Token implements Runnable {
         }
     }
 
+    /** Takes an ORIENTATION and returns an integer array representing the
+     *  direction.
+     */
+    public static int[] orientationToArray(int orientation) {
+	int[] direction = { 0, 0 };
+	switch (orientation) {
+	case 0:
+	    direction[0] = 1;
+	    break;
+	case RIGHT_ANGLE:
+	    direction[1] = 1;
+	    break;
+	case RIGHT_ANGLE * 2:
+	    direction[0] = -1;
+	    break;
+	case RIGHT_ANGLE * 3:
+	    direction[1] = -1;
+	    break;
+	default:
+	    break;
+	}
+	return direction;
+    }
+
     /** My coordinates and orientation. */
-    private int _x, _y, orientation;
+    protected int _x, _y, orientation;
 
     /** Contains the BattleGrid in which the Token is found. */
-    private BattleGrid _grid;
+    protected BattleGrid _grid;
 
     /** Contains my image. */
     private ImageIcon _image;
@@ -156,7 +201,7 @@ public class Token implements Runnable {
     private BufferedImage buffered;
 
     /** Contains the time of my last action. */
-    private long lastAction;
+    protected long lastAction;
 
 }
 

@@ -17,6 +17,8 @@ import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
 import project_rpg.behaviors.Token;
+import project_rpg.behaviors.monsters.SimpleMelee;
+import project_rpg.behaviors.skills.StraightLine;
 
 /** Displays the battle screen.
  *  @author S. Chewi, T. Nguyen, A. Tran
@@ -34,8 +36,9 @@ public class BattleGrid extends JPanel {
         playerToken = new Token("player", 0, 0, this);
         monsters = new HashMap<Token, Monster>();
         try {
-            monsters.put(new Token("monster", 4, 4, this),
-                Monster.readMonster("Ice Pig"));
+	    Monster monster = Monster.readMonster("Ice Pig");
+            monsters.put(new SimpleMelee("monster", 4, 4, this, monster),
+                monster);
         } catch (IOException exception) {
             TextInterpreter.error("Error reading monster file.");
         }
@@ -185,8 +188,9 @@ public class BattleGrid extends JPanel {
     /** Contains the player. */
     public Player _player;
 
-    /** Contains the monsters and their tokens. */
+    /** Contains the monsters/spells and their tokens. */
     public HashMap<Token, Monster> monsters;
+    // public HashMap<Token, Spell> skills;
 
     /** Represents a pi/2 rotation. */
     AffineTransformOp rotation;

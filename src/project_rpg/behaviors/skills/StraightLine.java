@@ -1,6 +1,7 @@
-package project_rpg.behaviors.spells;
+package project_rpg.behaviors.skills;
 
 import project_rpg.BattleGrid;
+import project_rpg.Monster;
 import project_rpg.behaviors.Token;
 
 /** Controls the behavior for a spell that moves in a straight line.
@@ -22,6 +23,30 @@ public class StraightLine extends Token {
 	super(image, x, y, grid);
 	this.dirX = dirX;
 	this.dirY = dirY;
+    }
+
+    @Override
+    public void run() {
+	while (true) {
+	    if (System.currentTimeMillis() - lastAction > 250) {
+		int newX = _x + dirX, newY = _y + dirY;
+		if (!_grid.inBounds(newX, newY)) {
+		    disappear();
+		    return;
+		} else if (_grid.monsters.containsKey(_grid.map[newX][newY])) {
+		    Monster monster = _grid.monsters.get(_grid.map[newX][newY]);
+		    monster.reduceHealth(5);
+		    if (monster.isDead()) {
+				
+		    }
+		    disappear();
+		    return;
+		} else {
+		    move(newX, newY);
+		    lastAction = System.currentTimeMillis();
+		}
+	    }
+	}
     }
 
     /** The direction of movement of the spell. */
