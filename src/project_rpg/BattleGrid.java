@@ -36,9 +36,9 @@ public class BattleGrid extends JPanel {
         playerToken = new Token("player", 0, 0, this);
         monsters = new HashMap<Token, Monster>();
         try {
-	    Monster monster = Monster.readMonster("Ice Pig");
-	    Monster monster2 = Monster.readMonster("Ice Pig");
-	    Monster monster3 = Monster.readMonster("Ice Pig");
+	    Monster monster = Monster.readFromJson("ice_pig");
+	    Monster monster2 = Monster.readFromJson("ice_pig");
+	    Monster monster3 = Monster.readFromJson("ice_pig");
             monsters.put(new SimpleMelee("monster", 4, 4, this, monster),
                 monster);
             monsters.put(new SimpleMelee("monster", 1, 5, this, monster2),

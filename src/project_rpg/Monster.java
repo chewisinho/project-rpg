@@ -77,6 +77,18 @@ public class Monster implements Serializable {
 	return hp;
     }
 
+    /** Returns a monster created from the JSON file NAME. */
+    public static Monster readFromJson(String name) throws IOException {
+	BufferedReader input = new BufferedReader(new FileReader(new File(
+            "project_rpg" + File.separator + "database" + File.separator
+            + "monsters" + File.separator + name + ".json")));
+	Gson parser = new Gson();
+        Monster monster = parser.fromJson(input, Monster.class);
+	System.out.println(monster.hp);
+        input.close();
+	return monster;
+    }
+
     /** Returns a monster with NAME read from the database file. */
     public static Monster readMonster(String name) throws IOException {
         BufferedReader input = new BufferedReader(new FileReader(new File(
