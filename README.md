@@ -6,6 +6,18 @@ Welcome to Project RPG, an innovative RPG envisioned by Sinho Chewi and Alexande
 
 The game is currently a work-in-progress, with a text-based interface.
 
+# Instructions
+
+## Compilation
+
+Navigate to the `src` directory and simply use the command:
+    $ make
+
+## Running the Game
+
+Navigate to the `src` directory and use the command:
+    $ make run
+
 # Task List
 
 **Enrollment**
@@ -55,3 +67,4 @@ The game is currently a work-in-progress, with a text-based interface.
 * make Fireball damage monster
 * ~~make monster die when HP is 0~~
 * allow player to choose battle skills
+

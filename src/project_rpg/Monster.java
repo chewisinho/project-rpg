@@ -7,6 +7,8 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.util.Random;
 
+import com.google.gson.Gson;
+
 /** Represents a monster class.
  *  @author S. Chewi, T. Nguyen, A. Tran
  */
@@ -100,3 +102,4 @@ public class Monster implements Serializable {
     protected static final double VARIABILITY = 0.1, ATTACK_VARIABILITY = 0.25;
 
 }
+
