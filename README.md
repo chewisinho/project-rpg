@@ -11,11 +11,13 @@ The game is currently a work-in-progress, with a text-based interface.
 ## Compilation
 
 Navigate to the `src` directory and simply use the command:
+
     $ make
 
 ## Running the Game
 
 Navigate to the `src` directory and use the command:
+
     $ make run
 
 # Task List
