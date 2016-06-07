@@ -7,18 +7,25 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.util.Random;
 
-import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 
 /** Represents a monster class.
  *  @author S. Chewi, T. Nguyen, A. Tran
  */
 public class Monster implements Serializable {
 
-    /** Creates a monster with MONSTERHP, MONSTERMP, and MONSTERDAMAGE. Also
-     *  takes in a NAME, DESCRIPTION, and ATTACKNAME.
+    /** Creates a new Monster with the following attributes: ATTACKNAME, DESCRIPTION, MONSTERDAMAGE, MONSTERHP,
+     *  MONSTERMP, and NAME. Uses the spread method to introduce variability in its attributes.
      */
-    public Monster(int monsterHP, int monsterMP, int monsterDamage, String name,
-        String description, String attackName) {
+    public Monster(
+            String attackName,
+            String description,
+            int monsterDamage,
+            int monsterHP,
+            int monsterMP,
+            String name
+        ) {
         hp = spread(monsterHP);
         mp = spread(monsterMP);
         damage = spread(monsterDamage);
@@ -27,91 +34,73 @@ public class Monster implements Serializable {
         _attackName = attackName;
     }
 
-    /** Creates a monster from the database LINE. */
-    public Monster(String[] line) {
-        this(Integer.parseInt(line[2]), Integer.parseInt(line[3]),
-            Integer.parseInt(line[5]), line[0], line[1], line[4]);
-    }
-
-    /** Returns a sample from a Gaussian distribution with MEAN and
-     *  STANDARDDEVIATION.
-     */
-    public static int spread(int mean, double standardDeviation) {
-        return (int) (mean + standardDeviation * new Random().nextGaussian());
-    }
-
-    /** Returns a sample from a Gaussian distribution with MEAN, using the
-     *  variability ratio.
-     */
-    public static int spread(int mean) {
-        return spread(mean, VARIABILITY * mean);
-    }
-
-    /** Returns damage caused by my attack. */
+    /** Returns damage caused by an attack. */
     public int attack() {
         return spread(damage);
     }
 
-    /** Cause DAMAGEAMOUNT to me. */
-    public void reduceHealth(int damageAmount) {
-        hp -= damageAmount;
-    }
-
-    /** Returns true iff I am dead. */
-    public boolean isDead() {
-        return hp <= 0;
-    }
-
-    /** Returns my name. */
-    public String getName() {
-        return _name;
-    }
-
-    /** Returns the name of my attack. */
+    /** Returns the attack name of the monster.. */
     String getAttackName() {
         return _attackName;
     }
 
+    /** Returns the name of the monster. */
+    public String getName() {
+        return _name;
+    }
+
     /** Returns the current HP level. */
     public int getHP() {
-	return hp;
+        return hp;
+    }
+
+    /** Returns true iff the monster is dead. */
+    public boolean isDead() {
+        return hp <= 0;
+    }
+
+    /** Causes DAMAGEAMOUNT to the monster. */
+    public void reduceHealth(int damageAmount) {
+        hp -= damageAmount;
     }
 
     /** Returns a monster created from the JSON file NAME. */
     public static Monster readFromJson(String name) throws IOException {
-	BufferedReader input = new BufferedReader(new FileReader(new File(
-            "project_rpg" + File.separator + "database" + File.separator
-            + "monsters" + File.separator + name + ".json")));
-	Gson parser = new Gson();
-        Monster monster = parser.fromJson(input, Monster.class);
-	System.out.println(monster.hp);
-        input.close();
-	return monster;
-    }
-
-    /** Returns a monster with NAME read from the database file. */
-    public static Monster readMonster(String name) throws IOException {
         BufferedReader input = new BufferedReader(new FileReader(new File(
             "project_rpg" + File.separator + "database" + File.separator
-            + "monsters.db")));
-        Monster result = null;
-        String[] line;
-        while (!(line = input.readLine().split("=="))[0].equals(name)) {
-            continue;
-        }
+            + "monsters" + File.separator + name + ".json")));
+        JsonParser parser = new JsonParser();
+        JsonObject attrTree = (JsonObject) parser.parse(input);
+        Monster monster = new Monster(
+            attrTree.get("_attackName").getAsString(),
+            attrTree.get("_description").getAsString(),
+            attrTree.get("damage").getAsInt(),
+            attrTree.get("hp").getAsInt(),
+            attrTree.get("mp").getAsInt(),
+            attrTree.get("_name").getAsString()
+        );
         input.close();
-        result = new Monster(line);
-        return result;
+        return monster;
+    }
+
+    /** Returns a sample from a Gaussian distribution with MEAN and STANDARDDEVIATION. */
+    public static int spread(int mean, double standardDeviation) {
+        return (int) (mean + standardDeviation * new Random().nextGaussian());
+    }
+
+    /** Returns a sample from a Gaussian distribution with MEAN, using the variability ratio. */
+    public static int spread(int mean) {
+        return spread(mean, VARIABILITY * mean);
     }
 
     /** Contains the monster's instance variables. */
-    protected int hp, mp, damage;
+    protected int damage, hp, mp;
 
     /** Contains the description of the monster. */
-    protected String _name, _description, _attackName;
+    protected String _attackName, _description, _name;
 
     /** Contains the innate variability for a typical monster. */
-    protected static final double VARIABILITY = 0.1, ATTACK_VARIABILITY = 0.25;
+    protected static final double ATTACK_VARIABILITY = 0.25, VARIABILITY = 0.1;
 
 }
 

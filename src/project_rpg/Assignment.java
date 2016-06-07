@@ -40,13 +40,14 @@ public class Assignment implements Serializable {
         _description = line[1];
         course = parent;
         _monsters = new ArrayList<Monster>();
-        try {
-            for (int index = 2; index < line.length; index += 1) {
-                _monsters.add(Monster.readMonster(line[index]));
-            }
-        } catch (IOException exception) {
-            TextInterpreter.error("Error reading monster file.");
-        }
+        // try {
+            // for (int index = 2; index < line.length; index += 1) {
+                // _monsters.add(Monster.readMonster(line[index]));
+                // TODO: Fix to include new method of monster serialization.
+            // }
+        // } catch (IOException exception) {
+            // TextInterpreter.error("Error reading monster file.");
+        // }
     }
 
     /** Returns title of the assignment. */
@@ -88,3 +89,4 @@ public class Assignment implements Serializable {
     private Course course;
 
 }
+
