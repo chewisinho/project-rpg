@@ -9,8 +9,8 @@ import project_rpg.behaviors.Token;
  */
 public class SimpleMelee extends Token {
 
-    public SimpleMelee(String image, int x, int y, BattleGrid grid, Monster monster) {
-	super(image, x, y, grid);
+    public SimpleMelee(BattleGrid grid, int x, int y, Monster monster) {
+	super(grid, x, y, monster.getImage());
 	_monster = monster;
     }
 

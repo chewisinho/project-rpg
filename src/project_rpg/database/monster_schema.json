@@ -1,6 +1,8 @@
 {
     "_attackName": "string",
+    "_behavior": "string",
     "_description": "string",
+    "_image": "string",
     "_name": "string",
     "damage": 0,
     "hp": 0,

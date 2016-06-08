@@ -1,5 +1,10 @@
 package project_rpg;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -9,7 +14,9 @@ import java.awt.event.KeyEvent;
 import java.awt.geom.AffineTransform;
 import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
 import java.util.HashMap;
 
@@ -20,37 +27,59 @@ import project_rpg.behaviors.Token;
 import project_rpg.behaviors.monsters.SimpleMelee;
 import project_rpg.behaviors.skills.StraightLine;
 
+
 /** Displays the battle screen.
  *  @author S. Chewi, T. Nguyen, A. Tran
  */
 public class BattleGrid extends JPanel {
 
     /** Initializes the battle grid with a PLAYER and a GUI. */
-    public BattleGrid(Player player, GUI gui) {
+    public BattleGrid(GUI gui, Player player, String dungeon) {
         setPreferredSize(new Dimension(WIDTH * SQ_WIDTH, HEIGHT * SQ_HEIGHT));
         _gui = gui;
         _player = player;
-        rotation = makeRotation(RIGHT_ANGLE);
         addKeyListener(new PlayerControl());
+
+        // Initialize the dungeon.
         map = new Token[WIDTH][HEIGHT];
-        playerToken = new Token("player", 0, 0, this);
         monsters = new HashMap<Token, Monster>();
         try {
-	    Monster monster = Monster.readFromJson("ice_pig");
-	    Monster monster2 = Monster.readFromJson("ice_pig");
-	    Monster monster3 = Monster.readFromJson("ice_pig");
-            monsters.put(new SimpleMelee("monster", 4, 4, this, monster),
-                monster);
-            monsters.put(new SimpleMelee("monster", 1, 5, this, monster2),
-                monster2);
-            monsters.put(new SimpleMelee("monster", 5, 1, this, monster3),
-                monster3);
+            BufferedReader input = new BufferedReader(new FileReader(new File(
+                "project_rpg" + File.separator + "database" + File.separator
+                + "dungeons" + File.separator + dungeon + ".json")));
+            JsonParser parser = new JsonParser();
+            JsonObject attrTree = (JsonObject) parser.parse(input);
+            JsonArray layout = attrTree.get("layout").getAsJsonArray();
+            int col = 0, row = 0;
+            for (JsonElement rowElem : layout) {
+                col = 0;
+                JsonArray rowLayout = (JsonArray) rowElem;
+                for (JsonElement element : rowLayout) {
+                    String identifier = element.getAsString();
+                    if (identifier.equals("player")) {
+                        playerToken = new Token(this, 0, 0, "player");
+                    } else if (identifier.equals("null")) {
+                        map[col][row] = null;
+                    } else {
+                        Monster monster = Monster.readFromJson(identifier);
+                        Token token = GetMonsterToken.getToken(this, col, row, monster);
+                        monsters.put(token, monster);
+                    }
+                    col += 1;
+                }
+                row += 1;
+            }
         } catch (IOException exception) {
             TextInterpreter.error("Error reading monster file.");
         }
+
+        // Start monster threads.
         for (Token token : monsters.keySet()) {
             new Thread(token).start();
         }
+
+        // Set up display.
+        rotation = makeRotation(RIGHT_ANGLE);
         setFocusable(true);
         repaint();
     }
@@ -182,31 +211,26 @@ public class BattleGrid extends JPanel {
 
     }
 
+    /** Represents a pi/2 rotation. */
+    AffineTransformOp rotation;
+
     /** Contains the GUI from before the start of the battle. */
     public GUI _gui;
 
-    /** Contains the map. */
-    public Token[][] map;
+    /** Contains the monsters/spells and their tokens. */
+    public HashMap<Token, Monster> monsters;
 
     /** Contains the player token. */
     public Token playerToken;
 
+    /** Contains the map. */
+    public Token[][] map;
+
     /** Contains the player. */
     public Player _player;
 
-    /** Contains the monsters/spells and their tokens. */
-    public HashMap<Token, Monster> monsters;
-    // public HashMap<Token, Spell> skills;
-
-    /** Represents a pi/2 rotation. */
-    AffineTransformOp rotation;
-
     /** Contains the parameters of the grid. */
-    public static final int WIDTH = 15, HEIGHT = 8, SQ_WIDTH = 50,
-        SQ_HEIGHT = 50;
-
-    /** Contains the number of degrees in a right angle. */
-    public static final int RIGHT_ANGLE = 90;
+    public static final int HEIGHT = 8, RIGHT_ANGLE = 90, SQ_HEIGHT = 50, SQ_WIDTH = 50, WIDTH = 15;
 
 }
 

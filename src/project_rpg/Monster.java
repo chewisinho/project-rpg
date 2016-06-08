@@ -21,14 +21,18 @@ public class Monster implements Serializable {
      */
     public Monster(
             String attackName,
+            String behavior,
             String description,
+            String image,
             int monsterDamage,
             int monsterHP,
             int monsterMP,
             String name
         ) {
         _attackName = attackName;
+        _behavior = behavior;
         _description = description;
+        _image = image;
         _name = name;
         damage = spread(monsterDamage);
         hp = spread(monsterHP);
@@ -40,9 +44,19 @@ public class Monster implements Serializable {
         return spread(damage);
     }
 
-    /** Returns the attack name of the monster.. */
+    /** Returns the attack name of the monster. */
     String getAttackName() {
         return _attackName;
+    }
+
+    /** Returns the behavior of the monster. */
+    String getBehavior() {
+        return _behavior;
+    }
+
+    /** Returns the image of the monster. */
+    public String getImage() {
+        return _image;
     }
 
     /** Returns the name of the monster. */
@@ -74,7 +88,9 @@ public class Monster implements Serializable {
         JsonObject attrTree = (JsonObject) parser.parse(input);
         Monster monster = new Monster(
             attrTree.get("_attackName").getAsString(),
+            attrTree.get("_behavior").getAsString(),
             attrTree.get("_description").getAsString(),
+            attrTree.get("_image").getAsString(),
             attrTree.get("damage").getAsInt(),
             attrTree.get("hp").getAsInt(),
             attrTree.get("mp").getAsInt(),
@@ -98,7 +114,7 @@ public class Monster implements Serializable {
     protected int damage, hp, mp;
 
     /** Contains the description of the monster. */
-    protected String _attackName, _description, _name;
+    protected String _attackName, _behavior, _description, _image, _name;
 
     /** Contains the innate variability for a typical monster. */
     protected static final double ATTACK_VARIABILITY = 0.25, VARIABILITY = 0.1;

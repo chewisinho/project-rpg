@@ -1,6 +1,8 @@
 {
     "_attackName": "Ice Charge",
+    "_behavior": "SimpleMelee",
     "_description": "A pig that can charge with the element of ice.",
+    "_image": "monster",
     "_name": "Ice Pig",
     "damage": 5,
     "hp": 50,

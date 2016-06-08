@@ -20,7 +20,7 @@ public class StraightLine extends Token {
             int dirX,
 	    int dirY
 	) {
-	super(image, x, y, grid);
+	super(grid, x, y, image);
 	this.dirX = dirX;
 	this.dirY = dirY;
     }

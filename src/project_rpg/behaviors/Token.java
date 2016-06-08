@@ -14,7 +14,7 @@ import static project_rpg.BattleGrid.RIGHT_ANGLE;
 public class Token implements Runnable {
 
     /** Creates a new token with IMAGE at (X, Y). */
-    public Token(String image, int x, int y, BattleGrid grid) {
+    public Token(BattleGrid grid, int x, int y, String image) {
         _image = _grid.getImage(image);
         buffered = _grid.toBufferedImage(_image.getImage());
         _x = x;

@@ -114,11 +114,11 @@ public class Skill implements Serializable {
         return skill;
     }
 
-    /** Contains the description of the skill. */
-    protected String _description, _name;
-
     /** Contains the parameters of the skill. */
     protected int _baseDamage, _baseMP, damage, exp, mp, rank;
+
+    /** Contains the description of the skill. */
+    protected String _description, _name;
 
     /** Contains the scaling of the skill by rank. */
     public static final double BASE_EXP = 35.0, EXP_SCALE = 1.6, SCALE = 1.2;
