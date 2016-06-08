@@ -36,10 +36,10 @@ public class Game implements Serializable {
             + "IV"));
         enrolledCourses = new ArrayList<Course>();
         player = new Player();
-        Skill meditate = Skill.readSkill("Meditate");
-        Skill punch = Skill.readSkill("Punch");
-        player.addSkill(meditate);
-        player.addSkill(punch);
+        // Skill meditate = Skill.readSkill("Meditate");
+        // Skill punch = Skill.readSkill("Punch");
+        // player.addSkill(meditate);
+        // player.addSkill(punch);
         for (int i = 0; i < player.getSkills().size() &&
         		i < player.getBattleSkills().length; i += 1) {
         	player.changeBattleSkill(i, player.getSkill(i));

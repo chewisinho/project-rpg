@@ -1,0 +1,9 @@
+{
+    "_attackName": "string",
+    "_description": "string",
+    "_name": "string",
+    "damage": 0,
+    "hp": 0,
+    "mp": 0
+}
+

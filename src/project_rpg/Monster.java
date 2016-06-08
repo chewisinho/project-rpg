@@ -1,5 +1,8 @@
 package project_rpg;
 
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -7,8 +10,6 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.util.Random;
 
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 
 /** Represents a monster class.
  *  @author S. Chewi, T. Nguyen, A. Tran
@@ -26,12 +27,12 @@ public class Monster implements Serializable {
             int monsterMP,
             String name
         ) {
+        _attackName = attackName;
+        _description = description;
+        _name = name;
+        damage = spread(monsterDamage);
         hp = spread(monsterHP);
         mp = spread(monsterMP);
-        damage = spread(monsterDamage);
-        _name = name;
-        _description = description;
-        _attackName = attackName;
     }
 
     /** Returns damage caused by an attack. */

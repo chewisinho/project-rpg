@@ -17,8 +17,8 @@ public class Course implements Serializable {
     public Course(String[] line) {
         courseTitle = line[0];
         description = line[1];
-        try {
-            skill = Skill.readSkill(line[2]);
+        // try {
+            // skill = Skill.readSkill(line[2]);
             for (int index = 3; index < 12; index += 1) {
                 String[] week = line[index].split("~~");
                 ArrayList<Assignment> weekList = new ArrayList<Assignment>();
@@ -27,9 +27,9 @@ public class Course implements Serializable {
                 }
                 assignments[index - 3] = weekList;
             }
-        } catch (IOException exception) {
-            TextInterpreter.error("Error loading course.");
-        }
+        // } catch (IOException exception) {
+            // TextInterpreter.error("Error loading course.");
+        // }
     }
 
     /** Returns a short description of the course. */

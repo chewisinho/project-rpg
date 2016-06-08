@@ -1,9 +1,9 @@
 {
-    "_name": "Ice Pig",
-    "_description": "A pig that can charge with the element of ice.",
-    "hp": 50,
-    "mp": 0,
     "_attackName": "Ice Charge",
-    "damage": 5
+    "_description": "A pig that can charge with the element of ice.",
+    "_name": "Ice Pig",
+    "damage": 5,
+    "hp": 50,
+    "mp": 0
 }
 
