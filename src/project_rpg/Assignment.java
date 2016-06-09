@@ -9,84 +9,34 @@ import java.util.ArrayList;
  */
 public class Assignment implements Serializable {
 
-    /** Constructor for assignment that takes in a TITLE and a DESCRIPTION. */
-    public Assignment(String title, String description) {
-        _title = title;
+    /** Constructor for an assignment that takes in a COURSE, a DESCRIPTION, a DUNGEON, and a NAME. */
+    public Assignment(Course course, String description, String dungeon, String name) {
+        _course = course;
         _description = description;
-    }
-
-    /** Constructor for assignment that takes in an array of MONSTERS,
-     *  TITLE, and a DESCRIPTION. */
-    public Assignment(ArrayList<Monster> monsters, String title,
-        String description) {
-        _monsters = monsters;
-        _title = title;
-        _description = description;
-    }
-
-    /** Constructor for assignment that takes in an array of MONSTERS, TITLE,
-     *  a DESCRIPTION, and my PARENT course. */
-    public Assignment(ArrayList<Monster> monsters, String title,
-        String description, Course parent) {
-        _monsters = monsters;
-        _title = title;
-        _description = description;
-        course = parent;
-    }
-
-    /** Constructs an assignment from a database LINE and a PARENT course. */
-    public Assignment(String[] line, Course parent) {
-        _title = line[0];
-        _description = line[1];
-        course = parent;
-        _monsters = new ArrayList<Monster>();
-        // try {
-            // for (int index = 2; index < line.length; index += 1) {
-                // _monsters.add(Monster.readMonster(line[index]));
-                // TODO: Fix to include new method of monster serialization.
-            // }
-        // } catch (IOException exception) {
-            // TextInterpreter.error("Error reading monster file.");
-        // }
-    }
-
-    /** Returns title of the assignment. */
-    public String getTitle() {
-        return _title;
-    }
-
-    /** Returns my course. */
-    Course getCourse() {
-        return course;
+        _dungeon = dungeon;
+        _name = name;
     }
 
     /** Returns the description of the assignment. */
     public String description() {
-        return _title + ": " + _description;
+        return _name + ": " + _description;
     }
 
-    /** Returns the monsters of the assignment. */
-    ArrayList<Monster> getMonsters() {
-        return _monsters;
+    /** Returns the course in which the assignment is found. */
+    Course getCourse() {
+        return _course;
     }
 
-    /** Prints out the assignments in ASSIGNMENTS. */
-    public static void printAssignments(ArrayList<Assignment> assignments) {
-        int index = 0;
-        for (Assignment assignment : assignments) {
-            System.out.println(index + ": " + assignment.getTitle());
-            index += 1;
-        }
+    /** Returns the name of the assignment. */
+    public String getName() {
+        return _name;
     }
+
+    /** The course in which the assignment is found. */
+    private Course _course;
 
     /** Title and description of the assignment. */
-    private String _title, _description;
-
-    /** The monsters in this assignment. */
-    private ArrayList<Monster> _monsters;
-
-    /** I am an assignment within this course. */
-    private Course course;
+    private String _description, _dungeon, _name;
 
 }
 

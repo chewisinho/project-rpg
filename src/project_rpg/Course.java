@@ -1,7 +1,11 @@
 package project_rpg;
 
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.Serializable;
@@ -13,23 +17,35 @@ import java.util.Comparator;
  */
 public class Course implements Serializable {
 
-    /** Constructs a course from the database LINE. */
-    public Course(String[] line) {
-        courseTitle = line[0];
-        description = line[1];
-        // try {
-            // skill = Skill.readSkill(line[2]);
-            for (int index = 3; index < 12; index += 1) {
-                String[] week = line[index].split("~~");
-                ArrayList<Assignment> weekList = new ArrayList<Assignment>();
-                for (String assignment : week) {
-                    weekList.add(new Assignment(assignment.split("--"), this));
-                }
-                assignments[index - 3] = weekList;
+    /** Constructs a course from the NAME by reading from a JSON file. Initially, the course starts on week 1.  */
+    public Course(String name) {
+        try {
+            BufferedReader input = new BufferedReader(new FileReader(new File(
+                "project_rpg" + File.separator + "database" + File.separator + "courses" + File.separator + name + ".json"
+            )));
+            JsonParser parser = new JsonParser();
+            JsonObject attrTree = (JsonObject) parser.parse(input);
+            courseTitle = attrTree.get("courseTitle").getAsString();
+            description = attrTree.get("description").getAsString();
+            skill = Skill.readFromJson(attrTree.get("skill").getAsString());
+            for (int i = 1; i <= 10; i += 1) {
+                JsonObject assignmentTree = (JsonObject) attrTree.get(((Integer) i).toString());
+                Assignment assignment = new Assignment(
+                    this,
+                    assignmentTree.get("description").getAsString(),
+                    assignmentTree.get("dungeon").getAsString(),
+                    assignmentTree.get("name").getAsString()
+                );
+                assignments[i - 1] = assignment;
             }
-        // } catch (IOException exception) {
-            // TextInterpreter.error("Error loading course.");
-        // }
+            week = 1;
+            ready = true;
+            input.close();
+        } catch (FileNotFoundException fileException) {
+            Main.error("Cannot find the file " + name + ".json.");
+        } catch (IOException exception) {
+            Main.error("Error while reading the file " + name + ".json.");
+        }
     }
 
     /** Returns a short description of the course. */
@@ -37,14 +53,14 @@ public class Course implements Serializable {
         return courseTitle + ": " + description;
     }
 
-    @Override
-    public String toString() {
-        return courseTitle;
+    /** Returns the assignment for a particular WEEK. */
+    protected Assignment getAssignment(int week) {
+        return assignments[week - 1];
     }
 
-    /** Returns the title of the course.*/
-    public String getTitle() {
-        return courseTitle;
+    /** Returns the assignments of the course. */
+    protected Assignment[] getAssignments() {
+        return assignments;
     }
 
     /** Returns the skill of the course. */
@@ -52,45 +68,30 @@ public class Course implements Serializable {
         return skill;
     }
 
-    /** Returns a list of the course's assignments for the given WEEK. */
-    protected ArrayList<Assignment> getAssignments(int week) {
-        ArrayList<Assignment> assignmentList = null;
-        if (week >= 1 && week < 10) {
-            assignmentList = (ArrayList<Assignment>) assignments[week - 1];
-        } else if (week == 10) {
-            System.out.println("There are no assignments during tournament "
-                + "week.");
-        } else {
-            System.out.println("Week out of range");
-        }
-        return assignmentList;
+    /** Sets the variable ready to true at the start of a new week. */
+    void ready() {
+        ready = true;
     }
 
-    /** Removes ASSIGNMENT from the list of assignments during WEEK. */
-    void removeAssignment(Assignment assignment, int week) {
-        ((ArrayList<Assignment>) assignments[week - 1]).remove(assignment);
+    @Override
+    public String toString() {
+        return courseTitle;
     }
 
-    /** Returns the course NAME read from the database. */
-    public static Course readCourse(String name) throws IOException {
-        BufferedReader input = new BufferedReader(new FileReader(new File(
-            "project_rpg" + File.separator + "database" + File.separator
-            + "courses.db")));
-        Course result = null;
-        String[] line;
-        while (!(line = input.readLine().split("=="))[0].equals(name)) {
-            continue;
-        }
-        input.close();
-        result = new Course(line);
-        return result;
-    }
+    /** The assignments of the course. */
+    protected Assignment[] assignments = new Assignment[10];
+
+    /** True iff the next assignment is ready to be started. */
+    private boolean ready;
+
+    /** The current assignment to finish. */
+    private int week;
+
+    /** The skill that this course will teach. */
+    protected Skill skill;
 
     /** The title of the course and a short description. */
     protected String courseTitle, description;
-
-    /** The assignments of the course. */
-    protected ArrayList[] assignments = new ArrayList[9];
 
     /** Comparator that compares two courses by their course titles. */
     public static final Comparator<Course> TITLE_COMPARATOR =
@@ -98,12 +99,10 @@ public class Course implements Serializable {
 
         @Override
         public int compare(Course x, Course y) {
-            return x.getTitle().compareTo(y.getTitle());
+            return x.toString().compareTo(y.toString());
         }
 
     };
 
-    /** The skill that this course will teach. */
-    protected Skill skill;
-
 }
+

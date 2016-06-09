@@ -421,8 +421,7 @@ public class GUI extends JPanel {
             char i = '0';
             ShortcutButton button;
             for (Course course : _game.getEnrolledCourses()) {
-                button = new ShortcutButton(
-                        course.getTitle() + " (" + i + ")", i);
+                button = new ShortcutButton(course.toString() + " (" + i + ")", i);
                 button.addActionListener(new CourseSelectionListener(course));
                 courses.add(button);
                 i += 1;
@@ -445,10 +444,9 @@ public class GUI extends JPanel {
             ArrayList<ShortcutButton> assignments = new ArrayList();
             ShortcutButton button;
             char i = '0';
-            for (Assignment assignment : _course.getAssignments(
-                    _game.getWeek())) {
-                button = new ShortcutButton(assignment.getTitle()
-                    + " (" + i + ")", (char) i);
+            for (int week = 1; week <= 10; week += 1) {
+                Assignment assignment = _course.getAssignment(week);
+                button = new ShortcutButton(assignment.getName() + " (" + i + ")", (char) i);
                 i += 1;
                 assignments.add(button);
             }
@@ -475,7 +473,7 @@ public class GUI extends JPanel {
             Course course = (Course) _box.getSelectedItem();
             _game.registerCourse(course);
             _number += 1;
-            if (_number == 4) {
+            if (_number == Game.NUM_COURSES) {
                 _game.startSchool();
                 repaint();
             } else {
@@ -537,13 +535,9 @@ public class GUI extends JPanel {
 
         @Override
         public void actionPerformed(ActionEvent ignored) {
-            try {
-                Game game = new Game();
-                setGame(game);
-                paintEnrollment(0);
-            } catch (IOException exception) {
-                TextInterpreter.error("Could not load courses.");
-            }
+            Game game = new Game();
+            setGame(game);
+            paintEnrollment(0);
         }
 
     }

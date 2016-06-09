@@ -1,0 +1,56 @@
+{
+    "courseTitle": "Introduction to Fire Magic",
+    "description": "Covers the basics of handling fire magic, culminating in the production of a fireball.",
+    "skill": "fireball",
+    "1": {
+        "name": "Fireball Basics I",
+        "description": "Learn how to handle a fireball.",
+        "dungeon": "test"
+    },
+    "2": {
+        "name": "Fireball Basics II",
+        "description": "Learn how to handle a fireball.",
+        "dungeon": "test"
+    },
+    "3": {
+        "name": "Fireball Basics III",
+        "description": "Learn how to handle a fireball.",
+        "dungeon": "test"
+    },
+    "4": {
+        "name": "Fireball Basics IV",
+        "description": "Learn how to handle a fireball.",
+        "dungeon": "test"
+    },
+    "5": {
+        "name": "Fireball Basics: Midterm",
+        "description": "Learn how to handle a fireball.",
+        "dungeon": "test"
+    },
+    "6": {
+        "name": "Fireball Basics VI",
+        "description": "Learn how to handle a fireball.",
+        "dungeon": "test"
+    },
+    "7": {
+        "name": "Fireball Basics VII",
+        "description": "Learn how to handle a fireball.",
+        "dungeon": "test"
+    },
+    "8": {
+        "name": "Fireball Basics VIII",
+        "description": "Learn how to handle a fireball.",
+        "dungeon": "test"
+    },
+    "9": {
+        "name": "Fireball Basics IX",
+        "description": "Learn how to handle a fireball.",
+        "dungeon": "test"
+    },
+    "10": {
+        "name": "Fireball Basics X",
+        "description": "Learn how to handle a fireball.",
+        "dungeon": "test"
+    }
+}
+

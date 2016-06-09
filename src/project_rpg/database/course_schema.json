@@ -1,0 +1,56 @@
+{
+    "courseTitle": "string",
+    "description": "string",
+    "skill": "string",
+    "1": {
+        "name": "string",
+        "description": "string",
+        "dungeon": "string"
+    },
+    "2": {
+        "name": "string",
+        "description": "string",
+        "dungeon": "string"
+    },
+    "3": {
+        "name": "string",
+        "description": "string",
+        "dungeon": "string"
+    },
+    "4": {
+        "name": "string",
+        "description": "string",
+        "dungeon": "string"
+    },
+    "5": {
+        "name": "string",
+        "description": "string",
+        "dungeon": "string"
+    },
+    "6": {
+        "name": "string",
+        "description": "string",
+        "dungeon": "string"
+    },
+    "7": {
+        "name": "string",
+        "description": "string",
+        "dungeon": "string"
+    },
+    "8": {
+        "name": "string",
+        "description": "string",
+        "dungeon": "string"
+    },
+    "9": {
+        "name": "string",
+        "description": "string",
+        "dungeon": "string"
+    },
+    "10": {
+        "name": "string",
+        "description": "string",
+        "dungeon": "string"
+    }
+}
+

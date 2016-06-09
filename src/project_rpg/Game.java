@@ -19,29 +19,24 @@ import static project_rpg.Year.*;
 public class Game implements Serializable {
 
     /** Initializes a new game file. */
-    public Game() throws IOException {
+    public Game() {
+
+        // Initialize the date, time, and game state.
         year = FRESHMAN;
         quarter = FALL;
         week = 1;
         day = MONDAY;
         gameState = ENROLLMENT;
+
+        // Initialize the courses.
         availableCourses = new ArrayList<Course>();
-        availableCourses.add(Course.readCourse("Introduction to Fire Magic"));
-        availableCourses.add(Course.readCourse("Introduction to Fire Magic I"));
-        availableCourses.add(Course.readCourse("Introduction to Fire Magic "
-            + "II"));
-        availableCourses.add(Course.readCourse("Introduction to Fire Magic "
-            + "III"));
-        availableCourses.add(Course.readCourse("Introduction to Fire Magic "
-            + "IV"));
+        availableCourses.add(new Course("introduction_to_fire_magic"));
+        if (availableCourses.size() == 0) {
+            Main.error("The game is initialized with no available courses.");
+        }
         enrolledCourses = new ArrayList<Course>();
         player = new Player();
-        // Skill meditate = Skill.readSkill("Meditate");
-        // Skill punch = Skill.readSkill("Punch");
-        // player.addSkill(meditate);
-        // player.addSkill(punch);
-        for (int i = 0; i < player.getSkills().size() &&
-        		i < player.getBattleSkills().length; i += 1) {
+        for (int i = 0; i < player.getSkills().size() && i < player.getBattleSkills().length; i += 1) {
         	player.changeBattleSkill(i, player.getSkill(i));
         }
     }
@@ -125,9 +120,7 @@ public class Game implements Serializable {
     void nextWeek() {
         if (week < 10) {
             for (Course course : enrolledCourses) {
-                if (course.getAssignments(week).isEmpty()) {
-                    course.getSkill().completedAssignments(week);
-                }
+                course.ready();
             }
             week += 1;
         } else {
@@ -244,7 +237,7 @@ public class Game implements Serializable {
         courses.sort(Course.TITLE_COMPARATOR);
         int index = 0;
         for (Course course : courses) {
-            System.out.println(index + ": " + course.getTitle());
+            System.out.println(index + ": " + course.toString());
             index += 1;
         }
     }
@@ -273,4 +266,8 @@ public class Game implements Serializable {
     /** The main character in the game. */
     private Player player;
 
+    /** The number of courses to enroll in every semester. */
+    public static final int NUM_COURSES = 1;
+
 }
+
