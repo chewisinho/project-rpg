@@ -194,16 +194,16 @@ public class BattleGrid extends JPanel {
                 playerToken.attack();
                 break;
             case (char) KeyEvent.VK_UP:
-                playerToken.switchAttack1();
+                _player.switchAttack1();
                 break;
             case (char) KeyEvent.VK_DOWN:
-                playerToken.switchAttack2();
+                _player.switchAttack2();
                 break;
             case (char) KeyEvent.VK_LEFT:
-                playerToken.switchAttack3();
+                _player.switchAttack3();
                 break;
             case (char) KeyEvent.VK_RIGHT:
-                playerToken.switchAttack4();
+                _player.switchAttack4();
             default:
                 break;
             }

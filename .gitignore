@@ -1,5 +1,13 @@
+# Eclipse IDE files
+.classpath
+.project
+bin/
+
 # Java class files
 *.class
+
+# Save files
+*.sav
 
 # Vim backups
 *~

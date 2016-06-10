@@ -114,11 +114,36 @@ public class Player implements Serializable {
         return battleSkills;
     }
     
+    /** Returns the current battleSkill. */
+    Skill getBattleSkill() {
+    	return battleSkill;
+    }
+    
     /** Changes a battle SKILL at INDEX. */
-    void changeBattleSkill(int index, Skill skill) {
+    void changeBattleSkills(int index, Skill skill) {
     	battleSkills[index] = skill;
     }
 
+    /** Switches to Skill 1. */
+    public void switchAttack1() {
+        battleSkill = battleSkills[0];
+    }
+
+    /** Switches to Skill 2. */
+    public void switchAttack2() {
+        battleSkill = battleSkills[1];
+    }
+
+    /** Switches to Skill 3. */
+    public void switchAttack3() {
+        battleSkill = battleSkills[2];
+    }
+
+    /** Switches to Skill 4. */
+    public void switchAttack4() {
+        battleSkill = battleSkills[3];
+    }
+    
     /** Prints the status of the player. */
     public void status() {
         System.out.printf("You have %s/%s HP remaining.\n", currHP, maxHP);
@@ -142,5 +167,8 @@ public class Player implements Serializable {
 
     /** An array of skills that the player can bring to battle. */
     private Skill[] battleSkills = new Skill[4];
+    
+    /** The current battle skill that the player is using. */
+    private Skill battleSkill = battleSkills[0];
 
 }

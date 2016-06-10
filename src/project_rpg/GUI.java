@@ -122,10 +122,17 @@ public class GUI extends JPanel {
 
     /** Initializes all buttons to their defaults. */
     void initializeButtons() {
+    	// goClassroomListener() is a dummy listener for changing skills 
+    	// so that the button doesn't return null.
     	changeSkill1 = new ShortcutButton("Change up skill (0)", '0');
+    	changeSkill1.addActionListener(new GoClassroomListener());
     	changeSkill2 = new ShortcutButton("Change down skill (1)", '1');
+    	changeSkill2.addActionListener(new GoClassroomListener());
     	changeSkill3 = new ShortcutButton("Change left skill (2)", '2');
+    	changeSkill3.addActionListener(new GoClassroomListener());
     	changeSkill4 = new ShortcutButton("Change right skill (3)", '3');
+    	changeSkill4.addActionListener(new GoClassroomListener());
+    	
         classroomButton = new ShortcutButton("Classroom (0)", '0');
         classroomButton.addActionListener(new GoClassroomListener());
         courseButton = new ShortcutButton("Courses (C)", 'c');
@@ -223,6 +230,7 @@ public class GUI extends JPanel {
         add(scroller);
     	ArrayList<ShortcutButton> changeSkills = new ArrayList();
     	changeSkills.add(changeSkill1);
+    	changeSkill1.removeActionListener(changeSkill1.getActionListeners()[0]);
     	changeSkill1.addActionListener(new ChangeSkillListener(1, skills));
     	changeSkills.add(changeSkill2);
     	changeSkill2.addActionListener(new ChangeSkillListener(2, skills));
@@ -376,13 +384,12 @@ public class GUI extends JPanel {
     		_number = number - 1;
     		_box = box;
     	}
-    	
-    	// Bug where it apparently runs at an exponential rate when changing skills. 
+    	 
     	@Override
     	public void actionPerformed(ActionEvent ignored) {
     		Skill skill = (Skill) _box.getSelectedItem();
     		System.out.println(_game.getPlayer().getBattleSkills()[_number]);
-    		_game.getPlayer().changeBattleSkill(_number, skill);
+    		_game.getPlayer().changeBattleSkills(_number, skill);
     		System.out.println(_game.getPlayer().getBattleSkills()[_number]);
     		skills();
     	}
