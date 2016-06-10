@@ -98,6 +98,7 @@ public class GUI extends JPanel {
 
     /** Allows the player to go to different locations. */
     void go() {
+    	removeAll();
         ArrayList<ShortcutButton> locations = new ArrayList<ShortcutButton>();
         locations.add(classroomButton);
         locations.add(gymButton);
@@ -359,6 +360,13 @@ public class GUI extends JPanel {
         scroller.setVerticalScrollBarPolicy(
             ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
         add(scroller);
+        ImageIcon icon = new ImageIcon("project_rpg" + File.separator + "resources"
+                + File.separator + "DummyEnrollment" + ".jpg"); 
+        Image image = icon.getImage();
+        Image newImage = image.getScaledInstance(800, 400, java.awt.Image.SCALE_SMOOTH);
+        icon = new ImageIcon(newImage);
+        JLabel background = new JLabel(icon, JLabel.CENTER);
+        add(background);
         JButton enroll = new JButton("Enroll in this course!");
         enroll.addActionListener(new EnrollmentListener(courses, number));
         add(enroll);
@@ -390,6 +398,13 @@ public class GUI extends JPanel {
         schoolOptions.add(testButton);
         displayMenuBar();
         displayOptionBar();
+        ImageIcon icon = new ImageIcon("project_rpg" + File.separator + "resources"
+                + File.separator + "DummyDorm" + ".jpg"); 
+        Image image = icon.getImage();
+        Image newImage = image.getScaledInstance(650, 500, java.awt.Image.SCALE_SMOOTH);
+        icon = new ImageIcon(newImage);
+        JLabel background = new JLabel(icon, JLabel.CENTER);
+        add(background);
         options.setOptions(schoolOptions);
         updateUI();
     }
