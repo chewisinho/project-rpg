@@ -17,17 +17,26 @@ import static project_rpg.Monster.*;
  */
 public class Skill implements Serializable {
 
-    /** Creates a new skill starting at rank 0 with the following attributes: DESCRIPTION, NAME, BASEDAMAGE, and
-     *  BASEMP.
-     */
-    public Skill(int baseDamage, int baseMP, String description, String name) {
-        rank = 0;
-        exp = (int) BASE_EXP;
-        _baseDamage = baseDamage;
-        _baseMP = baseMP;
-        _description = description;
-        _name = name;
-        update();
+    /** Creates a new skill from the JSON file with filename NAME. */
+    public Skill(String name) {
+        try {
+            BufferedReader input = new BufferedReader(new FileReader(new File(
+                "project_rpg" + File.separator + "database" + File.separator
+                + "skills" + File.separator + name + ".json")));
+            JsonParser parser = new JsonParser();
+            JsonObject attrTree = (JsonObject) parser.parse(input);
+            _baseDamage = attrTree.get("_baseDamage").getAsInt();
+            _baseMP = attrTree.get("_baseMP").getAsInt();
+            _description = attrTree.get("_description").getAsString();
+            _name = attrTree.get("_name").getAsString();
+            behavior = attrTree.get("behavior").getAsString();
+            input.close();
+            rank = 0;
+            exp = (int) BASE_EXP;
+            update();
+        } catch (IOException exception) {
+            Main.error("Error while reading " + name + ".json.");
+        }
     }
 
     /** Returns the damage caused by me. */
@@ -83,7 +92,7 @@ public class Skill implements Serializable {
 
     @Override
     public String toString() {
-    	return _name + " " + rank;
+        return _name + " " + rank;
     }
 
     /** Updates the damage of the skill. */
@@ -97,28 +106,11 @@ public class Skill implements Serializable {
         return (int) (BASE_EXP * Math.pow(EXP_SCALE, rank));
     }
 
-    /** Returns a skill created from the JSON file NAME. */
-    public static Skill readFromJson(String name) throws IOException {
-        BufferedReader input = new BufferedReader(new FileReader(new File(
-            "project_rpg" + File.separator + "database" + File.separator
-            + "skills" + File.separator + name + ".json")));
-        JsonParser parser = new JsonParser();
-        JsonObject attrTree = (JsonObject) parser.parse(input);
-        Skill skill = new Skill(
-            attrTree.get("_baseDamage").getAsInt(),
-            attrTree.get("_baseMP").getAsInt(),
-            attrTree.get("_description").getAsString(),
-            attrTree.get("_name").getAsString()
-        );
-        input.close();
-        return skill;
-    }
-
     /** Contains the parameters of the skill. */
     protected int _baseDamage, _baseMP, damage, exp, mp, rank;
 
     /** Contains the description of the skill. */
-    protected String _description, _name;
+    public String _description, _name, behavior;
 
     /** Contains the scaling of the skill by rank. */
     public static final double BASE_EXP = 35.0, EXP_SCALE = 1.6, SCALE = 1.2;
