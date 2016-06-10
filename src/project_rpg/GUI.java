@@ -10,10 +10,13 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.Image;
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Vector;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
@@ -98,6 +101,13 @@ public class GUI extends JPanel {
         ArrayList<ShortcutButton> locations = new ArrayList<ShortcutButton>();
         locations.add(classroomButton);
         locations.add(gymButton);
+        ImageIcon icon = new ImageIcon("project_rpg" + File.separator + "resources"
+                + File.separator + "SchoolBackground" + ".jpg"); 
+        Image image = icon.getImage();
+        Image newImage = image.getScaledInstance(700, 500, java.awt.Image.SCALE_SMOOTH);
+        icon = new ImageIcon(newImage);
+        JLabel background = new JLabel(icon, JLabel.CENTER);
+        add(background);
         options.setOptions(locations);
     }
 
@@ -316,6 +326,13 @@ public class GUI extends JPanel {
         classOptions.add(courseButton);
         add(returnButton);
         classOptions.add(returnButton);
+        ImageIcon icon = new ImageIcon("project_rpg" + File.separator + "resources"
+                + File.separator + "ClassroomBackground" + ".jpg"); 
+        Image image = icon.getImage();
+        Image newImage = image.getScaledInstance(700, 500, java.awt.Image.SCALE_SMOOTH);
+        icon = new ImageIcon(newImage);
+        JLabel background = new JLabel(icon, JLabel.CENTER);
+        add(background);
         options.setOptions(classOptions);
         updateUI();
     }
