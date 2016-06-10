@@ -233,10 +233,13 @@ public class GUI extends JPanel {
     	changeSkill1.removeActionListener(changeSkill1.getActionListeners()[0]);
     	changeSkill1.addActionListener(new ChangeSkillListener(1, skills));
     	changeSkills.add(changeSkill2);
+    	changeSkill2.removeActionListener(changeSkill2.getActionListeners()[0]);
     	changeSkill2.addActionListener(new ChangeSkillListener(2, skills));
     	changeSkills.add(changeSkill3);
+    	changeSkill3.removeActionListener(changeSkill3.getActionListeners()[0]);
     	changeSkill3.addActionListener(new ChangeSkillListener(3, skills));
     	changeSkills.add(changeSkill4);
+    	changeSkill4.removeActionListener(changeSkill4.getActionListeners()[0]);
     	changeSkill4.addActionListener(new ChangeSkillListener(4, skills));
         options.setOptions(changeSkills);
         updateUI();
@@ -618,7 +621,7 @@ public class GUI extends JPanel {
 
     }
 
-    /** Class that listens for the Rest shortcut. */
+    /** Class that listens for the Return shortcut. */
     public class ShortcutKeyListener extends KeyAdapter {
 
         @Override
