@@ -25,7 +25,6 @@ import javax.swing.JPanel;
 
 import project_rpg.behaviors.Token;
 import project_rpg.behaviors.monsters.SimpleMelee;
-import project_rpg.behaviors.skills.StraightLine;
 
 
 /** Displays the battle screen.

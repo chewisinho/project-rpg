@@ -5,7 +5,7 @@ import java.awt.image.BufferedImage;
 import javax.swing.ImageIcon;
 
 import project_rpg.BattleGrid;
-import project_rpg.behaviors.skills.StraightLine;
+import project_rpg.behaviors.SkillToken;
 import static project_rpg.BattleGrid.RIGHT_ANGLE;
 
 /** Represents a token on the _grid.map.
@@ -19,7 +19,7 @@ public class Token implements Runnable {
         buffered = _grid.toBufferedImage(_image.getImage());
         _x = x;
         _y = y;
-	_grid = grid;
+        _grid = grid;
         orientation = 0;
         _grid.map[x][y] = this;
         lastAction = System.currentTimeMillis();
@@ -77,27 +77,28 @@ public class Token implements Runnable {
 
     /** Removes the token from the map. */
     protected void disappear() {
-	_grid.map[_x][_y] = null;
+        _grid.map[_x][_y] = null;
     }
 
     /** Attacks. */
     public void attack() {
-	int[] dir = orientationToArray(orientation);
-	int x = _x + dir[0], y = _y + dir[1];
-	if (_grid.valid(x, y)) {
-	    Token token = new StraightLine(
-	        "player",
-		x,
-		y,
-		_grid,
-		dir[0],
-		dir[1]
-	    );
-	    token.orientation = orientation;
-	    _grid.map[x][y] = token;
-	    new Thread(token).start();
-	    _grid.repaint();
-	}
+        int[] dir = orientationToArray(orientation);
+        int x = _x + dir[0], y = _y + dir[1];
+        if (_grid.valid(x, y)) {
+            Token token = new SkillToken(
+                "player",
+                x,
+                y,
+                _grid,
+                dir[0],
+                dir[1],
+                new project_rpg.Skill("fireball")
+            );
+            token.orientation = orientation;
+            _grid.map[x][y] = token;
+            new Thread(token).start();
+            _grid.repaint();
+        }
     }
 
     /** Switches to Skill 1. */
@@ -168,24 +169,24 @@ public class Token implements Runnable {
      *  direction.
      */
     public static int[] orientationToArray(int orientation) {
-	int[] direction = { 0, 0 };
-	switch (orientation) {
-	case 0:
-	    direction[0] = 1;
-	    break;
-	case RIGHT_ANGLE:
-	    direction[1] = 1;
-	    break;
-	case RIGHT_ANGLE * 2:
-	    direction[0] = -1;
-	    break;
-	case RIGHT_ANGLE * 3:
-	    direction[1] = -1;
-	    break;
-	default:
-	    break;
-	}
-	return direction;
+        int[] direction = { 0, 0 };
+        switch (orientation) {
+        case 0:
+            direction[0] = 1;
+            break;
+        case RIGHT_ANGLE:
+            direction[1] = 1;
+            break;
+        case RIGHT_ANGLE * 2:
+            direction[0] = -1;
+            break;
+        case RIGHT_ANGLE * 3:
+            direction[1] = -1;
+            break;
+        default:
+            break;
+        }
+        return direction;
     }
 
     /** My coordinates and orientation. */

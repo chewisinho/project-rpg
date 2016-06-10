@@ -27,7 +27,7 @@ public class Course implements Serializable {
             JsonObject attrTree = (JsonObject) parser.parse(input);
             courseTitle = attrTree.get("courseTitle").getAsString();
             description = attrTree.get("description").getAsString();
-            skill = Skill.readFromJson(attrTree.get("skill").getAsString());
+            skill = new Skill(attrTree.get("skill").getAsString());
             for (int i = 1; i <= 10; i += 1) {
                 JsonObject assignmentTree = (JsonObject) attrTree.get(((Integer) i).toString());
                 Assignment assignment = new Assignment(
