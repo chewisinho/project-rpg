@@ -16,27 +16,26 @@ import java.util.Random;
  */
 public class Monster implements Serializable {
 
-    /** Creates a new Monster with the following attributes: ATTACKNAME, DESCRIPTION, MONSTERDAMAGE, MONSTERHP,
-     *  MONSTERMP, and NAME. Uses the spread method to introduce variability in its attributes.
-     */
-    public Monster(
-            String attackName,
-            String behavior,
-            String description,
-            String image,
-            int monsterDamage,
-            int monsterHP,
-            int monsterMP,
-            String name
-        ) {
-        _attackName = attackName;
-        _behavior = behavior;
-        _description = description;
-        _image = image;
-        _name = name;
-        damage = spread(monsterDamage);
-        hp = spread(monsterHP);
-        mp = spread(monsterMP);
+    /** Returns a monster created from the JSON file NAME. */
+    public Monster(String name) {
+        try {
+            BufferedReader input = new BufferedReader(new FileReader(new File(
+                "project_rpg" + File.separator + "database" + File.separator
+                + "monsters" + File.separator + name + ".json")));
+            JsonParser parser = new JsonParser();
+            JsonObject attrTree = (JsonObject) parser.parse(input);
+            _attackName = attrTree.get("_attackName").getAsString();
+            _behavior = attrTree.get("_behavior").getAsString();
+            _description = attrTree.get("_description").getAsString();
+            _name = attrTree.get("_name").getAsString();
+            _image = attrTree.get("_image").getAsString();
+            damage = spread(attrTree.get("damage").getAsInt());
+            hp = spread(attrTree.get("hp").getAsInt());
+            mp = spread(attrTree.get("mp").getAsInt());
+            input.close();
+        } catch (IOException exception) {
+            Main.error("Unable to read monster file " + name + ".json.");
+        }
     }
 
     /** Returns damage caused by an attack. */
@@ -77,27 +76,6 @@ public class Monster implements Serializable {
     /** Causes DAMAGEAMOUNT to the monster. */
     public void reduceHealth(int damageAmount) {
         hp -= damageAmount;
-    }
-
-    /** Returns a monster created from the JSON file NAME. */
-    public static Monster readFromJson(String name) throws IOException {
-        BufferedReader input = new BufferedReader(new FileReader(new File(
-            "project_rpg" + File.separator + "database" + File.separator
-            + "monsters" + File.separator + name + ".json")));
-        JsonParser parser = new JsonParser();
-        JsonObject attrTree = (JsonObject) parser.parse(input);
-        Monster monster = new Monster(
-            attrTree.get("_attackName").getAsString(),
-            attrTree.get("_behavior").getAsString(),
-            attrTree.get("_description").getAsString(),
-            attrTree.get("_image").getAsString(),
-            attrTree.get("damage").getAsInt(),
-            attrTree.get("hp").getAsInt(),
-            attrTree.get("mp").getAsInt(),
-            attrTree.get("_name").getAsString()
-        );
-        input.close();
-        return monster;
     }
 
     /** Returns a sample from a Gaussian distribution with MEAN and STANDARDDEVIATION. */

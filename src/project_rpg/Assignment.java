@@ -26,6 +26,11 @@ public class Assignment implements Serializable {
     Course getCourse() {
         return _course;
     }
+    
+    /** Returns the name of the dungeon for the assignment. */
+    String getDungeon() {
+        return _dungeon;
+    }
 
     /** Returns the name of the assignment. */
     public String getName() {

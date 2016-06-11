@@ -5,52 +5,52 @@
     "1": {
         "name": "Fireball Basics I",
         "description": "Learn how to handle a fireball.",
-        "dungeon": "test"
+        "dungeon": "test_dungeon"
     },
     "2": {
         "name": "Fireball Basics II",
         "description": "Learn how to handle a fireball.",
-        "dungeon": "test"
+        "dungeon": "test_dungeon"
     },
     "3": {
         "name": "Fireball Basics III",
         "description": "Learn how to handle a fireball.",
-        "dungeon": "test"
+        "dungeon": "test_dungeon"
     },
     "4": {
         "name": "Fireball Basics IV",
         "description": "Learn how to handle a fireball.",
-        "dungeon": "test"
+        "dungeon": "test_dungeon"
     },
     "5": {
         "name": "Fireball Basics: Midterm",
         "description": "Learn how to handle a fireball.",
-        "dungeon": "test"
+        "dungeon": "test_dungeon"
     },
     "6": {
         "name": "Fireball Basics VI",
         "description": "Learn how to handle a fireball.",
-        "dungeon": "test"
+        "dungeon": "test_dungeon"
     },
     "7": {
         "name": "Fireball Basics VII",
         "description": "Learn how to handle a fireball.",
-        "dungeon": "test"
+        "dungeon": "test_dungeon"
     },
     "8": {
         "name": "Fireball Basics VIII",
         "description": "Learn how to handle a fireball.",
-        "dungeon": "test"
+        "dungeon": "test_dungeon"
     },
     "9": {
         "name": "Fireball Basics IX",
         "description": "Learn how to handle a fireball.",
-        "dungeon": "test"
+        "dungeon": "test_dungeon"
     },
     "10": {
         "name": "Fireball Basics X",
         "description": "Learn how to handle a fireball.",
-        "dungeon": "test"
+        "dungeon": "test_dungeon"
     }
 }
 

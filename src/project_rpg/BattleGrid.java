@@ -60,7 +60,7 @@ public class BattleGrid extends JPanel {
                     } else if (identifier.equals("null")) {
                         map[col][row] = null;
                     } else {
-                        Monster monster = Monster.readFromJson(identifier);
+                        Monster monster = new Monster(identifier);
                         Token token = GetMonsterToken.getToken(this, col, row, monster);
                         monsters.put(token, monster);
                     }
@@ -69,7 +69,7 @@ public class BattleGrid extends JPanel {
                 row += 1;
             }
         } catch (IOException exception) {
-            Main.error("Error reading monster file.");
+            Main.error("Unable to load dungeon " + dungeon + ".json.");
         }
 
         // Start monster threads.

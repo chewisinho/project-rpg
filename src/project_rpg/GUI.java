@@ -181,6 +181,16 @@ public class GUI extends JPanel {
         options.pressedKey(key);
     }
 
+    /** Loads DUNGEON and begins a battle. */
+    void loadDungeon(String dungeon) {
+        removeAll();
+        hideMenu();
+        displayMenuBar();
+        BattleGrid battle = new BattleGrid(this, _game.getPlayer(), dungeon);
+        add(battle);
+        battle.requestFocusInWindow();
+    }
+
     /** Refreshes the menu bar. */
     public void refreshMenu() {
         menu.repaint();
@@ -571,8 +581,7 @@ public class GUI extends JPanel {
 
         @Override
         public void actionPerformed(ActionEvent ignored) {
-            System.out.println("Clicked button.");
-            // TODO: Load assignment.
+            loadDungeon(_assignment.getDungeon());
         }
 
         /** The assignment that the listener will load. */
