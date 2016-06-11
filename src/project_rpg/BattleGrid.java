@@ -69,7 +69,7 @@ public class BattleGrid extends JPanel {
                 row += 1;
             }
         } catch (IOException exception) {
-            TextInterpreter.error("Error reading monster file.");
+            Main.error("Error reading monster file.");
         }
 
         // Start monster threads.
@@ -176,32 +176,32 @@ public class BattleGrid extends JPanel {
 
         @Override
         public void keyPressed(KeyEvent event) {
-            switch (event.getKeyChar()) {
-            case '\u0073':
+            switch (event.getKeyCode()) {
+            case KeyEvent.VK_S:
                 playerToken.down();
                 break;
-            case '\u0061':
+            case KeyEvent.VK_A:
                 playerToken.left();
                 break;
-            case '\u0064':
+            case KeyEvent.VK_D:
                 playerToken.right();
                 break;
-            case '\u0077':
+            case KeyEvent.VK_W:
                 playerToken.up();
                 break;
-            case '\u0020':
+            case KeyEvent.VK_SPACE:
                 playerToken.attack();
                 break;
-            case (char) KeyEvent.VK_UP:
+            case KeyEvent.VK_UP:
                 _player.switchAttack1();
                 break;
-            case (char) KeyEvent.VK_DOWN:
+            case KeyEvent.VK_DOWN:
                 _player.switchAttack2();
                 break;
-            case (char) KeyEvent.VK_LEFT:
+            case KeyEvent.VK_LEFT:
                 _player.switchAttack3();
                 break;
-            case (char) KeyEvent.VK_RIGHT:
+            case KeyEvent.VK_RIGHT:
                 _player.switchAttack4();
             default:
                 break;

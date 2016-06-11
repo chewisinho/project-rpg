@@ -225,9 +225,9 @@ public class Game implements Serializable {
             saveFile = (Game) reader.readObject();
             reader.close();
         } catch (IOException exception) {
-            TextInterpreter.error("Sorry, could not load file.");
+            Main.error("Sorry, could not load file.");
         } catch (ClassNotFoundException exception) {
-            TextInterpreter.error("Sorry, corrupt or outdated save file.");
+            Main.error("Sorry, corrupt or outdated save file.");
         }
         return saveFile;
     }

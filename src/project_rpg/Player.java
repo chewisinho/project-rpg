@@ -18,6 +18,11 @@ public class Player implements Serializable {
         this("Jimmy");
     }
 
+    /** Returns the current battleSkill. */
+    public Skill getBattleSkill() {
+    	return battleSkill;
+    }
+    
     /** Returns current HP. */
     public int getHP() {
         return currHP;
@@ -113,12 +118,7 @@ public class Player implements Serializable {
     Skill[] getBattleSkills() {
         return battleSkills;
     }
-    
-    /** Returns the current battleSkill. */
-    Skill getBattleSkill() {
-    	return battleSkill;
-    }
-    
+
     /** Changes a battle SKILL at INDEX. */
     void changeBattleSkills(int index, Skill skill) {
     	battleSkills[index] = skill;
@@ -167,8 +167,9 @@ public class Player implements Serializable {
 
     /** An array of skills that the player can bring to battle. */
     private Skill[] battleSkills = new Skill[4];
-    
+
     /** The current battle skill that the player is using. */
     private Skill battleSkill = battleSkills[0];
 
 }
+

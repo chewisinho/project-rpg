@@ -5,6 +5,7 @@ import java.awt.image.BufferedImage;
 import javax.swing.ImageIcon;
 
 import project_rpg.BattleGrid;
+import project_rpg.Skill;
 import project_rpg.behaviors.SkillToken;
 import static project_rpg.BattleGrid.RIGHT_ANGLE;
 
@@ -84,7 +85,8 @@ public class Token implements Runnable {
     public void attack() {
         int[] dir = orientationToArray(orientation);
         int x = _x + dir[0], y = _y + dir[1];
-        if (_grid.valid(x, y)) {
+        Skill currentSkill = _grid._player.getBattleSkill();
+        if (currentSkill != null && _grid.valid(x, y)) {
             Token token = new SkillToken(
                 "player",
                 x,
@@ -92,7 +94,7 @@ public class Token implements Runnable {
                 _grid,
                 dir[0],
                 dir[1],
-                new project_rpg.Skill("fireball")
+                currentSkill
             );
             token.orientation = orientation;
             _grid.map[x][y] = token;

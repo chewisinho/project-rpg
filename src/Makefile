@@ -1,5 +1,5 @@
 all:
-	javac -cp ".:lib/*" project_rpg/*.java
+	javac -cp ".:lib/*" project_rpg/*.java project_rpg/behaviors/*.java
 
 .PHONY: run
 
