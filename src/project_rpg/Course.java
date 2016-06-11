@@ -63,9 +63,19 @@ public class Course implements Serializable {
         return assignments;
     }
 
+    /** Returns the assignment of the current week. */
+    Assignment getCurrentAssignment() {
+        return assignments[week - 1];
+    }
+
     /** Returns the skill of the course. */
     Skill getSkill() {
         return skill;
+    }
+
+    /** Returns true iff the course is ready for another assignment. */
+    boolean isReady() {
+        return ready;
     }
 
     /** Sets the variable ready to true at the start of a new week. */

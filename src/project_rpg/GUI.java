@@ -482,16 +482,15 @@ public class GUI extends JPanel {
 
         @Override
         public void actionPerformed(ActionEvent ignored) {
-            ArrayList<ShortcutButton> assignments = new ArrayList();
-            ShortcutButton button;
-            char i = '0';
-            for (int week = 1; week <= 10; week += 1) {
-                Assignment assignment = _course.getAssignment(week);
-                button = new ShortcutButton(assignment.getName() + " (" + i + ")", (char) i);
-                i += 1;
+            if (_course.isReady()) {
+                ArrayList<ShortcutButton> assignments = new ArrayList();
+                Assignment assignment = _course.getCurrentAssignment();
+                ShortcutButton button = new ShortcutButton(assignment.getName() + " (S)", (char) 'S');
                 assignments.add(button);
+                options.setOptions(assignments);
+            } else {
+                updateMenuBar("There are no more assignments for " + _course + " this week.");
             }
-            options.setOptions(assignments);
         }
 
         /** My course. */
