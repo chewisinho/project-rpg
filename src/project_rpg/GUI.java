@@ -486,6 +486,7 @@ public class GUI extends JPanel {
                 ArrayList<ShortcutButton> assignments = new ArrayList();
                 Assignment assignment = _course.getCurrentAssignment();
                 ShortcutButton button = new ShortcutButton(assignment.getName() + " (S)", (char) 'S');
+                button.addActionListener(new LoadAssignmentListener(assignment));
                 assignments.add(button);
                 options.setOptions(assignments);
             } else {
@@ -558,6 +559,25 @@ public class GUI extends JPanel {
             goGym();
             repaint();
         }
+    }
+
+    /** Class that loads a selected assignment. */
+    public class LoadAssignmentListener implements ActionListener {
+
+        /** Loads ASSIGNMENT. */
+        public LoadAssignmentListener(Assignment assignment) {
+            _assignment = assignment;
+        }
+
+        @Override
+        public void actionPerformed(ActionEvent ignored) {
+            System.out.println("Clicked button.");
+            // TODO: Load assignment.
+        }
+
+        /** The assignment that the listener will load. */
+        private Assignment _assignment;
+
     }
 
     /** Class that listens for the Load Game button. */
@@ -836,7 +856,7 @@ public class GUI extends JPanel {
 
     /** Individual buttons with shortcut keys. */
     private ShortcutButton changeSkill1, changeSkill2, changeSkill3,
-        changeSkill4,classroomButton, courseButton, goButton, gymButton,
+        changeSkill4, classroomButton, courseButton, goButton, gymButton,
         restButton, returnButton, saveButton, skillsButton, testButton,
         workOutButton;
 
