@@ -65,8 +65,8 @@ Navigate to the `src` directory and use the command:
 * ~~allow monster to move~~
 * ~~exit when HP is 0~~
 * ~~player orientation~~
-* allow player to cast Fireball
-* make Fireball damage monster
+* ~~allow player to cast Fireball~~
+* ~~make Fireball damage monster~~
 * ~~make monster die when HP is 0~~
-* allow player to choose battle skills
+* ~~allow player to choose battle skills~~
 
