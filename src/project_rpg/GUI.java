@@ -392,6 +392,13 @@ public class GUI extends JPanel {
         gymOptions.add(workOutButton);
         gymOptions.add(returnButton);
         options.setOptions(gymOptions);
+        ImageIcon icon = new ImageIcon("project_rpg" + File.separator + "resources"
+                + File.separator + "DummyGym" + ".jpg"); 
+        Image image = icon.getImage();
+        Image newImage = image.getScaledInstance(700, 500, java.awt.Image.SCALE_SMOOTH);
+        icon = new ImageIcon(newImage);
+        JLabel background = new JLabel(icon, JLabel.CENTER);
+        add(background);
         updateUI();
     }
 
