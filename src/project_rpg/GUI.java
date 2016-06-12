@@ -133,16 +133,16 @@ public class GUI extends JPanel {
 
     /** Initializes all buttons to their defaults. */
     void initializeButtons() {
-        // goClassroomListener() is a dummy listener for changing skills 
+        // DummyListener() is a listener for changing skills 
         // so that the button doesn't return null.
         changeSkill1 = new ShortcutButton("Change up skill (0)", '0');
-        changeSkill1.addActionListener(new GoClassroomListener());
+        changeSkill1.addActionListener(new DummyListener());
         changeSkill2 = new ShortcutButton("Change down skill (1)", '1');
-        changeSkill2.addActionListener(new GoClassroomListener());
+        changeSkill2.addActionListener(new DummyListener());
         changeSkill3 = new ShortcutButton("Change left skill (2)", '2');
-        changeSkill3.addActionListener(new GoClassroomListener());
+        changeSkill3.addActionListener(new DummyListener());
         changeSkill4 = new ShortcutButton("Change right skill (3)", '3');
-        changeSkill4.addActionListener(new GoClassroomListener());
+        changeSkill4.addActionListener(new DummyListener());
         
         classroomButton = new ShortcutButton("Classroom (0)", '0');
         classroomButton.addActionListener(new GoClassroomListener());
@@ -506,6 +506,15 @@ public class GUI extends JPanel {
 
         /** My course. */
         private Course _course;
+    }
+    
+    /** Class that does nothing. */
+    public class DummyListener implements ActionListener {
+    	
+    	@Override
+    	public void actionPerformed(ActionEvent ignored) {
+    	
+    	}
     }
 
     /** Class that listens for class enrollment. */
