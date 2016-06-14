@@ -26,6 +26,11 @@ public class Token implements Runnable {
         lastAction = System.currentTimeMillis();
     }
 
+    /** Returns false, since the token is not an exit. */
+    public boolean isExit() {
+        return false;
+    }
+
     /** Returns my x-coordinate. */
     public int x() {
         return _x;
@@ -67,6 +72,9 @@ public class Token implements Runnable {
 
     /** Makes a movement to (X, Y). */
     public void move(int x, int y) {
+        if (_grid.inBounds(x, y)) {
+            _grid.exit(this, x, y);
+        }
         if (_grid.valid(x, y)) {
             _grid.map[_x][_y] = null;
             _x = x;
@@ -150,21 +158,7 @@ public class Token implements Runnable {
 
     @Override
     public void run() {
-        while (true) {
-            if (System.currentTimeMillis() - lastAction > 250) {
-                if (_grid.playerAdjacentTo(_x, _y)) {
-                    _grid._player.reduceHealth(_grid.monsters.get(this).attack());
-                    if (_grid._player.isDead()) {
-                        _grid._gui.gameOver();
-                        break;
-                    }
-                } else {
-                    moveTowardsPlayer();
-                }
-                _grid._gui.refreshMenu();
-                lastAction = System.currentTimeMillis();
-            }
-        }
+        // Do nothing.
     }
 
     /** Takes an ORIENTATION and returns an integer array representing the

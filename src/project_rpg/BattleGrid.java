@@ -23,6 +23,7 @@ import java.util.HashMap;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
+import project_rpg.behaviors.ExitToken;
 import project_rpg.behaviors.Token;
 import project_rpg.behaviors.monsters.SimpleMelee;
 
@@ -59,6 +60,8 @@ public class BattleGrid extends JPanel {
                         playerToken = new Token(this, 0, 0, "player");
                     } else if (identifier.equals("null")) {
                         map[col][row] = null;
+                    } else if (identifier.equals("exit")) {
+                        map[col][row] = new ExitToken(this, col, row);
                     } else {
                         Monster monster = new Monster(identifier);
                         Token token = GetMonsterToken.getToken(this, col, row, monster);
@@ -81,6 +84,14 @@ public class BattleGrid extends JPanel {
         rotation = makeRotation(RIGHT_ANGLE);
         setFocusable(true);
         repaint();
+    }
+
+    /** Exits the dungeon if TOKEN is the player token and there are no more monsters. */
+    public void exit(Token token, int x, int y) {
+        Token exit = map[x][y];
+        if (token == playerToken && monsters.isEmpty() && exit != null && exit.isExit()) {
+            _gui.paintSchool();
+        }
     }
 
     /** Returns true iff (X, Y) is in bounds. */
@@ -138,6 +149,18 @@ public class BattleGrid extends JPanel {
             || (inBounds(x, y - 1) && playerToken == map[x][y - 1])
             || (inBounds(x + 1, y) && playerToken == map[x + 1][y])
             || (inBounds(x, y + 1) && playerToken == map[x][y + 1]);
+    }
+
+    /** Damages the token at (X, Y) by DAMAGE using a SKILL. */
+    public void reduceHealth(int x, int y, int damage, String skill) {
+        Token monsterToken = map[x][y];
+        Monster monster = monsters.get(monsterToken);
+        monster.reduceHealth(damage);
+        _gui.updateMenuBar(skill + " did " + damage + " damage to " + monster.getName() + "! " + monster.getName()
+            + " has " + monster.getHP() + " HP remaining.");
+        if (monster.isDead()) {
+            monsters.remove(monsterToken);
+        }
     }
 
     /** Returns true iff (X, Y) is a valid square. */

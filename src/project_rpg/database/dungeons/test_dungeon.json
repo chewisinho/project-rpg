@@ -15,7 +15,7 @@
         ["null", "null", "null", "null", "null", "null", "null", "null",
             "null", "null", "null", "null", "null", "null", "null"],
         ["ice_pig", "null", "null", "null", "null", "null", "null", "null",
-            "null", "null", "null", "null", "null", "null", "ice_pig"]
+            "null", "null", "null", "exit", "null", "null", "ice_pig"]
     ]
 }
 

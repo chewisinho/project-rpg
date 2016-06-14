@@ -42,13 +42,8 @@ public class SkillToken extends Token {
                     disappear();
                     return;
                 } else if (_grid.monsters.containsKey(_grid.map[newX][newY])) {
-                    Monster monster = _grid.monsters.get(_grid.map[newX][newY]);
                     int damage = skill.attack();
-                    monster.reduceHealth(damage);
-                    _grid._gui.updateMenuBar("The spell did " + damage + " damage to "
-                        + monster.getName()
-                        + "! " + monster.getName()
-                        + " has " + monster.getHP() + " HP remaining.");
+                    _grid.reduceHealth(newX, newY, damage, skill.getName());
                     disappear();
                     return;
                 } else {
