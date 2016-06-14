@@ -3,6 +3,7 @@
     "_baseMP": 0,
     "_description": "string",
     "_name": "string",
-    "behavior": "string"
+    "behavior": "string",
+    "image": "string"
 }
 

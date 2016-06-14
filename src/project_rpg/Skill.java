@@ -30,6 +30,7 @@ public class Skill implements Serializable {
             _description = attrTree.get("_description").getAsString();
             _name = attrTree.get("_name").getAsString();
             behavior = attrTree.get("behavior").getAsString();
+            _image = attrTree.get("image").getAsString();
             input.close();
             rank = 0;
             exp = (int) BASE_EXP;
@@ -62,6 +63,11 @@ public class Skill implements Serializable {
     /** Returns my damage. */
     public int getDamage() {
         return damage;
+    }
+    
+    /** Returns my image. */
+    public String getImage() {
+    	return _image;
     }
 
     /** Returns my name. */
@@ -110,7 +116,7 @@ public class Skill implements Serializable {
     protected int _baseDamage, _baseMP, damage, exp, mp, rank;
 
     /** Contains the description of the skill. */
-    public String _description, _name, behavior;
+    public String _description, _name, behavior, _image;
 
     /** Contains the scaling of the skill by rank. */
     public static final double BASE_EXP = 35.0, EXP_SCALE = 1.6, SCALE = 1.2;
