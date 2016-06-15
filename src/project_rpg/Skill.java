@@ -45,9 +45,9 @@ public class Skill implements Serializable {
         return spread(damage);
     }
 
-    /** Allocates skill EXP after completing the assignments for WEEK. */
-    void completedAssignments(int week) {
-        increaseEXP(requiredEXP(week) - requiredEXP(week - 1));
+    /** Allocates skill EXP after completing the assignments for WEEK. Returns the log message. */
+    String completedAssignments(int week) {
+        return increaseEXP(requiredEXP(week) - requiredEXP(week - 1));
     }
 
     /** Returns my description. */
@@ -80,20 +80,21 @@ public class Skill implements Serializable {
         return rank;
     }
 
-    /** Adds POINTS to skill EXP, ranking up the skill if needed. */
-    void increaseEXP(int points) {
+    /** Adds POINTS to skill EXP, ranking up the skill if needed. Returns the log message. */
+    String increaseEXP(int points) {
         exp += points;
+        String message = "";
         if (rank <= 10 && exp >= requiredEXP(rank + 1)) {
-            rankUp();
+            message = rankUp();
         }
+        return _name + " gained " + points + " EXP points!" + message;
     }
 
-    /** Increases my rank. */
-    private void rankUp() {
+    /** Increases my rank. Returns a log message. */
+    private String rankUp() {
         rank += 1;
-        System.out.printf("Congratulations, %s ranked up! It is now rank %s.\n",
-            _name, rank);
         update();
+        return " Congratulations, " + _name + " ranked up! " + _name + " is now rank " + rank + ".";
     }
 
     @Override

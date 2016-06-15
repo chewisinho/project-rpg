@@ -33,7 +33,7 @@ import project_rpg.behaviors.monsters.SimpleMelee;
  */
 public class BattleGrid extends JPanel {
 
-    /** Initializes the battle grid with a PLAYER and a GUI. */
+    /** Initializes a DUNGEON with a PLAYER and a GUI. */
     public BattleGrid(GUI gui, Player player, String dungeon) {
         setPreferredSize(new Dimension(WIDTH * SQ_WIDTH, HEIGHT * SQ_HEIGHT));
         _gui = gui;
@@ -86,10 +86,19 @@ public class BattleGrid extends JPanel {
         repaint();
     }
 
+    /** Initializes a DUNGEON with a PLAYER and a GUI. Also uses the COURSE when exiting the dungeon. */
+    public BattleGrid(GUI gui, Player player, String dungeon, Course course) {
+        this(gui, player, dungeon);
+        _course = course;
+    }
+ 
     /** Exits the dungeon if TOKEN is the player token and there are no more monsters. */
     public void exit(Token token, int x, int y) {
         Token exit = map[x][y];
         if (token == playerToken && monsters.isEmpty() && exit != null && exit.isExit()) {
+            if (_course != null) {
+                _gui.updateMenuBar(_course.finishAssignment());
+            }
             _gui.paintSchool();
         }
     }
@@ -235,6 +244,9 @@ public class BattleGrid extends JPanel {
 
     /** Represents a pi/2 rotation. */
     AffineTransformOp rotation;
+
+    /** The course in which the dungeon is found. */
+    private Course _course = null;
 
     /** Contains the GUI from before the start of the battle. */
     public GUI _gui;
