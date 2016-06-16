@@ -53,6 +53,16 @@ public class Course implements Serializable {
         return courseTitle + ": " + description;
     }
 
+    /** Finishes the current assignment. Returns the log message. */
+    String finishAssignment() {
+        if (week < 10) {
+            week += 1;
+            ready = false;
+            return skill.completedAssignments(week);
+        }
+        return "Error: Finishing the course is not yet implemented.";
+    }
+
     /** Returns the assignment for a particular WEEK. */
     protected Assignment getAssignment(int week) {
         return assignments[week - 1];

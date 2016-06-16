@@ -182,6 +182,16 @@ public class GUI extends JPanel {
         options.pressedKey(key);
     }
 
+    /** Loads DUNGEON in COURSE. */
+    void loadAssignment(String dungeon, Course course) {
+        removeAll();
+        hideMenu();
+        displayMenuBar();
+        BattleGrid battle = new BattleGrid(this, _game.getPlayer(), dungeon, course);
+        add(battle);
+        battle.requestFocusInWindow();
+    }
+
     /** Loads DUNGEON and begins a battle. */
     void loadDungeon(String dungeon) {
         removeAll();
@@ -511,7 +521,7 @@ public class GUI extends JPanel {
                 ArrayList<ShortcutButton> assignments = new ArrayList();
                 Assignment assignment = _course.getCurrentAssignment();
                 ShortcutButton button = new ShortcutButton(assignment.getName() + " (S)", (char) 'S');
-                button.addActionListener(new LoadAssignmentListener(assignment));
+                button.addActionListener(new LoadAssignmentListener(assignment, _course));
                 assignments.add(button);
                 assignments.add(returnButton);
                 options.setOptions(assignments);
@@ -599,18 +609,22 @@ public class GUI extends JPanel {
     /** Class that loads a selected assignment. */
     public class LoadAssignmentListener implements ActionListener {
 
-        /** Loads ASSIGNMENT. */
-        public LoadAssignmentListener(Assignment assignment) {
+        /** Loads ASSIGNMENT from COURSE. */
+        public LoadAssignmentListener(Assignment assignment, Course course) {
             _assignment = assignment;
+            _course = course;
         }
 
         @Override
         public void actionPerformed(ActionEvent ignored) {
-            loadDungeon(_assignment.getDungeon());
+            loadAssignment(_assignment.getDungeon(), _course);
         }
 
         /** The assignment that the listener will load. */
         private Assignment _assignment;
+
+        /** The course of the assignment. */
+        private Course _course;
 
     }
 
@@ -924,3 +938,4 @@ public class GUI extends JPanel {
     private static final int WIDTH = 800, HEIGHT = 600;
 
 }
+
