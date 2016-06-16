@@ -203,6 +203,11 @@ public class Game implements Serializable {
     void startSchool() {
         gameState = SCHOOL;
     }
+    
+    /** Game moves to change skills. */
+    void startSkills() {
+    	gameState = SKILLS;
+    }
 
     /** Views the course description at INDEX. */
     void viewCourseDescription(int index) {

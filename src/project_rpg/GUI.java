@@ -102,6 +102,7 @@ public class GUI extends JPanel {
         ArrayList<ShortcutButton> locations = new ArrayList<ShortcutButton>();
         locations.add(classroomButton);
         locations.add(gymButton);
+        locations.add(returnButton);
         ImageIcon icon = new ImageIcon("project_rpg" + File.separator + "resources"
                 + File.separator + "SchoolBackground" + ".jpg"); 
         Image image = icon.getImage();
@@ -158,7 +159,7 @@ public class GUI extends JPanel {
         skillsButton.addActionListener(new SkillsListener());
         restButton = new ShortcutButton("Rest (R)", 'r');
         restButton.addActionListener(new RestListener());
-        returnButton = new ShortcutButton("Return (R)", 'r');
+        returnButton = new ShortcutButton("Return to Dorm (R)", 'r');
         returnButton.addActionListener(new ReturnListener());
         returnFromLoad = new JButton("Return");
         returnFromLoad.addActionListener(new SaveSlotListener(0));
@@ -223,49 +224,6 @@ public class GUI extends JPanel {
         _game = game;
     }
 
-    /** Allows the player to view either battle skills or all skills. */
-    void skills() {
-        removeAll();
-        add(new JLabel("Here are your skills."));
-        Vector<Skill> skillList = new Vector<Skill>(
-            _game.getPlayer().getSkills());
-        JComboBox<Skill> skills = new JComboBox<Skill>(skillList);
-        JComboBox<Skill> battleSkills = new JComboBox<Skill>(
-                _game.getPlayer().getBattleSkills());
-        add(skills);
-        add(battleSkills);
-        JTextArea skillDescription = new JTextArea(4, 30);
-        skillDescription.setLineWrap(true);
-        skillDescription.setEditable(false);
-        skillDescription.setText(skillList.get(0).description() + "\n"
-                + "Damage: " + skillList.get(0).getDamage()
-                + "\n MP Cost:" + skillList.get(0).getCost());
-        skills.addItemListener(new SkillSelectionListener(skillDescription));
-        battleSkills.addItemListener(new SkillSelectionListener(
-                skillDescription));
-        JScrollPane scroller = new JScrollPane(skillDescription);
-        scroller.setHorizontalScrollBarPolicy(
-            ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-        scroller.setVerticalScrollBarPolicy(
-            ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
-        add(scroller);
-        ArrayList<ShortcutButton> changeSkills = new ArrayList();
-        changeSkills.add(changeSkill1);
-        changeSkill1.removeActionListener(changeSkill1.getActionListeners()[0]);
-        changeSkill1.addActionListener(new ChangeSkillListener(1, skills));
-        changeSkills.add(changeSkill2);
-        changeSkill2.removeActionListener(changeSkill2.getActionListeners()[0]);
-        changeSkill2.addActionListener(new ChangeSkillListener(2, skills));
-        changeSkills.add(changeSkill3);
-        changeSkill3.removeActionListener(changeSkill3.getActionListeners()[0]);
-        changeSkill3.addActionListener(new ChangeSkillListener(3, skills));
-        changeSkills.add(changeSkill4);
-        changeSkill4.removeActionListener(changeSkill4.getActionListeners()[0]);
-        changeSkill4.addActionListener(new ChangeSkillListener(4, skills));
-        options.setOptions(changeSkills);
-        updateUI();
-    }
-
     /** Starts a new game session. */
     void start() {
         JLabel titleScreen = new JLabel(BattleGrid.getImage("title_screen"));
@@ -317,6 +275,9 @@ public class GUI extends JPanel {
         case SCHOOL:
             paintSchool();
             break;
+        case SKILLS:
+        	paintSkills();
+        	break;
         default:
             Main.error("Invalid game state.");
             break;
@@ -425,6 +386,51 @@ public class GUI extends JPanel {
         options.setOptions(schoolOptions);
         updateUI();
     }
+    
+    /** Renders the game to the view skills state. */
+    void paintSkills() {
+    	lastSeen = SKILLS;
+        removeAll();
+        add(new JLabel("Here are your skills."));
+        Vector<Skill> skillList = new Vector<Skill>(
+            _game.getPlayer().getSkills());
+        JComboBox<Skill> skills = new JComboBox<Skill>(skillList);
+        JComboBox<Skill> battleSkills = new JComboBox<Skill>(
+                _game.getPlayer().getBattleSkills());
+        add(skills);
+        add(battleSkills);
+        JTextArea skillDescription = new JTextArea(4, 30);
+        skillDescription.setLineWrap(true);
+        skillDescription.setEditable(false);
+        skillDescription.setText(skillList.get(0).description() + "\n"
+                + "Damage: " + skillList.get(0).getDamage()
+                + "\n MP Cost:" + skillList.get(0).getCost());
+        skills.addItemListener(new SkillSelectionListener(skillDescription));
+        battleSkills.addItemListener(new SkillSelectionListener(
+                skillDescription));
+        JScrollPane scroller = new JScrollPane(skillDescription);
+        scroller.setHorizontalScrollBarPolicy(
+            ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        scroller.setVerticalScrollBarPolicy(
+            ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+        add(scroller);
+        ArrayList<ShortcutButton> changeSkills = new ArrayList();
+        changeSkills.add(changeSkill1);
+        changeSkill1.removeActionListener(changeSkill1.getActionListeners()[0]);
+        changeSkill1.addActionListener(new ChangeSkillListener(1, skills));
+        changeSkills.add(changeSkill2);
+        changeSkill2.removeActionListener(changeSkill2.getActionListeners()[0]);
+        changeSkill2.addActionListener(new ChangeSkillListener(2, skills));
+        changeSkills.add(changeSkill3);
+        changeSkill3.removeActionListener(changeSkill3.getActionListeners()[0]);
+        changeSkill3.addActionListener(new ChangeSkillListener(3, skills));
+        changeSkills.add(changeSkill4);
+        changeSkill4.removeActionListener(changeSkill4.getActionListeners()[0]);
+        changeSkill4.addActionListener(new ChangeSkillListener(4, skills));
+        changeSkills.add(returnButton);
+        options.setOptions(changeSkills);
+        updateUI();
+    }
 
     /* LISTENER INNER CLASSES. */
 
@@ -441,7 +447,8 @@ public class GUI extends JPanel {
         public void actionPerformed(ActionEvent ignored) {
             Skill skill = (Skill) _box.getSelectedItem();
             _game.getPlayer().changeBattleSkills(_number, skill);
-            skills();
+            lastSeen = null;
+            paintSkills();
         }
 
         /** My skill number. */
@@ -484,6 +491,7 @@ public class GUI extends JPanel {
                 courses.add(button);
                 i += 1;
             }
+            courses.add(returnButton);
             options.setOptions(courses);
         }
 
@@ -505,6 +513,7 @@ public class GUI extends JPanel {
                 ShortcutButton button = new ShortcutButton(assignment.getName() + " (S)", (char) 'S');
                 button.addActionListener(new LoadAssignmentListener(assignment));
                 assignments.add(button);
+                assignments.add(returnButton);
                 options.setOptions(assignments);
             } else {
                 updateMenuBar("There are no more assignments for " + _course + " this week.");
@@ -643,8 +652,13 @@ public class GUI extends JPanel {
 
         @Override
         public void actionPerformed(ActionEvent ignored) {
-            _game.startSchool();
-            repaint();
+            if (lastSeen == SCHOOL) {
+            	lastSeen = null;
+            	repaint();
+            } else {
+	        	_game.startSchool();
+	            repaint();
+            }
         }
 
     }
@@ -717,7 +731,8 @@ public class GUI extends JPanel {
 
         @Override
         public void actionPerformed(ActionEvent ignored) {
-            skills();
+            _game.startSkills();
+        	paintSkills();
         }
 
     }
