@@ -47,6 +47,9 @@ public class SkillToken extends Token {
                     _grid.reduceHealth(newX, newY, damage, skill.getName());
                     disappear();
                     return;
+                } else if (_grid.map[newX][newY] != null) {
+                    disappear();
+                    return;
                 } else {
                     move(newX, newY);
                     lastAction = System.currentTimeMillis();
