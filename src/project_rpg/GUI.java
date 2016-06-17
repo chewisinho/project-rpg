@@ -325,6 +325,7 @@ public class GUI extends JPanel {
     void paintEnrollment(int number) {
         lastSeen = ENROLLMENT;
         removeAll();
+        hideMenu();
         add(new JLabel("Please choose a course!"));
         Vector<Course> courseList = new Vector<Course>(
             _game.getAvailableCourses());

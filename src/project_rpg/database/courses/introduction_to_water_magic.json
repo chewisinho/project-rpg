@@ -1,0 +1,56 @@
+{
+    "courseTitle": "Introduction to Water Magic",
+    "description": "Covers the basics of handling water magic, culminating in the production of a waterball.",
+    "skill": "fireball",
+    "1": {
+        "name": "Waterball Basics I",
+        "description": "Learn how to handle a waterball.",
+        "dungeon": "test_dungeon"
+    },
+    "2": {
+        "name": "Waterball Basics II",
+        "description": "Learn how to handle a waterball.",
+        "dungeon": "test_dungeon"
+    },
+    "3": {
+        "name": "Waterball Basics III",
+        "description": "Learn how to handle a waterball.",
+        "dungeon": "test_dungeon"
+    },
+    "4": {
+        "name": "Waterball Basics IV",
+        "description": "Learn how to handle a waterball.",
+        "dungeon": "test_dungeon"
+    },
+    "5": {
+        "name": "Waterball Basics: Midterm",
+        "description": "Learn how to handle a waterball.",
+        "dungeon": "test_dungeon"
+    },
+    "6": {
+        "name": "Waterball Basics VI",
+        "description": "Learn how to handle a waterball.",
+        "dungeon": "test_dungeon"
+    },
+    "7": {
+        "name": "Waterball Basics VII",
+        "description": "Learn how to handle a waterball.",
+        "dungeon": "test_dungeon"
+    },
+    "8": {
+        "name": "Waterball Basics VIII",
+        "description": "Learn how to handle a waterball.",
+        "dungeon": "test_dungeon"
+    },
+    "9": {
+        "name": "Waterball Basics IX",
+        "description": "Learn how to handle a waterball.",
+        "dungeon": "test_dungeon"
+    },
+    "10": {
+        "name": "Waterball Basics X",
+        "description": "Learn how to handle a waterball.",
+        "dungeon": "test_dungeon"
+    }
+}
+

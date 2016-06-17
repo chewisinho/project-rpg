@@ -31,6 +31,7 @@ public class Game implements Serializable {
         // Initialize the courses.
         availableCourses = new ArrayList<Course>();
         availableCourses.add(new Course("introduction_to_fire_magic"));
+        availableCourses.add(new Course("introduction_to_water_magic"));
         if (availableCourses.size() == 0) {
             Main.error("The game is initialized with no available courses.");
         }
@@ -109,6 +110,8 @@ public class Game implements Serializable {
         if (quarter == FALL) {
             nextYear();
         }
+        gameState = ENROLLMENT;
+        enrolledCourses.clear();
     }
 
     /** Increments to the next week. */
