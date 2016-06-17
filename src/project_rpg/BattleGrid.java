@@ -97,7 +97,12 @@ public class BattleGrid extends JPanel {
         Token exit = map[x][y];
         if (token == playerToken && monsters.isEmpty() && exit != null && exit.isExit()) {
             if (_course != null) {
-                _gui.updateMenuBar(_course.finishAssignment());
+                String message = _course.finishAssignment();
+                _gui.updateMenuBar(message);
+                if (message.contains("Course complete")) {
+                    // The course is complete, so remove the course from the enrolled list.
+                    _gui._game.finishCourse(_course);
+                }
             }
             _gui.paintSchool();
         }

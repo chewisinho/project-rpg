@@ -923,7 +923,7 @@ public class GUI extends JPanel {
     private final JFrame frame;
 
     /** Contains the game I am displaying. */
-    private Game _game;
+    Game _game;
 
     /** Contains the last seen game state. */
     private GameState lastSeen;

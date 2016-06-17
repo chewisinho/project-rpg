@@ -41,14 +41,9 @@ public class Game implements Serializable {
         }
     }
 
-    /** Clears the current assignment. */
-    void clearAssignment() {
-        currentAssignment = null;
-    }
-
-    /** Returns the current assignment. */
-    Assignment getAssignment() {
-        return currentAssignment;
+    /** Removes COURSE from the list of enrolled courses. */
+    void finishCourse(Course course) {
+        enrolledCourses.remove(course);
     }
 
     /** Returns an array of available courses. */
@@ -183,12 +178,6 @@ public class Game implements Serializable {
         writer.close();
     }
 
-    /** Starts ASSIGNMENT. */
-    void startBattle(Assignment assignment) {
-        gameState = BATTLE;
-        currentAssignment = assignment;
-    }
-
     /** Travels to classroom. */
     void startClass() {
         gameState = CLASS;
@@ -247,26 +236,17 @@ public class Game implements Serializable {
         }
     }
 
-    /** The year this game is in. */
-    private Year year;
-
-    /** The quarter this game is in. */
-    private Quarter quarter;
-
-    /** The week this game is in. */
-    private int week;
-
-    /** The day this game is in. */
+    /** The temporal state of the game. */
     private Day day;
-
-    /** The state that this game is in. */
-    private GameState gameState;
+    private int week;
+    private Quarter quarter;
+    private Year year;
 
     /** Contains a list of available and enrolled courses. */
     private ArrayList<Course> availableCourses, enrolledCourses;
 
-    /** Contains the current assignment in the game. */
-    private transient Assignment currentAssignment;
+    /** The state that this game is in. */
+    private GameState gameState;
 
     /** The main character in the game. */
     private Player player;
