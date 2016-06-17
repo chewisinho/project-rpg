@@ -4,6 +4,7 @@
     "_description": "string",
     "_name": "string",
     "behavior": "string",
+    "cooldown": 250,
     "image": "string"
 }
 
