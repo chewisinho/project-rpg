@@ -94,10 +94,9 @@ public class Token implements Runnable {
         int[] dir = orientationToArray(orientation);
         int x = _x + dir[0], y = _y + dir[1];
         Skill currentSkill = _grid._player.getBattleSkill();
-        if (currentSkill != null && _grid.valid(x, y) && 
-        	    _grid._player.hasEnoughMP(currentSkill.getCost()) &&
-        	    System.currentTimeMillis() - lastAction > currentSkill.getCooldown()) {
-        	Token token = new SkillToken(
+        if (currentSkill != null && _grid.valid(x, y) && _grid._player.hasEnoughMP(currentSkill.getCost())
+            && System.currentTimeMillis() - lastAction > currentSkill.getCooldown()) {
+            Token token = new SkillToken(
                 currentSkill.getImage(),
                 x,
                 y,
@@ -110,29 +109,8 @@ public class Token implements Runnable {
             _grid.map[x][y] = token;
             lastAction = System.currentTimeMillis();
             new Thread(token).start();
-            _grid.repaint();
         }
-        
-    }
-
-    /** Switches to Skill 1. */
-    public void switchAttack1() {
-        // TODO
-    }
-
-    /** Switches to Skill 2. */
-    public void switchAttack2() {
-        // TODO
-    }
-
-    /** Switches to Skill 3. */
-    public void switchAttack3() {
-        // TODO
-    }
-
-    /** Switches to Skill 4. */
-    public void switchAttack4() {
-        // TODO
+        _grid.repaint();
     }
 
     /** Moves towards the player. */

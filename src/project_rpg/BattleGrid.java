@@ -124,6 +124,7 @@ public class BattleGrid extends JPanel {
                 }
             }
         }
+        _gui.refreshMenu();
     }
 
     /** Paints IMAGE at (X, Y) on G. */
