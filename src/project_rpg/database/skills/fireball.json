@@ -4,6 +4,7 @@
     "_description": "A ball of fire!",
     "_name": "Fireball",
     "behavior": "straightLine",
+    "cooldown": 1000,
     "image": "Fireball"
 }
 

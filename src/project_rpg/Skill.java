@@ -31,6 +31,7 @@ public class Skill implements Serializable {
             _name = attrTree.get("_name").getAsString();
             behavior = attrTree.get("behavior").getAsString();
             _image = attrTree.get("image").getAsString();
+            cooldown = attrTree.get("cooldown").getAsInt();
             input.close();
             rank = 0;
             exp = (int) BASE_EXP;
@@ -53,6 +54,11 @@ public class Skill implements Serializable {
     /** Returns my description. */
     public String description() {
         return _name + ": " + _description;
+    }
+    
+    /**Returns my cooldown. */
+    public int getCooldown() {
+    	return cooldown;
     }
     
     /** Returns my MP cost. */
@@ -114,7 +120,7 @@ public class Skill implements Serializable {
     }
 
     /** Contains the parameters of the skill. */
-    protected int _baseDamage, _baseMP, damage, exp, mp, rank;
+    protected int _baseDamage, _baseMP, cooldown, damage, exp, mp, rank;
 
     /** Contains the description of the skill. */
     public String _description, _name, behavior, _image;
