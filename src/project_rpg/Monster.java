@@ -76,6 +76,9 @@ public class Monster implements Serializable {
     /** Causes DAMAGEAMOUNT to the monster. */
     public void reduceHealth(int damageAmount) {
         hp -= damageAmount;
+        if (hp < 0) {
+        	hp = 0;
+        }
     }
 
     /** Returns a sample from a Gaussian distribution with MEAN and STANDARDDEVIATION. */
