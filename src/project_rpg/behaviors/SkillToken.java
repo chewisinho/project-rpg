@@ -4,7 +4,7 @@ import project_rpg.BattleGrid;
 import project_rpg.Monster;
 import project_rpg.Skill;
 import project_rpg.behaviors.Token;
-
+import project_rpg.Player;
 /** Controls the behavior for a spell that moves in a straight line.
  *  @author S. Chewi, T. Nguyen, A. Tran
  */
@@ -29,6 +29,7 @@ public class SkillToken extends Token {
     @Override
     public void run() {
         if (skill.behavior.equals("straightLine")) {
+        	_grid._player.reduceMana(skill.getCost());
             straightLine();
         }
     }

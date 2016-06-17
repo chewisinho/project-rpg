@@ -42,24 +42,39 @@ public class Player implements Serializable {
     int getMaxMP() {
         return maxMP;
     }
+    
+    /** Checks if the player has enough MP to use a certain skill with COST. */
+    public boolean hasEnoughMP(int cost) {
+    	if (cost > currMP) {
+    		return false;
+    	} else {
+    		return true;
+    	}
+    }
 
     /** Reduces my health by AMOUNT. */
     public void reduceHealth(int amount) {
         currHP -= amount;
+        if (currHP < 0) {
+        	currHP = 0;
+        }
     }
 
     /** Reduces my mana by AMOUNT. */
-    void reduceMana(int amount) {
+    public void reduceMana(int amount) {
         currMP -= amount;
+        if (currMP < 0) {
+        	currMP = 0;
+        }
     }
 
     /** Increases my max health by AMOUNT. */
-    void increaseHealth(int amount) {
+    public void increaseHealth(int amount) {
         maxHP += amount;
     }
 
     /** Increases my max mana by AMOUNT. */
-    void increaseMana(int amount) {
+    public void increaseMana(int amount) {
         maxMP += amount;
     }
 

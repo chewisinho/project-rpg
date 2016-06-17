@@ -94,7 +94,8 @@ public class Token implements Runnable {
         int[] dir = orientationToArray(orientation);
         int x = _x + dir[0], y = _y + dir[1];
         Skill currentSkill = _grid._player.getBattleSkill();
-        if (currentSkill != null && _grid.valid(x, y)) {
+        if (currentSkill != null && _grid.valid(x, y) && 
+        	    _grid._player.hasEnoughMP(currentSkill.getCost())) {
         	Token token = new SkillToken(
                 currentSkill.getImage(),
                 x,

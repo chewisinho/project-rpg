@@ -1,6 +1,6 @@
 {
     "_baseDamage": 10,
-    "_baseMP": 5,
+    "_baseMP": 3,
     "_description": "A ball of fire!",
     "_name": "Fireball",
     "behavior": "straightLine",
