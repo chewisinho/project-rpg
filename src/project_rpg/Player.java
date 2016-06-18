@@ -8,41 +8,71 @@ import java.util.ArrayList;
  */
 public class Player implements Serializable {
 
+    /** Initializes player without a name. */
+    public Player() {
+        this("Jimmy");
+    }
+
     /** Initializes new player given GIVENNAME. */
     public Player(String givenName) {
         name = givenName;
     }
 
-    /** Initializes player without a name. */
-    public Player() {
-        this("Jimmy");
+    /** Adds NEWCOURSE to a list of taken courses. */
+    void addCourse(Course newCourse) {
+        pastCourses.add(newCourse);
+    }
+
+    /** Adds NEWSKILL to the player. */
+    void addSkill(Skill newSkill) {
+        skills.add(newSkill);
+    }
+
+    /** Changes a battle SKILL at INDEX. */
+    void changeBattleSkills(int index, Skill skill) {
+    	battleSkills[index] = skill;
     }
 
     /** Returns the current battleSkill. */
     public Skill getBattleSkill() {
     	return battleSkill;
     }
-    
+
+    /** Returns battleSkills. */
+    Skill[] getBattleSkills() {
+        return battleSkills;
+    }
+
     /** Returns current HP. */
     public int getHP() {
         return currHP;
     }
 
     /** Returns max HP. */
-    int getMaxHP() {
+    public int getMaxHP() {
         return maxHP;
     }
 
+    /** Returns max MP. */
+    public int getMaxMP() {
+        return maxMP;
+    }
+    
     /** Returns current MP. */
     public int getMP() {
         return currMP;
     }
 
-    /** Returns max MP. */
-    int getMaxMP() {
-        return maxMP;
+    /** Returns the skill at INDEX. */
+    public Skill getSkill(int index) {
+        return skills.get(index);
     }
-    
+
+    /** Returns the player's skills. */
+    ArrayList<Skill> getSkills() {
+        return skills;
+    }
+
     /** Checks if the player has enough MP to use a certain skill with COST. */
     public boolean hasEnoughMP(int cost) {
     	if (cost > currMP) {
@@ -50,6 +80,36 @@ public class Player implements Serializable {
     	} else {
     		return true;
     	}
+    }
+
+    /** Increases my max health by AMOUNT. */
+    void increaseHealth(int amount) {
+        maxHP += amount;
+    }
+
+    /** Increases my max mana by AMOUNT. */
+    void increaseMana(int amount) {
+        maxMP += amount;
+    }
+
+    /** Returns true iff I am dead. */
+    public boolean isDead() {
+        return currHP <= 0;
+    }
+
+    /** Returns true iff I am out of MP. */
+    public boolean isOutOfMana() {
+        return currMP <= 0;
+    }
+
+    /** Returns true iff the player has no battle skills set. */
+    public boolean noSkillsSet() {
+        for (int i = 0; i < 4; i += 1) {
+            if (battleSkills[i] != null) {
+                return false;
+            }
+        }
+        return true;
     }
 
     /** Reduces my health by AMOUNT. */
@@ -68,75 +128,10 @@ public class Player implements Serializable {
         }
     }
 
-    /** Increases my max health by AMOUNT. */
-    public void increaseHealth(int amount) {
-        maxHP += amount;
-    }
-
-    /** Increases my max mana by AMOUNT. */
-    public void increaseMana(int amount) {
-        maxMP += amount;
-    }
-
-    /** Returns true iff I am dead. */
-    public boolean isDead() {
-        return currHP <= 0;
-    }
-
-    /** Returns true iff I am out of MP. */
-    public boolean isOutOfMana() {
-        return currMP <= 0;
-    }
-
     /** Restores HP and MP to max values. */
-    public void restore() {
+    void restore() {
         currHP = maxHP;
         currMP = maxMP;
-    }
-
-    /** Adds NEWSKILL to the player. */
-    public void addSkill(Skill newSkill) {
-        skills.add(newSkill);
-    }
-
-    /** Adds NEWCOURSE to a list of taken courses. */
-    public void addCourse(Course newCourse) {
-        pastCourses.add(newCourse);
-    }
-
-    /** Adds NEWASSIGNMENT to a list of taken courses. */
-    public void addAssignment(Assignment newAssignment) {
-        pastAssignments.add(newAssignment);
-    }
-
-    /** Prints a list of the player's skills. */
-    void printSkills() {
-        int index = 0;
-        for (Skill skill : skills) {
-            System.out.printf("%s: %s (%s MP)\n", index, skill.getName(),
-                skill.getCost());
-            index += 1;
-        }
-    }
-
-    /** Returns the skill at INDEX. */
-    Skill getSkill(int index) {
-        return skills.get(index);
-    }
-
-    /** Returns the player's skills. */
-    ArrayList<Skill> getSkills() {
-        return skills;
-    }
-
-    /** Returns battleSkills. */
-    Skill[] getBattleSkills() {
-        return battleSkills;
-    }
-
-    /** Changes a battle SKILL at INDEX. */
-    void changeBattleSkills(int index, Skill skill) {
-    	battleSkills[index] = skill;
     }
 
     /** Switches to Skill 1. */
@@ -159,32 +154,23 @@ public class Player implements Serializable {
         battleSkill = battleSkills[3];
     }
     
-    /** Prints the status of the player. */
-    public void status() {
-        System.out.printf("You have %s/%s HP remaining.\n", currHP, maxHP);
-        System.out.printf("You have %s/%s MP remaining.\n", currMP, maxMP);
-    }
-
-    /** Initial parameters. */
-    private int currHP = 100, maxHP = 100, currMP = 100, maxMP = 100;
-
-    /** The player's name. */
-    private String name;
+    /** An array of courses the player has taken. */
+    private ArrayList<Course> pastCourses = new ArrayList<Course>();
 
     /** An array of the player's skills. */
     private ArrayList<Skill> skills = new ArrayList<Skill>();
 
-    /** An array of courses the player has taken. */
-    private ArrayList<Course> pastCourses = new ArrayList<Course>();
+    /** Initial parameters. */
+    private int currHP = 100, currMP = 100, maxHP = 100, maxMP = 100;
 
-    /** An array of assignments the player has completed. */
-    private ArrayList<Assignment> pastAssignments = new ArrayList<Assignment>();
+    /** The current battle skill that the player is using. */
+    private Skill battleSkill;
 
     /** An array of skills that the player can bring to battle. */
     private Skill[] battleSkills = new Skill[4];
 
-    /** The current battle skill that the player is using. */
-    private Skill battleSkill = battleSkills[0];
+    /** The player's name. */
+    private String name;
 
 }
 
