@@ -24,6 +24,7 @@ public class Token implements Runnable {
         orientation = 0;
         _grid.map[x][y] = this;
         lastAction = System.currentTimeMillis();
+        lastMovement = System.currentTimeMillis();
     }
 
     /** Returns false, since the token is not an exit. */
@@ -75,11 +76,12 @@ public class Token implements Runnable {
         if (_grid.inBounds(x, y)) {
             _grid.exit(this, x, y);
         }
-        if (_grid.valid(x, y)) {
+        if (_grid.valid(x, y) && System.currentTimeMillis() - lastMovement > 100) {
             _grid.map[_x][_y] = null;
             _x = x;
             _y = y;
             _grid.map[_x][_y] = this;
+            lastMovement = System.currentTimeMillis();
             _grid.repaint();
         }
     }
@@ -180,8 +182,8 @@ public class Token implements Runnable {
     /** Contains my buffered image. */
     private BufferedImage buffered;
 
-    /** Contains the time of my last action. */
-    protected long lastAction;
+    /** Records the time of the last action and movement for cooldown tracking. */
+    protected long lastAction, lastMovement;
 
 }
 

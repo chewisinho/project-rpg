@@ -31,7 +31,7 @@ import project_rpg.behaviors.monsters.SimpleMelee;
 /** Displays the battle screen.
  *  @author S. Chewi, T. Nguyen, A. Tran
  */
-public class BattleGrid extends JPanel {
+public class BattleGrid extends JPanel implements Runnable {
 
     /** Initializes a DUNGEON with a PLAYER and a GUI. */
     public BattleGrid(GUI gui, Player player, String dungeon) {
@@ -84,6 +84,8 @@ public class BattleGrid extends JPanel {
         rotation = makeRotation(RIGHT_ANGLE);
         setFocusable(true);
         repaint();
+
+        new Thread(this).start();
     }
 
     /** Initializes a DUNGEON with a PLAYER and a GUI. Also uses the COURSE when exiting the dungeon. */
@@ -115,6 +117,19 @@ public class BattleGrid extends JPanel {
 
     @Override
     public synchronized void paintComponent(Graphics g) {
+        // Move the player.
+        if (down) {
+            playerToken.down();
+        }
+        if (left) {
+            playerToken.left();
+        }
+        if (right) {
+            playerToken.right();
+        }
+        if (up) {
+            playerToken.up();
+        }
         for (int x = 0; x < WIDTH; x += 1) {
             for (int y = 0; y < HEIGHT; y += 1) {
                 if (map[x][y] == null) {
@@ -178,6 +193,13 @@ public class BattleGrid extends JPanel {
         }
     }
 
+    @Override
+    public void run() {
+        while (true) {
+            repaint();
+        }
+    }
+
     /** Returns true iff (X, Y) is a valid square. */
     public boolean valid(int x, int y) {
         return inBounds(x, y) && (map[x][y] == null);
@@ -216,16 +238,16 @@ public class BattleGrid extends JPanel {
         public void keyPressed(KeyEvent event) {
             switch (event.getKeyCode()) {
             case KeyEvent.VK_S:
-                playerToken.down();
+                down = true;
                 break;
             case KeyEvent.VK_A:
-                playerToken.left();
+                left = true;
                 break;
             case KeyEvent.VK_D:
-                playerToken.right();
+                right = true;
                 break;
             case KeyEvent.VK_W:
-                playerToken.up();
+                up = true;
                 break;
             case KeyEvent.VK_SPACE:
                 playerToken.attack();
@@ -246,10 +268,31 @@ public class BattleGrid extends JPanel {
             }
         }
 
+        @Override
+        public void keyReleased(KeyEvent event) {
+            switch (event.getKeyCode()) {
+            case KeyEvent.VK_S:
+                down = false;
+                break;
+            case KeyEvent.VK_A:
+                left = false;
+                break;
+            case KeyEvent.VK_D:
+                right = false;
+                break;
+            case KeyEvent.VK_W:
+                up = false;
+                break;
+            }
+        }
+
     }
 
     /** Represents a pi/2 rotation. */
     AffineTransformOp rotation;
+
+    /** Boolean values that control whether the player is moving or not. */
+    private boolean down, left, right, up;
 
     /** The course in which the dungeon is found. */
     private Course _course = null;
