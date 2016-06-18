@@ -116,21 +116,6 @@ public class Token implements Runnable {
         _grid.repaint();
     }
 
-    /** Moves towards the player. */
-    public void moveTowardsPlayer() {
-        if (_grid.playerToken.x() > _x) {
-            right();
-        } else if (_grid.playerToken.x() < _x) {
-            left();
-        } else {
-            if (_grid.playerToken.y() > _y) {
-                down();
-            } else if (_grid.playerToken.y() < _y) {
-                up();
-            }
-        }
-    }
-
     /** Returns my buffered image. */
     public BufferedImage bufferedImage() {
         return buffered;

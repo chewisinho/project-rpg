@@ -49,7 +49,7 @@ public class Monster implements Serializable {
     }
 
     /** Returns the behavior of the monster. */
-    String getBehavior() {
+    public String getBehavior() {
         return _behavior;
     }
 
@@ -77,7 +77,7 @@ public class Monster implements Serializable {
     public void reduceHealth(int damageAmount) {
         hp -= damageAmount;
         if (hp < 0) {
-        	hp = 0;
+            hp = 0;
         }
     }
 

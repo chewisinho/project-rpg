@@ -24,8 +24,8 @@ import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
 import project_rpg.behaviors.ExitToken;
+import project_rpg.behaviors.MonsterToken;
 import project_rpg.behaviors.Token;
-import project_rpg.behaviors.monsters.SimpleMelee;
 
 
 /** Displays the battle screen.
@@ -64,7 +64,7 @@ public class BattleGrid extends JPanel implements Runnable {
                         map[col][row] = new ExitToken(this, col, row);
                     } else {
                         Monster monster = new Monster(identifier);
-                        Token token = GetMonsterToken.getToken(this, col, row, monster);
+                        Token token = new MonsterToken(this, col, row, monster);
                         monsters.put(token, monster);
                     }
                     col += 1;
