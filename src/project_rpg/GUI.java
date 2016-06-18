@@ -184,6 +184,10 @@ public class GUI extends JPanel {
 
     /** Loads DUNGEON in COURSE. */
     void loadAssignment(String dungeon, Course course) {
+        if (_game.getPlayer().noSkillsSet()) {
+            updateMenuBar("You cannot enter a dungeon without setting your battle skills!");
+            return;
+        }
         removeAll();
         hideMenu();
         displayMenuBar();
@@ -194,6 +198,10 @@ public class GUI extends JPanel {
 
     /** Loads DUNGEON and begins a battle. */
     void loadDungeon(String dungeon) {
+        if (_game.getPlayer().noSkillsSet()) {
+            updateMenuBar("You cannot enter a dungeon without setting your battle skills!");
+            return;
+        }
         removeAll();
         hideMenu();
         displayMenuBar();
@@ -249,12 +257,7 @@ public class GUI extends JPanel {
 
     /** Used for testing purposes. The effect of this button changes. */
     void test() {
-        removeAll();
-        hideMenu();
-        displayMenuBar();
-        BattleGrid testDungeon = new BattleGrid(this, _game.getPlayer(), "test_dungeon");
-        add(testDungeon);
-        testDungeon.requestFocusInWindow();
+        loadDungeon("test_dungeon");
     }
 
     /** Adds MESSAGE to the Menu Bar. */
