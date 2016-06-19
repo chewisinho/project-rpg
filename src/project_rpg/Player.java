@@ -38,6 +38,11 @@ public class Player implements Serializable {
     	return battleSkill;
     }
 
+    /** Returns the battleSkill at INDEX. */
+    public Skill getBattleSkill(int index) {
+        return battleSkills[index];
+    }
+
     /** Returns battleSkills. */
     Skill[] getBattleSkills() {
         return battleSkills;
