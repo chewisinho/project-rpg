@@ -219,19 +219,19 @@ public class GUI extends JPanel {
     
     /** Plays SONG and returns my Clip. */
     public Clip playSong(String song) {
-    	try {
-	    	AudioInputStream audioIn = AudioSystem.getAudioInputStream(
-	    			new File("project_rpg" + File.separator + "resources"
-	                + File.separator + song + ".wav").getAbsoluteFile());
-	    	clip = AudioSystem.getClip();
-	    	clip.open(audioIn);
-	    	clip.start();
-	    	clip.loop(clip.LOOP_CONTINUOUSLY);
-    	} catch (Exception e) {
-    		System.out.println("Error");
-    		e.printStackTrace();
-    	}
-    	return clip;
+        try {
+            AudioInputStream audioIn = AudioSystem.getAudioInputStream(
+                    new File("project_rpg" + File.separator + "resources"
+                    + File.separator + song + ".wav").getAbsoluteFile());
+            clip = AudioSystem.getClip();
+            clip.open(audioIn);
+            clip.start();
+            clip.loop(clip.LOOP_CONTINUOUSLY);
+        } catch (Exception e) {
+            System.out.println("Error");
+            e.printStackTrace();
+        }
+        return clip;
     }
 
     /** Refreshes the menu bar. */
@@ -313,8 +313,8 @@ public class GUI extends JPanel {
             paintSchool();
             break;
         case SKILLS:
-        	paintSkills();
-        	break;
+            paintSkills();
+            break;
         default:
             Main.error("Invalid game state.");
             break;
@@ -429,7 +429,7 @@ public class GUI extends JPanel {
     
     /** Renders the game to the view skills state. */
     void paintSkills() {
-    	lastSeen = SKILLS;
+        lastSeen = SKILLS;
         removeAll();
         add(new JLabel("Here are your skills."));
         Vector<Skill> skillList = new Vector<Skill>(
@@ -566,11 +566,11 @@ public class GUI extends JPanel {
     
     /** Class that does nothing. */
     public class DummyListener implements ActionListener {
-    	
-    	@Override
-    	public void actionPerformed(ActionEvent ignored) {
-    	
-    	}
+        
+        @Override
+        public void actionPerformed(ActionEvent ignored) {
+        
+        }
     }
 
     /** Class that listens for class enrollment. */
@@ -697,11 +697,11 @@ public class GUI extends JPanel {
         @Override
         public void actionPerformed(ActionEvent ignored) {
             if (lastSeen == SCHOOL) {
-            	lastSeen = null;
-            	repaint();
+                lastSeen = null;
+                repaint();
             } else {
-	        	_game.startSchool();
-	            repaint();
+                _game.startSchool();
+                repaint();
             }
         }
 
@@ -776,7 +776,7 @@ public class GUI extends JPanel {
         @Override
         public void actionPerformed(ActionEvent ignored) {
             _game.startSkills();
-        	paintSkills();
+            paintSkills();
         }
 
     }

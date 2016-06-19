@@ -56,7 +56,7 @@ public class Skill implements Serializable {
         return _name + ": " + _description;
     }
     
-    /**Returns my cooldown. */
+    /** Returns my cooldown. */
     public int getCooldown() {
     	return cooldown;
     }
@@ -74,6 +74,11 @@ public class Skill implements Serializable {
     /** Returns my image. */
     public String getImage() {
     	return _image;
+    }
+
+    /** Returns the time that the skill was last used. */
+    public long getLastUsed() {
+        return lastUsed;
     }
 
     /** Returns my name. */
@@ -114,13 +119,21 @@ public class Skill implements Serializable {
         mp = (int) (_baseMP * Math.pow(SCALE, rank));
     }
 
+    /** Sets the lastUsed variable to TIME. */
+    public void use(long time) {
+        lastUsed = time;
+    }
+
     /** Returns the amount of EXP needed for RANK. */
     private static int requiredEXP(int rank) {
         return (int) (BASE_EXP * Math.pow(EXP_SCALE, rank));
     }
 
     /** Contains the parameters of the skill. */
-    protected int _baseDamage, _baseMP, cooldown, damage, exp, mp, rank;
+    private int _baseDamage, _baseMP, cooldown, damage, exp, mp, rank;
+
+    /** The last time that the skill was used. */
+    private long lastUsed;
 
     /** Contains the description of the skill. */
     public String _description, _name, behavior, _image;
