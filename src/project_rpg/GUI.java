@@ -15,7 +15,9 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Vector;
-
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -45,6 +47,7 @@ public class GUI extends JPanel {
         menu = new MenuBar();
         options = new OptionBar();
         initializeButtons();
+        playSong("Title_Screen");
         addKeyListener(new ShortcutKeyListener());
         setFocusable(true);
         requestFocusInWindow();
@@ -193,6 +196,8 @@ public class GUI extends JPanel {
         displayMenuBar();
         BattleGrid battle = new BattleGrid(this, _game.getPlayer(), dungeon, course);
         add(battle);
+        clip.stop();
+        playSong("Intensity_Teaser");
         battle.requestFocusInWindow();
     }
 
@@ -205,9 +210,28 @@ public class GUI extends JPanel {
         removeAll();
         hideMenu();
         displayMenuBar();
+        clip.stop();
+        playSong("Intensity_Teaser");
         BattleGrid battle = new BattleGrid(this, _game.getPlayer(), dungeon);
         add(battle);
         battle.requestFocusInWindow();
+    }
+    
+    /** Plays SONG and returns my Clip. */
+    public Clip playSong(String song) {
+        try {
+            AudioInputStream audioIn = AudioSystem.getAudioInputStream(
+                    new File("project_rpg" + File.separator + "resources"
+                    + File.separator + song + ".wav").getAbsoluteFile());
+            clip = AudioSystem.getClip();
+            clip.open(audioIn);
+            clip.start();
+            clip.loop(clip.LOOP_CONTINUOUSLY);
+        } catch (Exception e) {
+            System.out.println("Error");
+            e.printStackTrace();
+        }
+        return clip;
     }
 
     /** Refreshes the menu bar. */
@@ -289,8 +313,8 @@ public class GUI extends JPanel {
             paintSchool();
             break;
         case SKILLS:
-        	paintSkills();
-        	break;
+            paintSkills();
+            break;
         default:
             Main.error("Invalid game state.");
             break;
@@ -398,12 +422,14 @@ public class GUI extends JPanel {
         JLabel background = new JLabel(icon, JLabel.CENTER);
         add(background);
         options.setOptions(schoolOptions);
+        clip.stop();
+        playSong("Reflection");
         updateUI();
     }
     
     /** Renders the game to the view skills state. */
     void paintSkills() {
-    	lastSeen = SKILLS;
+        lastSeen = SKILLS;
         removeAll();
         add(new JLabel("Here are your skills."));
         Vector<Skill> skillList = new Vector<Skill>(
@@ -540,11 +566,11 @@ public class GUI extends JPanel {
     
     /** Class that does nothing. */
     public class DummyListener implements ActionListener {
-    	
-    	@Override
-    	public void actionPerformed(ActionEvent ignored) {
-    	
-    	}
+        
+        @Override
+        public void actionPerformed(ActionEvent ignored) {
+        
+        }
     }
 
     /** Class that listens for class enrollment. */
@@ -671,11 +697,11 @@ public class GUI extends JPanel {
         @Override
         public void actionPerformed(ActionEvent ignored) {
             if (lastSeen == SCHOOL) {
-            	lastSeen = null;
-            	repaint();
+                lastSeen = null;
+                repaint();
             } else {
-	        	_game.startSchool();
-	            repaint();
+                _game.startSchool();
+                repaint();
             }
         }
 
@@ -750,7 +776,7 @@ public class GUI extends JPanel {
         @Override
         public void actionPerformed(ActionEvent ignored) {
             _game.startSkills();
-        	paintSkills();
+            paintSkills();
         }
 
     }
@@ -922,6 +948,9 @@ public class GUI extends JPanel {
     private ArrayList<JButton> saveSlots;
 
     /* CLASS FIELDS. */
+    
+    /** Contains the clip that I am playing. */
+    private Clip clip;
 
     /** Contains the frame which displays everything. */
     private final JFrame frame;
