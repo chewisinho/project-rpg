@@ -5,6 +5,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
+import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -35,7 +36,7 @@ public class BattleGrid extends JPanel implements Runnable {
 
     /** Initializes a DUNGEON with a PLAYER and a GUI. */
     public BattleGrid(GUI gui, Player player, String dungeon) {
-        setPreferredSize(new Dimension(WIDTH * SQ_WIDTH, HEIGHT * SQ_HEIGHT));
+        setPreferredSize(new Dimension(WIDTH * SQ_WIDTH, (HEIGHT + 1) * SQ_HEIGHT));
         _gui = gui;
         _player = player;
         addKeyListener(new PlayerControl());
@@ -139,7 +140,24 @@ public class BattleGrid extends JPanel implements Runnable {
                 }
             }
         }
+        for (int num = 0; num < 4; num += 1) {
+            Skill skill = _player.getBattleSkill(num);
+            String cooldownImage;
+            if (skill == null) {
+                cooldownImage = "cooldown_none";
+            } else if (System.currentTimeMillis() - skill.getLastUsed() > skill.getCooldown()) {
+                cooldownImage = "cooldown_ready";
+            } else {
+                cooldownImage = "cooldown_not_ready";
+            }
+            paintCooldown(cooldownImage, num, g);
+        }
         _gui.refreshMenu();
+    }
+
+    /** Paints the cooldown indicator with IMAGE for skill NUM on G. */
+    void paintCooldown(String image, int num, Graphics g) {
+        g.drawImage(getImage(image).getImage(), COOLDOWN_BUFFER + num * COOLDOWN_WIDTH, HEIGHT * SQ_HEIGHT, null);
     }
 
     /** Paints IMAGE at (X, Y) on G. */
@@ -313,7 +331,8 @@ public class BattleGrid extends JPanel implements Runnable {
     public Player _player;
 
     /** Contains the parameters of the grid. */
-    public static final int HEIGHT = 8, RIGHT_ANGLE = 90, SQ_HEIGHT = 50, SQ_WIDTH = 50, WIDTH = 15;
+    public static final int COOLDOWN_BUFFER = 75, COOLDOWN_WIDTH = 150, HEIGHT = 8, RIGHT_ANGLE = 90, SQ_HEIGHT = 50,
+        SQ_WIDTH = 50, WIDTH = 15;
 
 }
 
