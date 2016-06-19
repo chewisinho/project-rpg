@@ -152,6 +152,7 @@ public class BattleGrid extends JPanel implements Runnable {
             }
             paintCooldown(cooldownImage, num, g);
         }
+        paintCooldown("cooldown_selected", _player.getSkillIndex(), g);
         _gui.refreshMenu();
     }
 
