@@ -35,7 +35,7 @@ public class Player implements Serializable {
 
     /** Returns the current battleSkill. */
     public Skill getBattleSkill() {
-    	return battleSkill;
+    	return battleSkills[skillIndex];
     }
 
     /** Returns the battleSkill at INDEX. */
@@ -71,6 +71,11 @@ public class Player implements Serializable {
     /** Returns the skill at INDEX. */
     public Skill getSkill(int index) {
         return skills.get(index);
+    }
+
+    /** Returns the skill index. */
+    public int getSkillIndex() {
+        return skillIndex;
     }
 
     /** Returns the player's skills. */
@@ -141,22 +146,22 @@ public class Player implements Serializable {
 
     /** Switches to Skill 1. */
     public void switchAttack1() {
-        battleSkill = battleSkills[0];
+        skillIndex = 0;
     }
 
     /** Switches to Skill 2. */
     public void switchAttack2() {
-        battleSkill = battleSkills[1];
+        skillIndex = 1;
     }
 
     /** Switches to Skill 3. */
     public void switchAttack3() {
-        battleSkill = battleSkills[2];
+        skillIndex = 2;
     }
 
     /** Switches to Skill 4. */
     public void switchAttack4() {
-        battleSkill = battleSkills[3];
+        skillIndex = 3;
     }
     
     /** An array of courses the player has taken. */
@@ -166,10 +171,7 @@ public class Player implements Serializable {
     private ArrayList<Skill> skills = new ArrayList<Skill>();
 
     /** Initial parameters. */
-    private int currHP = 100, currMP = 100, maxHP = 100, maxMP = 100;
-
-    /** The current battle skill that the player is using. */
-    private Skill battleSkill;
+    private int currHP = 100, currMP = 100, maxHP = 100, maxMP = 100, skillIndex = 0;
 
     /** An array of skills that the player can bring to battle. */
     private Skill[] battleSkills = new Skill[4];
