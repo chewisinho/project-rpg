@@ -222,7 +222,7 @@ public class GUI extends JPanel {
         try {
             AudioInputStream audioIn = AudioSystem.getAudioInputStream(
                     new File("project_rpg" + File.separator + "resources"
-                    + File.separator + song + ".wav").getAbsoluteFile());
+                    + File.separator + song + ".wav"));
             clip = AudioSystem.getClip();
             clip.open(audioIn);
             clip.start();
