@@ -226,8 +226,12 @@ public class BattleGrid extends JPanel implements Runnable {
 
     /** Returns an Image from NAME. */
     public static ImageIcon getImage(String name) {
-        return new ImageIcon("project_rpg" + File.separator + "resources"
+        if (name.equals("")) {
+        	return null;
+        } else {
+    	return new ImageIcon("project_rpg" + File.separator + "resources"
             + File.separator + name + ".png");
+        }
     }
 
     /** Returns an AffineTransformOp which rotates by DEGREES. */

@@ -16,6 +16,7 @@ public class Player implements Serializable {
     /** Initializes new player given GIVENNAME. */
     public Player(String givenName) {
         name = givenName;
+        skills.add(new Skill("meditate"));
     }
 
     /** Adds NEWCOURSE to a list of taken courses. */
@@ -135,6 +136,8 @@ public class Player implements Serializable {
         currMP -= amount;
         if (currMP < 0) {
         	currMP = 0;
+        } else if (currMP > maxMP) {
+        	currMP = maxMP;
         }
     }
 

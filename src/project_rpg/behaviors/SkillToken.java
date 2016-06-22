@@ -33,6 +33,10 @@ public class SkillToken extends Token {
             _grid._player.reduceMana(skill.getCost());
             straightLine();
         }
+        if (skill.behavior.equals("nothing")) {
+        	_grid._player.reduceMana(skill.getCost());
+        	nothing();
+        }
     }
 
     /** Controls behavior for spells that move in a straight line. */
@@ -57,6 +61,11 @@ public class SkillToken extends Token {
                 }
             }
         }
+    }
+    
+    /** Controls behavior for spells that don't attack. */
+    void nothing() {
+    	disappear();
     }
 
     /** The direction of movement of the spell. */
