@@ -15,9 +15,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Vector;
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.Clip;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -28,6 +25,8 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.ScrollPaneConstants;
+
+import project_rpg.audio.AudioHandler;
 
 import static project_rpg.GameState.*;
 
@@ -44,10 +43,11 @@ public class GUI extends JPanel {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(WIDTH, HEIGHT);
         frame.getContentPane().add(BorderLayout.CENTER, this);
+        audioHandler = new AudioHandler();
+        audioHandler.playSong("Title_Screen");
         menu = new MenuBar();
         options = new OptionBar();
         initializeButtons();
-        playSong("Title_Screen");
         addKeyListener(new ShortcutKeyListener());
         setFocusable(true);
         requestFocusInWindow();
@@ -196,8 +196,7 @@ public class GUI extends JPanel {
         displayMenuBar();
         BattleGrid battle = new BattleGrid(this, _game.getPlayer(), dungeon, course);
         add(battle);
-        clip.stop();
-        playSong("Intensity_Teaser");
+        audioHandler.playSong("Intensity_Teaser");
         battle.requestFocusInWindow();
     }
 
@@ -210,30 +209,12 @@ public class GUI extends JPanel {
         removeAll();
         hideMenu();
         displayMenuBar();
-        clip.stop();
-        playSong("Intensity_Teaser");
+        audioHandler.playSong("Intensity_Teaser");
         BattleGrid battle = new BattleGrid(this, _game.getPlayer(), dungeon);
         add(battle);
         battle.requestFocusInWindow();
     }
     
-    /** Plays SONG and returns my Clip. */
-    public Clip playSong(String song) {
-        try {
-            AudioInputStream audioIn = AudioSystem.getAudioInputStream(
-                    new File("project_rpg" + File.separator + "resources"
-                    + File.separator + song + ".wav"));
-            clip = AudioSystem.getClip();
-            clip.open(audioIn);
-            clip.start();
-            clip.loop(clip.LOOP_CONTINUOUSLY);
-        } catch (Exception e) {
-            System.out.println("Error");
-            e.printStackTrace();
-        }
-        return clip;
-    }
-
     /** Refreshes the menu bar. */
     public void refreshMenu() {
         menu.repaint();
@@ -422,8 +403,7 @@ public class GUI extends JPanel {
         JLabel background = new JLabel(icon, JLabel.CENTER);
         add(background);
         options.setOptions(schoolOptions);
-        clip.stop();
-        playSong("Reflection");
+        audioHandler.playSong("Reflection");
         updateUI();
     }
     
@@ -949,8 +929,8 @@ public class GUI extends JPanel {
 
     /* CLASS FIELDS. */
     
-    /** Contains the clip that I am playing. */
-    private Clip clip;
+    /** Handles music-related logic. */
+    private AudioHandler audioHandler;
 
     /** Contains the frame which displays everything. */
     private final JFrame frame;
