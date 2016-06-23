@@ -1,9 +1,0 @@
-{
-    "_baseDamage": 10,
-    "_baseMP": 3,
-    "_description": "A gust of wind!",
-    "_name": "Gust",
-    "behavior": "straightLine",
-    "cooldown": 1000,
-    "image": "Fireball"
-}

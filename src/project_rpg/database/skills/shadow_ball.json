@@ -1,0 +1,9 @@
+{
+    "_baseDamage": 10,
+    "_baseMP": 3,
+    "_description": "A ball of shadow!",
+    "_name": "Shadow Ball",
+    "behavior": "straightLine",
+    "cooldown": 1000,
+    "image": "Fireball"
+}

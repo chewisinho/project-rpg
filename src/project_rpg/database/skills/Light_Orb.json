@@ -1,9 +1,0 @@
-{
-    "_baseDamage": 10,
-    "_baseMP": 3,
-    "_description": "An orb of Light!",
-    "_name": "Light Orb",
-    "behavior": "straightLine",
-    "cooldown": 1000,
-    "image": "Fireball"
-}

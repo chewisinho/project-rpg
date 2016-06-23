@@ -44,7 +44,7 @@ public class GUI extends JPanel {
         frame.setSize(WIDTH, HEIGHT);
         frame.getContentPane().add(BorderLayout.CENTER, this);
         audioHandler = new AudioHandler();
-        audioHandler.playSong("Title_Screen");
+        audioHandler.playSong("title_screen");
         menu = new MenuBar();
         options = new OptionBar();
         initializeButtons();
@@ -196,7 +196,7 @@ public class GUI extends JPanel {
         displayMenuBar();
         BattleGrid battle = new BattleGrid(this, _game.getPlayer(), dungeon, course);
         add(battle);
-        audioHandler.playSong("Intensity_Teaser");
+        audioHandler.playSong("intensity_teaser");
         battle.requestFocusInWindow();
     }
 
@@ -209,7 +209,7 @@ public class GUI extends JPanel {
         removeAll();
         hideMenu();
         displayMenuBar();
-        audioHandler.playSong("Intensity_Teaser");
+        audioHandler.playSong("intensity_teaser");
         BattleGrid battle = new BattleGrid(this, _game.getPlayer(), dungeon);
         add(battle);
         battle.requestFocusInWindow();
@@ -403,7 +403,7 @@ public class GUI extends JPanel {
         JLabel background = new JLabel(icon, JLabel.CENTER);
         add(background);
         options.setOptions(schoolOptions);
-        audioHandler.playSong("Reflection");
+        audioHandler.playSong("reflection");
         updateUI();
     }
     
