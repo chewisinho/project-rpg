@@ -1,0 +1,56 @@
+{
+    "courseTitle": "Introduction to Light Magic",
+    "description": "Covers the basics of handling Light magic, culminating in the production of a Light Orb.",
+    "skill": "Light Orb",
+    "1": {
+        "name": "Light Orb Basics I",
+        "description": "Learn how to handle a Light Orb.",
+        "dungeon": "test_dungeon"
+    },
+    "2": {
+        "name": "Light Orb Basics II",
+        "description": "Learn how to handle a Light Orb.",
+        "dungeon": "test_dungeon"
+    },
+    "3": {
+        "name": "Light Orb Basics III",
+        "description": "Learn how to handle a Light Orb.",
+        "dungeon": "test_dungeon"
+    },
+    "4": {
+        "name": "Light Orb Basics IV",
+        "description": "Learn how to handle a Light Orb.",
+        "dungeon": "test_dungeon"
+    },
+    "5": {
+        "name": "Light Orb Basics: Midterm",
+        "description": "Learn how to handle a Light Orb.",
+        "dungeon": "test_dungeon"
+    },
+    "6": {
+        "name": "Light Orb Basics VI",
+        "description": "Learn how to handle a Light Orb.",
+        "dungeon": "test_dungeon"
+    },
+    "7": {
+        "name": "Light Orb Basics VII",
+        "description": "Learn how to handle a Light Orb.",
+        "dungeon": "test_dungeon"
+    },
+    "8": {
+        "name": "Light Orb Basics VIII",
+        "description": "Learn how to handle a Light Orb.",
+        "dungeon": "test_dungeon"
+    },
+    "9": {
+        "name": "Light Orb Basics IX",
+        "description": "Learn how to handle a Light Orb.",
+        "dungeon": "test_dungeon"
+    },
+    "10": {
+        "name": "Light Orb Basics X",
+        "description": "Learn how to handle a Light Orb.",
+        "dungeon": "test_dungeon"
+    }
+}
+

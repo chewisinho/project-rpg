@@ -1,0 +1,9 @@
+{
+    "_baseDamage": 10,
+    "_baseMP": 3,
+    "_description": "A ball of ice!",
+    "_name": "Iceball",
+    "behavior": "straightLine",
+    "cooldown": 1000,
+    "image": "Fireball"
+}

@@ -1,0 +1,56 @@
+{
+    "courseTitle": "Introduction to Wind Magic",
+    "description": "Covers the basics of handling Wind magic, culminating in the production of a Gust.",
+    "skill": "Gust",
+    "1": {
+        "name": "Gust Basics I",
+        "description": "Learn how to handle a Gust.",
+        "dungeon": "test_dungeon"
+    },
+    "2": {
+        "name": "Gust Basics II",
+        "description": "Learn how to handle a Gust.",
+        "dungeon": "test_dungeon"
+    },
+    "3": {
+        "name": "Gust Basics III",
+        "description": "Learn how to handle a Gust.",
+        "dungeon": "test_dungeon"
+    },
+    "4": {
+        "name": "Gust Basics IV",
+        "description": "Learn how to handle a Gust.",
+        "dungeon": "test_dungeon"
+    },
+    "5": {
+        "name": "Gust Basics: Midterm",
+        "description": "Learn how to handle a Gust.",
+        "dungeon": "test_dungeon"
+    },
+    "6": {
+        "name": "Gust Basics VI",
+        "description": "Learn how to handle a Gust.",
+        "dungeon": "test_dungeon"
+    },
+    "7": {
+        "name": "Gust Basics VII",
+        "description": "Learn how to handle a Gust.",
+        "dungeon": "test_dungeon"
+    },
+    "8": {
+        "name": "Gust Basics VIII",
+        "description": "Learn how to handle a Gust.",
+        "dungeon": "test_dungeon"
+    },
+    "9": {
+        "name": "Gust Basics IX",
+        "description": "Learn how to handle a Gust.",
+        "dungeon": "test_dungeon"
+    },
+    "10": {
+        "name": "Gust Basics X",
+        "description": "Learn how to handle a Gust.",
+        "dungeon": "test_dungeon"
+    }
+}
+

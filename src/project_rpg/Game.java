@@ -32,6 +32,10 @@ public class Game implements Serializable {
         availableCourses = new ArrayList<Course>();
         availableCourses.add(new Course("introduction_to_fire_magic"));
         availableCourses.add(new Course("introduction_to_water_magic"));
+        availableCourses.add(new Course("introduction_to_ice_magic"));
+        availableCourses.add(new Course("introduction_to_lightning_magic"));
+        availableCourses.add(new Course("introduction_to_earth_magic"));
+        availableCourses.add(new Course("introduction_to_wind_magic"));
         if (availableCourses.size() == 0) {
             Main.error("The game is initialized with no available courses.");
         }
@@ -255,7 +259,7 @@ public class Game implements Serializable {
     private Player player;
 
     /** The number of courses to enroll in every semester. */
-    public static final int NUM_COURSES = 1;
+    public static final int NUM_COURSES = 4;
 
 }
 
