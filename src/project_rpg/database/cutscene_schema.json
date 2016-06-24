@@ -1,0 +1,10 @@
+{
+    "scenes": [
+        {
+            "image": "string",
+            "line": "string",
+            "speaker": "string"
+        }
+    ]
+}
+

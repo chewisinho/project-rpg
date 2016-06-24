@@ -1,0 +1,18 @@
+> image "test"
+
+Player: "The following is a set of sample quotes for testing."
+
+> image "madoka"
+
+Madoka: "If people ever tell me it's a mistake to have hope, well then, I'll just tell them they're wrong."
+
+> image "madoka_determined"
+
+Madoka: "And I'll keep telling them until they believe!"
+
+Madoka: "No matter how many times it takes..."
+
+> image "homura_sad"
+
+Homura: "Remember this... and take it to heart: kindness sometimes leads to even greater tragedy."
+
