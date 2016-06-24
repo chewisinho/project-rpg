@@ -13,3 +13,6 @@ bin/
 *~
 *.swp
 
+# Virtual environments
+env/
+

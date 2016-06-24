@@ -1,4 +1,4 @@
-# import click
+import click
 import json
 import re
 
@@ -90,7 +90,14 @@ class Parser(object):
             json_file.write(json_str)
 
 
-if __name__ == '__main__':
+@click.command()
+@click.argument('filepath')
+def main(filepath):
+    """Creates a Parser and runs the script.
+    """
     parser = Parser()
     parser.parse_and_write('test')
+
+if __name__ == '__main__':
+    main()
 
