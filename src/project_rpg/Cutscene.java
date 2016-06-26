@@ -17,7 +17,8 @@ import java.util.StringJoiner;
 /** Provides an iterator method that iterates through the scenes in a cutscene.
  *  @author S. Chewi
  */
-public class Cutscene implements Iterator<HashMap<String, String>> {
+public class Cutscene
+    implements Iterable<HashMap<String, String>>, Iterator<HashMap<String, String>> {
 
     /** Loads in the cutscene from the JSON file NAME.json. */
     public Cutscene(String name) {
@@ -41,6 +42,11 @@ public class Cutscene implements Iterator<HashMap<String, String>> {
     @Override
     public boolean hasNext() {
         return scenes.hasNext();
+    }
+
+    @Override
+    public Iterator<HashMap<String, String>> iterator() {
+        return this;
     }
 
     @Override

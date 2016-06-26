@@ -14,6 +14,7 @@ import java.awt.Image;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Vector;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -198,6 +199,18 @@ public class GUI extends JPanel {
         add(battle);
         audioHandler.playSong("intensity_teaser");
         battle.requestFocusInWindow();
+    }
+
+    /** Loads and starts a CUTSCENE from the name of the JSON file. */
+    protected void loadCutscene(String cutscene) {
+        removeAll();
+        hideMenu();
+        displayMenuBar();
+        Cutscene scenes = new Cutscene(cutscene);
+        for (HashMap<String, String> scene : scenes) {
+            // TODO: Implement what actually happens when the cutscene is loaded.
+            System.out.println(scene);
+        }
     }
 
     /** Loads DUNGEON and begins a battle. */
