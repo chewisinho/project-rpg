@@ -1,5 +1,5 @@
 all:
-	javac -cp ".:lib/*" project_rpg/*.java project_rpg/audio/*.java project_rpg/behaviors/*.java
+	javac -cp ".:lib/*" -d classes/ project_rpg/*.java project_rpg/audio/*.java project_rpg/behaviors/*.java
 
 .PHONY: clean run
 
@@ -7,5 +7,5 @@ clean:
 	find . -name "*.class" -type f -delete
 
 run:
-	java -cp ".:lib/*" project_rpg/Main
+	java -cp "classes/:lib/*" project_rpg/Main
 
