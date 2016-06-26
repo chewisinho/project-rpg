@@ -32,8 +32,8 @@ public class Cutscene
             BufferedReader input = new BufferedReader(new FileReader(new File(file)));
             JsonParser parser = new JsonParser();
             JsonObject attrTree = (JsonObject) parser.parse(input);
-            JsonArray sceneArray = (JsonArray) attrTree.get("scenes");
-            Iterator<JsonElement> scenes = sceneArray.iterator();
+            sceneArray = (JsonArray) attrTree.get("scenes");
+            index = 0;
         } catch (IOException error) {
             Main.error("Error while reading " + name + ".json.");
         }
@@ -41,7 +41,11 @@ public class Cutscene
 
     @Override
     public boolean hasNext() {
-        return scenes.hasNext();
+        if (index < sceneArray.size()) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     @Override
@@ -52,19 +56,23 @@ public class Cutscene
     @Override
     public HashMap<String, String> next() {
         if (hasNext()) {
-            JsonObject scene = (JsonObject) scenes.next();
+            JsonObject scene = (JsonObject) sceneArray.get(index);
             HashMap<String, String> dict = new HashMap<String, String>();
             for (String field : fields) {
-                dict.put(field, scene.get("field").getAsString());
+                dict.put(field, scene.get(field).getAsString());
             }
+            index += 1;
             return dict;
         } else {
             throw new NoSuchElementException();
         }
     }
 
+    /** The current index of the iterator. */
+    private int index;
+
     /** The parsed list of scenes from the JSON file. */
-    private Iterator<JsonElement> scenes;
+    private JsonArray sceneArray;
 
     /** The fields in a scene. */
     private String[] fields = { "image", "line", "speaker" };

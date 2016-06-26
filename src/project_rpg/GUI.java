@@ -275,7 +275,7 @@ public class GUI extends JPanel {
 
     /** Used for testing purposes. The effect of this button changes. */
     void test() {
-        loadDungeon("test_dungeon");
+        loadCutscene("test");
     }
 
     /** Adds MESSAGE to the Menu Bar. */
