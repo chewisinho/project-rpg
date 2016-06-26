@@ -20,62 +20,62 @@ import java.util.StringJoiner;
 public class Cutscene
     implements Iterable<HashMap<String, String>>, Iterator<HashMap<String, String>> {
 
-    /** Loads in the cutscene from the JSON file NAME.json. */
-    public Cutscene(String name) {
-        try {
-            String file = new StringJoiner(File.separator)
-                .add("project_rpg")
-                .add("database")
-                .add("cutscenes")
-                .add(name + ".json")
-                .toString();
-            BufferedReader input = new BufferedReader(new FileReader(new File(file)));
-            JsonParser parser = new JsonParser();
-            JsonObject attrTree = (JsonObject) parser.parse(input);
-            sceneArray = (JsonArray) attrTree.get("scenes");
-            index = 0;
-        } catch (IOException error) {
-            Main.error("Error while reading " + name + ".json.");
-        }
+  /** Loads in the cutscene from the JSON file NAME.json. */
+  public Cutscene(String name) {
+    try {
+      String file = new StringJoiner(File.separator)
+          .add("project_rpg")
+          .add("database")
+          .add("cutscenes")
+          .add(name + ".json")
+          .toString();
+      BufferedReader input = new BufferedReader(new FileReader(new File(file)));
+      JsonParser parser = new JsonParser();
+      JsonObject attrTree = (JsonObject) parser.parse(input);
+      sceneArray = (JsonArray) attrTree.get("scenes");
+      index = 0;
+    } catch (IOException error) {
+      Main.error("Error while reading " + name + ".json.");
     }
+  }
 
-    @Override
-    public boolean hasNext() {
-        if (index < sceneArray.size()) {
-            return true;
-        } else {
-            return false;
-        }
+  @Override
+  public boolean hasNext() {
+    if (index < sceneArray.size()) {
+      return true;
+    } else {
+      return false;
     }
+  }
 
-    @Override
-    public Iterator<HashMap<String, String>> iterator() {
-        return this;
+  @Override
+  public Iterator<HashMap<String, String>> iterator() {
+    return this;
+  }
+
+  @Override
+  public HashMap<String, String> next() {
+    if (hasNext()) {
+      JsonObject scene = (JsonObject) sceneArray.get(index);
+      HashMap<String, String> dict = new HashMap<String, String>();
+      for (String field : fields) {
+        dict.put(field, scene.get(field).getAsString());
+      }
+      index += 1;
+      return dict;
+    } else {
+      throw new NoSuchElementException();
     }
+  }
 
-    @Override
-    public HashMap<String, String> next() {
-        if (hasNext()) {
-            JsonObject scene = (JsonObject) sceneArray.get(index);
-            HashMap<String, String> dict = new HashMap<String, String>();
-            for (String field : fields) {
-                dict.put(field, scene.get(field).getAsString());
-            }
-            index += 1;
-            return dict;
-        } else {
-            throw new NoSuchElementException();
-        }
-    }
+  /** The current index of the iterator. */
+  private int index;
 
-    /** The current index of the iterator. */
-    private int index;
+  /** The parsed list of scenes from the JSON file. */
+  private JsonArray sceneArray;
 
-    /** The parsed list of scenes from the JSON file. */
-    private JsonArray sceneArray;
-
-    /** The fields in a scene. */
-    private String[] fields = { "image", "line", "speaker" };
+  /** The fields in a scene. */
+  private String[] fields = { "image", "line", "speaker" };
 
 }
 
