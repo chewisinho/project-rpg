@@ -203,14 +203,14 @@ public class GUI extends JPanel {
 
     /** Loads and starts a CUTSCENE from the name of the JSON file. */
     protected void loadCutscene(String cutscene) {
-        removeAll();
-        hideMenu();
-        displayMenuBar();
+    	removeAll();
         Cutscene scenes = new Cutscene(cutscene);
-        for (HashMap<String, String> scene : scenes) {
-            // TODO: Implement what actually happens when the cutscene is loaded.
-            System.out.println(scene);
-        }
+        ArrayList<ShortcutButton> nextOptions = new ArrayList();
+        nextLineButton = new ShortcutButton("Next (n)", 'n');
+        nextLineButton.addActionListener(new NextLineListener(scenes));
+        nextOptions.add(nextLineButton);
+        options.setOptions(nextOptions);
+        updateUI();
     }
 
     /** Loads DUNGEON and begins a battle. */
@@ -672,6 +672,45 @@ public class GUI extends JPanel {
         }
 
     }
+    
+    /** Class that listens for the Next Line button. */
+    public class NextLineListener implements ActionListener {
+    	
+    	public NextLineListener(Cutscene cutscene) {
+    		_cutscene = cutscene;
+    	}
+    	
+    	@Override
+    	public void actionPerformed(ActionEvent ignored) {
+    		if (_cutscene.hasNext()) {
+    			removeAll();
+    			HashMap<String, String> scene = _cutscene.next();
+    			ImageIcon icon = new ImageIcon("project_rpg" + File.separator + "resources"
+                        + File.separator + scene.get("image") + ".png"); 
+                Image image = icon.getImage();
+                Image newImage = image.getScaledInstance(700, 500, java.awt.Image.SCALE_SMOOTH);
+                icon = new ImageIcon(newImage);
+                JLabel background = new JLabel(icon, JLabel.CENTER);
+                add(background);
+                System.out.println(scene);
+                updateMenuBar(scene.get("speaker") + ": " + scene.get("line"));
+                ArrayList<ShortcutButton> nextOptions = new ArrayList();
+                nextLineButton = new ShortcutButton("Next (n)", 'n');
+                nextLineButton.addActionListener(new NextLineListener(_cutscene));
+                nextOptions.add(nextLineButton);
+                options.setOptions(nextOptions);
+                updateUI();
+    		} else {
+    			ArrayList<ShortcutButton> returnOptions = new ArrayList();
+    			returnOptions.add(returnButton);
+    			options.setOptions(returnOptions);
+    		}
+    	}
+    	
+    	/** My Cutscene. */
+    	Cutscene _cutscene;
+    	
+    }
 
     /** Class that listens for the Rest button. */
     public class RestListener implements ActionListener {
@@ -934,8 +973,8 @@ public class GUI extends JPanel {
     /** Individual buttons with shortcut keys. */
     private ShortcutButton changeSkill1, changeSkill2, changeSkill3,
         changeSkill4, classroomButton, courseButton, goButton, gymButton,
-        restButton, returnButton, saveButton, skillsButton, testButton,
-        workOutButton;
+        nextLineButton, restButton, returnButton, saveButton, skillsButton,
+        testButton, workOutButton;
 
     /** Lists of buttons. */
     private ArrayList<JButton> saveSlots;
