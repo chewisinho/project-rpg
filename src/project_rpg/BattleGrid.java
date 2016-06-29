@@ -336,8 +336,8 @@ public class BattleGrid extends JPanel implements Runnable {
     public Player _player;
 
     /** Contains the parameters of the grid. */
-    public static final int COOLDOWN_BUFFER = 75, COOLDOWN_WIDTH = 150, HEIGHT = 8, RIGHT_ANGLE = 90, SQ_HEIGHT = 50,
-        SQ_WIDTH = 50, WIDTH = 15;
+    public static final int COOLDOWN_BUFFER = 75, COOLDOWN_WIDTH = 150, HEIGHT = 16, RIGHT_ANGLE = 90, SQ_HEIGHT = 25,
+        SQ_WIDTH = 25, WIDTH = 30;
 
 }
 
