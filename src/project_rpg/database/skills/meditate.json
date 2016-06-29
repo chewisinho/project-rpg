@@ -1,10 +1,10 @@
 {
-    "_baseDamage": 0,
-    "_baseMP": -30,
-    "_description": "Restores mana.",
-    "_name": "Meditate",
+    "baseDamage": 0,
+    "baseMp": -30,
     "behavior": "nothing",
     "cooldown": 30000,
-    "image": "exit"
+    "description": "Restores mana.",
+    "image": "exit",
+    "name": "Meditate"
 }
 

@@ -29,11 +29,11 @@ public class SkillToken extends Token {
 
     @Override
     public void run() {
-        if (skill.behavior.equals("straightLine")) {
+        if (skill.getBehavior().equals("straightLine")) {
             _grid._player.reduceMana(skill.getCost());
             straightLine();
         }
-        if (skill.behavior.equals("nothing")) {
+        if (skill.getBehavior().equals("nothing")) {
         	_grid._player.reduceMana(skill.getCost());
         	nothing();
         }

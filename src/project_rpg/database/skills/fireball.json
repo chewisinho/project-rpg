@@ -1,10 +1,10 @@
 {
-    "_baseDamage": 10,
-    "_baseMP": 3,
-    "_description": "A ball of fire!",
-    "_name": "Fireball",
+    "baseDamage": 10,
+    "baseMp": 3,
     "behavior": "straightLine",
     "cooldown": 1000,
-    "image": "Fireball"
+    "description": "A ball of fire!",
+    "image": "Fireball",
+    "name": "Fireball"
 }
 
