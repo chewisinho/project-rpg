@@ -2,6 +2,7 @@ package project_rpg;
 
 import static project_rpg.Monster.spread;
 
+import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
@@ -17,15 +18,15 @@ import java.util.StringJoiner;
  */
 public class Skill implements Serializable {
 
-  /** Creates a new skill from the JSON file with filename NAME. */
-  public Skill(String name) {
+  /** Creates a new skill from the JSON file FILENAME.json. */
+  public Skill(String fileName) {
     try {
       // Load and parse JSON file.
       String path = new StringJoiner(File.separator)
           .add("project_rpg")
           .add("database")
           .add("skills")
-          .add(name + ".json")
+          .add(fileName + ".json")
           .toString();
       BufferedReader input = new BufferedReader(new FileReader(new File(path)));
       JsonParser parser = new JsonParser();
@@ -38,6 +39,7 @@ public class Skill implements Serializable {
       image = attrTree.get("image").getAsString();
       name = attrTree.get("name").getAsString();
       input.close();
+
       // Set the skill EXP.
       exp = (int) BASE_EXP;
       rank = 0;
@@ -119,6 +121,11 @@ public class Skill implements Serializable {
     return " Congratulations, " + name + " ranked up! " + name + " is now rank " + rank + ".";
   }
 
+  /** Returns a JSON-serialized String of the skill. */
+  public String toJson() {
+    return new Gson().toJson(this);
+  }
+
   @Override
   public String toString() {
     return name + " " + rank;
@@ -150,7 +157,7 @@ public class Skill implements Serializable {
   private int rank;
 
   /** The last time that the skill was used. */
-  private long lastUsed;
+  private transient long lastUsed;
 
   /** Contains the description of the skill. */
   private String behavior;

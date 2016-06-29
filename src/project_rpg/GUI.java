@@ -275,6 +275,9 @@ public class GUI extends JPanel {
 
     /** Used for testing purposes. The effect of this button changes. */
     void test() {
+        for (Skill skill : _game.getPlayer().getSkills()) {
+            System.out.println(skill.toJson());
+        }
         loadCutscene("test");
     }
 
