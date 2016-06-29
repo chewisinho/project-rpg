@@ -692,7 +692,6 @@ public class GUI extends JPanel {
                 icon = new ImageIcon(newImage);
                 JLabel background = new JLabel(icon, JLabel.CENTER);
                 add(background);
-                System.out.println(scene);
                 updateMenuBar(scene.get("speaker") + ": " + scene.get("line"));
                 ArrayList<ShortcutButton> nextOptions = new ArrayList();
                 nextLineButton = new ShortcutButton("Next (n)", 'n');
