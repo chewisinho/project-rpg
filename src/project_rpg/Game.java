@@ -163,7 +163,7 @@ public class Game implements Serializable {
             enrolledCourses.add(addCourse);
             availableCourses.remove(index);
             player.addCourse(addCourse);
-            player.addSkill(addCourse.skill);
+            player.addSkill(addCourse.getSkill());
         } catch (IndexOutOfBoundsException exception) {
             throw new IllegalArgumentException();
         }
@@ -173,7 +173,7 @@ public class Game implements Serializable {
     void registerCourse(Course course) {
         enrolledCourses.add(course);
         player.addCourse(course);
-        player.addSkill(course.skill);
+        player.addSkill(course.getSkill());
         availableCourses.remove(course);
     }
 

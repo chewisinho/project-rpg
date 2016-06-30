@@ -5,6 +5,7 @@ import java.util.ArrayList;
 
 /** Abstract class representing assignments of a course. Essentially, assignments just hold
  *  a dungeon and useful metadata (such as the name and description).
+ *
  *  @author S. Chewi, A. Tran
  */
 public class Assignment {
