@@ -1,14 +1,13 @@
 package project_rpg;
 
 import java.io.IOException;
-import java.io.Serializable;
 import java.util.ArrayList;
 
 /** Abstract class representing assignments of a course. Essentially, assignments just hold
  *  a dungeon and useful metadata (such as the name and description).
  *  @author S. Chewi, A. Tran
  */
-public class Assignment implements Serializable {
+public class Assignment {
 
   /** Constructor for an assignment that takes in a COURSE, a DESCRIPTION, a DUNGEON, and a NAME. */
   public Assignment(Course course, String description, String dungeon, String name) {

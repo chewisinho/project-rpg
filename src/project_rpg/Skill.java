@@ -10,13 +10,12 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.io.Serializable;
 import java.util.StringJoiner;
 
 /** Basic representation of a skill.
  *  @author S. Chewi, A. Tran
  */
-public class Skill implements Serializable {
+public class Skill {
 
   /** Creates a new skill from the JSON file FILENAME.json. */
   public Skill(String fileName) {
