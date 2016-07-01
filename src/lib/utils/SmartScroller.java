@@ -1,4 +1,4 @@
-package project_rpg;
+package utils;
 
 import java.awt.Component;
 import java.awt.event.*;

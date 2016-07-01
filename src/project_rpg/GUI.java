@@ -29,6 +29,8 @@ import javax.swing.ScrollPaneConstants;
 
 import project_rpg.audio.AudioHandler;
 
+import utils.SmartScroller;
+
 import static project_rpg.GameState.*;
 
 /** Displays an interactive GUI for the game.
