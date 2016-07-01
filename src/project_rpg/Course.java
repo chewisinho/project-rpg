@@ -17,7 +17,7 @@ import java.util.StringJoiner;
  *  assignment and whether the course is ready for another assignment). However, care must be taken
  *  to ensure that the skill attached to the course correlates with the skill used by the player.
  *
- *  @author S. Chewi, A. Tran
+ *  @author S. Chewi, T. Nguyen, A. Tran
  */
 public class Course {
 
