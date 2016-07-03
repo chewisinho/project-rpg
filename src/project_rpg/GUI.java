@@ -46,7 +46,7 @@ public class GUI extends JPanel {
         frame.setSize(WIDTH, HEIGHT);
         frame.getContentPane().add(BorderLayout.CENTER, this);
         audioHandler = new AudioHandler();
-        audioHandler.playSong("title_screen");
+        audioHandler.playSong("opening_sequence");
         menu = new MenuBar();
         options = new OptionBar();
         initializeButtons();
