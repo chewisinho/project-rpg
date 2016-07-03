@@ -28,10 +28,9 @@ import javax.swing.JTextArea;
 import javax.swing.ScrollPaneConstants;
 
 import project_rpg.audio.AudioHandler;
+import project_rpg.enums.GameState;
 
 import utils.SmartScroller;
-
-import static project_rpg.GameState.*;
 
 /** Displays an interactive GUI for the game.
  *  @author S. Chewi, T. Nguyen, A. Tran
@@ -327,7 +326,7 @@ public class GUI extends JPanel {
 
     /** Renders the game for the class game state. */
     void paintClass() {
-        lastSeen = CLASS;
+        lastSeen = GameState.CLASS;
         removeAll();
         ArrayList<ShortcutButton> classOptions = new ArrayList();
         add(courseButton);
@@ -349,7 +348,7 @@ public class GUI extends JPanel {
      *  enrolled courses.
      */
     void paintEnrollment(int number) {
-        lastSeen = ENROLLMENT;
+        lastSeen = GameState.ENROLLMENT;
         removeAll();
         hideMenu();
         add(new JLabel("Please choose a course!"));
@@ -383,7 +382,7 @@ public class GUI extends JPanel {
 
     /** Renders the game for the gym game state. */
     void paintGym() {
-        lastSeen = GYM;
+        lastSeen = GameState.GYM;
         removeAll();
         ArrayList<ShortcutButton> gymOptions = new ArrayList();
         add(new JLabel("What would you like to do?"));
@@ -402,7 +401,7 @@ public class GUI extends JPanel {
 
     /** Renders the game for the school game state. */
     void paintSchool() {
-        lastSeen = SCHOOL;
+        lastSeen = GameState.SCHOOL;
         removeAll();
         ArrayList<ShortcutButton> schoolOptions = new ArrayList();
         add(new JLabel("What would you like to do?"));
@@ -427,7 +426,7 @@ public class GUI extends JPanel {
     
     /** Renders the game to the view skills state. */
     void paintSkills() {
-        lastSeen = SKILLS;
+        lastSeen = GameState.SKILLS;
         removeAll();
         add(new JLabel("Here are your skills."));
         Vector<Skill> skillList = new Vector<Skill>(
@@ -732,7 +731,7 @@ public class GUI extends JPanel {
 
         @Override
         public void actionPerformed(ActionEvent ignored) {
-            if (lastSeen == SCHOOL) {
+            if (lastSeen == GameState.SCHOOL) {
                 lastSeen = null;
                 repaint();
             } else {

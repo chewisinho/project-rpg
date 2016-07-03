@@ -8,10 +8,11 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
-import static project_rpg.Day.*;
-import static project_rpg.GameState.*;
-import static project_rpg.Quarter.*;
-import static project_rpg.Year.*;
+
+import project_rpg.enums.Day;
+import project_rpg.enums.GameState;
+import project_rpg.enums.Quarter;
+import project_rpg.enums.Year;
 
 /** Contains the main game data for Project RPG.
  *  @author S. Chewi, T. Nguyen, A. Tran
@@ -22,11 +23,11 @@ public class Game implements Serializable {
     public Game() {
 
         // Initialize the date, time, and game state.
-        year = FRESHMAN;
-        quarter = FALL;
+        year = Year.FRESHMAN;
+        quarter = Quarter.FALL;
         week = 1;
-        day = MONDAY;
-        gameState = ENROLLMENT;
+        day = Day.MONDAY;
+        gameState = GameState.ENROLLMENT;
 
         // Initialize the courses.
         availableCourses = new ArrayList<Course>();
@@ -103,7 +104,7 @@ public class Game implements Serializable {
     /** Increments to the next day. */
     void nextDay() {
         day = day.next();
-        if (day == MONDAY) {
+        if (day == Day.MONDAY) {
             nextWeek();
         }
     }
@@ -111,10 +112,10 @@ public class Game implements Serializable {
     /** Increments to the next quarter. */
     void nextQuarter() {
         quarter = quarter.next();
-        if (quarter == FALL) {
+        if (quarter == Quarter.FALL) {
             nextYear();
         }
-        gameState = ENROLLMENT;
+        gameState = GameState.ENROLLMENT;
         enrolledCourses.clear();
     }
 
@@ -187,22 +188,22 @@ public class Game implements Serializable {
 
     /** Travels to classroom. */
     void startClass() {
-        gameState = CLASS;
+        gameState = GameState.CLASS;
     }
 
     /** Travels to Gym. */
     void startGym() {
-        gameState = GYM;
+        gameState = GameState.GYM;
     }
 
     /** Starts school after the enrollment phase. */
     void startSchool() {
-        gameState = SCHOOL;
+        gameState = GameState.SCHOOL;
     }
     
     /** Game moves to change skills. */
     void startSkills() {
-    	gameState = SKILLS;
+    	gameState = GameState.SKILLS;
     }
 
     /** Views the course description at INDEX. */

@@ -1,6 +1,6 @@
 CLASS_DIR=classes
 SRC_DIRS=.:lib:lib/*
-SRC_FILES=project_rpg/*.java project_rpg/audio/*.java project_rpg/behaviors/*.java
+SRC_FILES=project_rpg/*.java project_rpg/audio/*.java project_rpg/behaviors/*.java project_rpg/enums/*.java
 TEST_DIRS=../tests/lib/*:../tests/project_rpg_tests
 TEST_FILES=../tests/project_rpg_tests/*.java
 
