@@ -9,7 +9,10 @@ public class TestRunner {
 
   /** Runs all JUnit tests and prints the results. */
   public static void main(String[] ignored) {
-    Class[] classes  = { CutsceneTest.class };
+    Class[] classes  = {
+        CutsceneTest.class,
+        MonsterTest.class
+    };
     for (Class testClass : classes) {
       Result result = JUnitCore.runClasses(testClass);
       for (Failure failure : result.getFailures()) {
