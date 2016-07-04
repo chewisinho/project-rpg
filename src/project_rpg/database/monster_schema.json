@@ -1,11 +1,11 @@
 {
-    "_attackName": "string",
-    "_behavior": "string",
-    "_description": "string",
-    "_image": "string",
-    "_name": "string",
+    "attackName": "string",
+    "behavior": "string",
     "damage": 0,
+    "description": "string",
     "hp": 0,
-    "mp": 0
+    "image": "string",
+    "mp": 0,
+    "name": "string"
 }
 

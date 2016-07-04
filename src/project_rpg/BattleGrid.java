@@ -206,7 +206,7 @@ public class BattleGrid extends JPanel implements Runnable {
         Monster monster = monsters.get(monsterToken);
         monster.reduceHealth(damage);
         _gui.updateMenuBar(skill + " did " + damage + " damage to " + monster.getName() + "! " + monster.getName()
-            + " has " + monster.getHP() + " HP remaining.");
+            + " has " + monster.getHp() + " HP remaining.");
         if (monster.isDead()) {
             monsters.remove(monsterToken);
         }
