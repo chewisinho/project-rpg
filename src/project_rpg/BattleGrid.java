@@ -24,11 +24,6 @@ import java.util.HashMap;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
-import project_rpg.behaviors.ExitToken;
-import project_rpg.behaviors.MonsterToken;
-import project_rpg.behaviors.Token;
-
-
 /** Displays the battle screen.
  *  @author S. Chewi, T. Nguyen, A. Tran
  */
