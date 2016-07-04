@@ -27,7 +27,6 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.ScrollPaneConstants;
 
-import project_rpg.audio.AudioHandler;
 import project_rpg.enums.GameState;
 
 import utils.SmartScroller;
