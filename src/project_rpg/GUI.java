@@ -197,6 +197,7 @@ public class GUI extends JPanel {
         displayMenuBar();
         BattleGrid battle = new BattleGrid(this, _game.getPlayer(), dungeon, course);
         add(battle);
+        battle.start();
         audioHandler.playSong("intensity_teaser");
         battle.requestFocusInWindow();
     }
@@ -225,6 +226,7 @@ public class GUI extends JPanel {
         audioHandler.playSong("intensity_teaser");
         BattleGrid battle = new BattleGrid(this, _game.getPlayer(), dungeon);
         add(battle);
+        battle.start();
         battle.requestFocusInWindow();
     }
     

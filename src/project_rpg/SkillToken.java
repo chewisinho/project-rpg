@@ -31,11 +31,11 @@ public class SkillToken extends Token {
   @Override
   public void run() {
     if (skill.getBehavior().equals("straightLine")) {
-      getGrid()._player.reduceMana(skill.getCost());
+      getGrid().getPlayer().reduceMana(skill.getCost());
       straightLine();
     }
     if (skill.getBehavior().equals("nothing")) {
-      getGrid()._player.reduceMana(skill.getCost());
+      getGrid().getPlayer().reduceMana(skill.getCost());
       nothing();
     }
   }
@@ -49,12 +49,12 @@ public class SkillToken extends Token {
         if (!getGrid().inBounds(newX, newY)) {
           disappear();
           return;
-        } else if (getGrid().monsters.containsKey(getGrid().map[newX][newY])) {
+        } else if (getGrid().monsterAt(newX, newY)) {
           int damage = skill.attack();
           getGrid().reduceHealth(newX, newY, damage, skill.getName());
           disappear();
           return;
-        } else if (getGrid().map[newX][newY] != null) {
+        } else if (getGrid().getTokenAt(newX, newY) != null) {
           disappear();
           return;
         } else {

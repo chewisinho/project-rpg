@@ -17,7 +17,7 @@ public class Token implements Runnable {
     orientation = 0;
     this.positionX = positionX;
     this.positionY = positionY;
-    grid.map[positionX][positionY] = this;
+    grid.addTokenAt(this, positionX, positionY);
     takeAction();
   }
 
@@ -26,11 +26,11 @@ public class Token implements Runnable {
     int[] dir = orientationToArray(orientation);
     int newX = positionX + dir[0];
     int newY = positionY + dir[1];
-    Skill currentSkill = grid._player.getBattleSkill();
+    Skill currentSkill = grid.getPlayer().getBattleSkill();
     if (
         currentSkill != null
         && grid.valid(newX, newY)
-        && grid._player.hasEnoughMP(currentSkill.getCost())
+        && grid.getPlayer().hasEnoughMP(currentSkill.getCost())
         && System.currentTimeMillis() - currentSkill.getLastUsed() > currentSkill.getCooldown()
     ) {
       Token token = new SkillToken(
@@ -43,7 +43,7 @@ public class Token implements Runnable {
           currentSkill
       );
       token.orientation = orientation;
-      grid.map[newX][newY] = token;
+      grid.addTokenAt(token, newX, newY);
       currentSkill.use(System.currentTimeMillis());
       new Thread(token).start();
     }
@@ -57,7 +57,7 @@ public class Token implements Runnable {
 
   /** Removes the token from the map. */
   protected void disappear() {
-    grid.map[positionX][positionY] = null;
+    grid.addTokenAt(null, positionX, positionY);
   }
 
   /** Move one space down. */
@@ -108,8 +108,8 @@ public class Token implements Runnable {
       grid.exit(this, newX, newY);
     }
     if (grid.valid(newX, newY) && System.currentTimeMillis() - lastMovement > 100) {
-      grid.map[positionX][positionY] = null;
-      grid.map[newX][newY] = this;
+      grid.addTokenAt(null, positionX, positionY);
+      grid.addTokenAt(this, newX, newY);
       positionX = newX;
       positionY = newY;
       lastMovement = System.currentTimeMillis();

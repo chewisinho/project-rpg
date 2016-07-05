@@ -13,17 +13,7 @@ public class MonsterToken extends Token {
 
   /** Moves towards the player. */
   private void moveTowardsPlayer() {
-    if (getGrid().playerToken.getX() > getX()) {
-      right();
-    } else if (getGrid().playerToken.getX() < getX()) {
-      left();
-    } else {
-      if (getGrid().playerToken.getY() > getY()) {
-        down();
-      } else if (getGrid().playerToken.getY() < getY()) {
-        up();
-      }
-    }
+    getGrid().moveMonsterTokenTowardsPlayer(this);
   }
 
   @Override
@@ -42,15 +32,11 @@ public class MonsterToken extends Token {
   private void simpleMelee() {
     if (isReadyForAction(500)) {
       if (getGrid().playerAdjacentTo(getX(), getY())) {
-        getGrid()._player.reduceHealth(getGrid().monsters.get(this).attack());
-        if (getGrid()._player.isDead()) {
-          disappear();
-          getGrid()._gui.gameOver();
-        }
+        getGrid().attackPlayer(this);
       } else {
         moveTowardsPlayer();
       }
-      getGrid()._gui.refreshMenu();
+      getGrid().repaint();
       takeAction();
     }
   }
