@@ -2,6 +2,7 @@ package project_rpg;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.google.gson.annotations.Expose;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -49,6 +50,7 @@ public class Course {
         assignments[i - 1] = assignment;
       }
       ready = true;
+      skillName = skill.getName();
       week = 1;
       input.close();
     } catch (FileNotFoundException fileException) {
@@ -109,10 +111,10 @@ public class Course {
   private Assignment[] assignments = new Assignment[10];
 
   /** True iff the next assignment is ready to be started. */
-  private boolean ready;
+  @Expose private boolean ready;
 
   /** The current assignment to finish. */
-  private int week;
+  @Expose private int week;
 
   /** The skill that this course will teach. */
   private Skill skill;
@@ -120,6 +122,7 @@ public class Course {
   /** The title of the course and a short description. */
   private String courseTitle;
   private String description;
+  @Expose private String skillName;
 
   /** Comparator that compares two courses by their course titles. */
   public static final Comparator<Course> TITLE_COMPARATOR =

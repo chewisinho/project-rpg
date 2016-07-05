@@ -5,6 +5,7 @@ import static project_rpg.Monster.spread;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.google.gson.annotations.Expose;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -147,22 +148,22 @@ public class Skill {
   }
 
   /** Contains the parameters of the skill. */
-  private int baseDamage;
-  private int baseMp;
-  private int cooldown;
-  private int damage;
-  private int exp;
-  private int mp;
-  private int rank;
+  @Expose private int baseDamage;
+  @Expose private int baseMp;
+  @Expose private int cooldown;
+  @Expose private int damage;
+  @Expose private int exp;
+  @Expose private int mp;
+  @Expose private int rank;
 
   /** The last time that the skill was used. */
-  private transient long lastUsed;
+  @Expose private transient long lastUsed;
 
   /** Contains the description of the skill. */
-  private String behavior;
-  private String description;
-  private String image;
-  private String name;
+  @Expose private String behavior;
+  @Expose private String description;
+  @Expose private String image;
+  @Expose private String name;
 
   /** Contains the scaling of the skill by rank. */
   public static final double BASE_EXP = 35.0;

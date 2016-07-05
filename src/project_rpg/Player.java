@@ -1,8 +1,11 @@
 package project_rpg;
 
+import com.google.gson.annotations.Expose;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
+import java.util.StringJoiner;
 
 /** Class representing a player.
  *  @author S. Chewi, T. Nguyen, A. Tran
@@ -167,37 +170,39 @@ public class Player {
   protected void switchAttack4() {
     skillIndex = 3;
   }
+
+  /** Updates selectedSkills to reflect battleSkills. Used to save the selected skills for another
+   *  game session in serialization.
+   */
+  protected void updateSelectedSkills() {
+    for (int i = 0; i < 4; i += 1) {
+      if (battleSkills[i] != null) {
+        selectedSkills[i] = battleSkills[i].getName();
+      }
+    }
+  }
   
   /** An array of courses the player has taken. */
-  private ArrayList<Course> pastCourses = new ArrayList<Course>();
+  @Expose private ArrayList<Course> pastCourses = new ArrayList<Course>();
 
   /** An array of the player's skills. */
-  private ArrayList<Skill> skills = new ArrayList<Skill>();
+  @Expose private ArrayList<Skill> skills = new ArrayList<Skill>();
 
   /** Initial parameters. */
-  private int currHp = 100;
-  private int currMp = 100;
-  private int maxHp = 100;
-  private int maxMp = 100;
+  @Expose private int currHp = 100;
+  @Expose private int currMp = 100;
+  @Expose private int maxHp = 100;
+  @Expose private int maxMp = 100;
   private int skillIndex = 0;
 
   /** An array of skills that the player can bring to battle. */
   private Skill[] battleSkills = new Skill[4];
 
   /** The player's name. */
-  private String name;
+  @Expose private String name;
 
-  // public class SkillIterator implements Iterator<Skill> {
-
-  //   /** Initializes the skill iterator with an Iterable of skills. */
-
-  //   @Override
-  //   public boolean hasNext() {
-  //     return index < 
-  //   /** The current index of the iterator when retrieving skills. */
-  //   private index = 0;
-
-  // }
+  /** An array of the currently selected skills. */
+  @Expose private String[] selectedSkills = new String[4];
 
 }
 
