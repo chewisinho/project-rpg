@@ -10,6 +10,7 @@ public class TestRunner {
   /** Runs all JUnit tests and prints the results. */
   public static void main(String[] ignored) {
     Class[] classes  = {
+        BattleGridTest.class,
         CutsceneTest.class,
         MonsterTest.class
     };
