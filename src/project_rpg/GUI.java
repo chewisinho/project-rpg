@@ -120,13 +120,13 @@ public class GUI extends JPanel {
 
     /** Allows the player to go to the classroom. */
     void goClassroom() {
-        _game.startClass();
+        _game.setGameState(GameState.CLASS);
         options.setOptions(new ArrayList<ShortcutButton>());
     }
 
     /** Allows the player to go to the gym. */
     void goGym() {
-        _game.startGym();
+        _game.setGameState(GameState.GYM);
         options.setOptions(new ArrayList<ShortcutButton>());
     }
 
@@ -351,8 +351,11 @@ public class GUI extends JPanel {
         removeAll();
         hideMenu();
         add(new JLabel("Please choose a course!"));
-        Vector<Course> courseList = new Vector<Course>(
-            _game.getAvailableCourses());
+        Vector<Course> courseList = new Vector<Course>();
+        Iterator<Course> availableCoursesIterator = _game.getAvailableCoursesIterator();
+        while (availableCoursesIterator.hasNext()) {
+          courseList.add(availableCoursesIterator.next());
+        }
         JComboBox<Course> courses = new JComboBox<Course>(courseList);
         add(courses);
         JTextArea courseDescription = new JTextArea(4, 30);
@@ -527,8 +530,10 @@ public class GUI extends JPanel {
         public void actionPerformed(ActionEvent ignored) {
             ArrayList<ShortcutButton> courses = new ArrayList();
             char i = '0';
+            Iterator<Course> enrolledCourses = _game.getEnrolledCoursesIterator();
             ShortcutButton button;
-            for (Course course : _game.getEnrolledCourses()) {
+            while (enrolledCourses.hasNext()) {
+                Course course = enrolledCourses.next();
                 button = new ShortcutButton(course.toString() + " (" + i + ")", i);
                 button.addActionListener(new CourseSelectionListener(course));
                 courses.add(button);
@@ -593,7 +598,7 @@ public class GUI extends JPanel {
             _game.registerCourse(course);
             _number += 1;
             if (_number == Game.NUM_COURSES) {
-                _game.startSchool();
+                _game.setGameState(GameState.SCHOOL);
                 repaint();
             } else {
                 paintEnrollment(_number);
@@ -741,7 +746,7 @@ public class GUI extends JPanel {
                 lastSeen = null;
                 repaint();
             } else {
-                _game.startSchool();
+                _game.setGameState(GameState.SCHOOL);
                 repaint();
             }
         }
@@ -816,7 +821,7 @@ public class GUI extends JPanel {
 
         @Override
         public void actionPerformed(ActionEvent ignored) {
-            _game.startSkills();
+            _game.setGameState(GameState.SKILLS);
             paintSkills();
         }
 
