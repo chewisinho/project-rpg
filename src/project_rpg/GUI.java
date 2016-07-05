@@ -15,6 +15,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Vector;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -277,9 +278,6 @@ public class GUI extends JPanel {
 
     /** Used for testing purposes. The effect of this button changes. */
     void test() {
-        for (Skill skill : _game.getPlayer().getSkills()) {
-            System.out.println(skill.toJson());
-        }
         loadCutscene("test");
     }
 
@@ -430,11 +428,18 @@ public class GUI extends JPanel {
         lastSeen = GameState.SKILLS;
         removeAll();
         add(new JLabel("Here are your skills."));
-        Vector<Skill> skillList = new Vector<Skill>(
-            _game.getPlayer().getSkills());
+        Vector<Skill> skillList = new Vector<Skill>();
+        Iterator<Skill> skillIterator = _game.getPlayer().getSkillIterator();
+        while (skillIterator.hasNext()) {
+          skillList.add(skillIterator.next());
+        }
         JComboBox<Skill> skills = new JComboBox<Skill>(skillList);
-        JComboBox<Skill> battleSkills = new JComboBox<Skill>(
-                _game.getPlayer().getBattleSkills());
+        Vector<Skill> battleSkillList = new Vector<Skill>();
+        Iterator<Skill> battleSkillIterator = _game.getPlayer().getBattleSkillIterator();
+        while (battleSkillIterator.hasNext()) {
+          battleSkillList.add(battleSkillIterator.next());
+        }
+        JComboBox<Skill> battleSkills = new JComboBox<Skill>(battleSkillList);
         add(skills);
         add(battleSkills);
         JTextArea skillDescription = new JTextArea(4, 30);
@@ -894,8 +899,8 @@ public class GUI extends JPanel {
             super.paintComponent(g);
             Player player = _game.getPlayer();
             status.setText(String.format("HP: %s/%s\nMP: %s/%s",
-                player.getHP(), player.getMaxHP(), player.getMP(),
-                player.getMaxMP()));
+                player.getHp(), player.getMaxHp(), player.getMp(),
+                player.getMaxMp()));
             time.setText(String.format("Year: %s\nQuarter: %s\nWeek: %s\nDay:"
                 + " %s", _game.getYear(), _game.getQuarter(), _game.getWeek(),
                 _game.getDay()));

@@ -42,9 +42,6 @@ public class Game implements Serializable {
         }
         enrolledCourses = new ArrayList<Course>();
         player = new Player();
-        for (int i = 0; i < player.getSkills().size() && i < player.getBattleSkills().length; i += 1) {
-        	player.changeBattleSkills(i, player.getSkill(i));
-        }
     }
 
     /** Removes COURSE from the list of enrolled courses. */

@@ -30,7 +30,7 @@ public class Token implements Runnable {
     if (
         currentSkill != null
         && grid.valid(newX, newY)
-        && grid.getPlayer().hasEnoughMP(currentSkill.getCost())
+        && grid.getPlayer().hasEnoughMp(currentSkill.getCost())
         && System.currentTimeMillis() - currentSkill.getLastUsed() > currentSkill.getCooldown()
     ) {
       Token token = new SkillToken(
