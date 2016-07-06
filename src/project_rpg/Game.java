@@ -8,12 +8,15 @@ import project_rpg.enums.GameState;
 import project_rpg.enums.Quarter;
 import project_rpg.enums.Year;
 
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -158,13 +161,28 @@ public class Game {
     availableCourses.remove(course);
   }
 
+  /** Returns a String array of course names from the given COURSES list. */
+  protected String[] mapCoursesToFileNames(ArrayList<Course> courses) {
+    return courses
+        .stream()
+        .map(course -> course.getFileName())
+        .toArray(size -> new String[size]);
+  }
+
+
   /** Saves the game into SLOT. */
   protected void save(int slot) throws IOException {
-    System.out.println(new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create().toJson(this));
-    // ObjectOutputStream writer = new ObjectOutputStream(new FileOutputStream(
-    //   new File("save" + slot + ".sav")));
-    // writer.writeObject(this);
-    // writer.close();
+    availableCourseNames = mapCoursesToFileNames(availableCourses);
+    enrolledCourseNames = mapCoursesToFileNames(enrolledCourses);
+    String json = new GsonBuilder()
+        .excludeFieldsWithoutExposeAnnotation()
+        .setPrettyPrinting()
+        .setVersion(2.0)
+        .create()
+        .toJson(this);
+    BufferedWriter writer = Files.newBufferedWriter(Paths.get("save" + slot + ".sav.json"));
+    writer.write(json);
+    writer.close();
   }
 
   /** Sets the current GameState to STATE. */
@@ -198,6 +216,10 @@ public class Game {
   /** Contains a list of available and enrolled courses. */
   private ArrayList<Course> availableCourses;
   private ArrayList<Course> enrolledCourses;
+
+  /** Contains the names of the available and enrolled courses for serialization. */
+  @Expose private String[] availableCourseNames;
+  @Expose private String[] enrolledCourseNames;
 
   /** The state that this game is in. */
   private transient GameState gameState;

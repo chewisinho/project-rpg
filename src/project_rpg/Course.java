@@ -26,6 +26,7 @@ public class Course {
    *  starts on week 1 and advances when the player completes assignments.
    */
   public Course(String name) {
+    fileName = name;
     try {
       String path = new StringJoiner(File.separator)
           .add("project_rpg")
@@ -50,6 +51,7 @@ public class Course {
         assignments[i - 1] = assignment;
       }
       ready = true;
+      skillFileName = skill.getFileName();
       skillName = skill.getName();
       week = 1;
       input.close();
@@ -87,6 +89,11 @@ public class Course {
     return assignments[week - 1];
   }
 
+  /** Returns the name of the file in which the course data is found. */
+  protected String getFileName() {
+    return fileName;
+  }
+
   /** Returns the skill of the course. */
   public Skill getSkill() {
     return skill;
@@ -122,7 +129,9 @@ public class Course {
   /** The title of the course and a short description. */
   private String courseTitle;
   private String description;
-  @Expose private String skillName;
+  @Expose private String fileName;
+  @Expose private String skillFileName;
+  private String skillName;
 
   /** Comparator that compares two courses by their course titles. */
   public static final Comparator<Course> TITLE_COMPARATOR =

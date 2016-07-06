@@ -7,7 +7,7 @@ bin/
 *.class
 
 # Save files
-*.sav
+*.sav.json
 
 # Vim backups
 *~

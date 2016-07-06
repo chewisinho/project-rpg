@@ -20,6 +20,7 @@ public class Skill {
 
   /** Creates a new skill from the JSON file FILENAME.json. */
   public Skill(String fileName) {
+    this.fileName = fileName;
     try {
       // Load and parse JSON file.
       String path = new StringJoiner(File.separator)
@@ -82,6 +83,11 @@ public class Skill {
   /** Returns the damage of the skill. */
   public int getDamage() {
     return damage;
+  }
+
+  /** Returns the name of the file in which the data for the skill is stored. */
+  protected String getFileName() {
+    return fileName;
   }
   
   /** Returns the image of the skill. */
@@ -162,6 +168,7 @@ public class Skill {
   /** Contains the description of the skill. */
   @Expose private String behavior;
   @Expose private String description;
+  @Expose private String fileName;
   @Expose private String image;
   @Expose private String name;
 
