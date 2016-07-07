@@ -13,9 +13,13 @@ public class AudioHandler {
 
   /** Stops the current clip and starts playing FILE. */
   public void playSong(String file) {
-    if (clip != null) {
+    if (clip != null && song != file) {
       clip.stop();
     }
+    if (song == file) {
+      return;
+    }
+    song = file;
     String filePath = new StringJoiner(File.separator)
         .add("project_rpg")
         .add("resources")
@@ -33,6 +37,9 @@ public class AudioHandler {
 
   /** The current clip that is playing. */
   private AudioClip clip;
+  
+  /** The current file that is playing. */
+  private String song;
 
 }
 

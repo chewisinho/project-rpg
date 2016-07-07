@@ -296,6 +296,7 @@ public class GUI extends JPanel {
         }
         switch (_game.getState()) {
         case BATTLE:
+        	
             break;
         case CLASS:
             paintClass();
@@ -307,6 +308,7 @@ public class GUI extends JPanel {
             paintGym();
             break;
         case SCHOOL:
+        	audioHandler.playSong("reflection");
             paintSchool();
             break;
         case SKILLS:
@@ -422,7 +424,6 @@ public class GUI extends JPanel {
         JLabel background = new JLabel(icon, JLabel.CENTER);
         add(background);
         options.setOptions(schoolOptions);
-        audioHandler.playSong("reflection");
         updateUI();
     }
     
