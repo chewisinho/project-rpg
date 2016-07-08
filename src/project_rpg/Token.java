@@ -133,6 +133,16 @@ public class Token implements Runnable {
     // Do nothing.
   }
 
+  /** Creates a block at my position. */
+  protected void block() {
+    while (true) {
+      if (System.currentTimeMillis() - lastMovement > 2000) {
+        return;
+      }
+    }
+    
+  }
+  
   /** Sets the time of the last action to the current time. */
   protected void takeAction() {
     lastAction = System.currentTimeMillis();

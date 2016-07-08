@@ -9,6 +9,9 @@ bin/
 # Save files
 *.sav.json
 
+# Sublime files
+.DS_Store
+
 # Vim backups
 *~
 *.swp

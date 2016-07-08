@@ -1,10 +1,10 @@
 {
     "baseDamage": 10,
     "baseMp": 3,
-    "behavior": "straightLine",
+    "behavior": "earthAttack",
     "cooldown": 1000,
     "description": "A spike made of Earth!",
-    "image": "Fireball",
+    "image": "EarthSpike",
     "name": "Earth Spike"
 }
 

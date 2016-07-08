@@ -22,6 +22,32 @@ public class SkillToken extends Token {
     this.dirY = dirY;
     this.skill = skill;
   }
+  
+  /** Controls behavior for earth based spells. */
+  private void earthAttack() {
+    while (true) {
+      if (isReadyForAction(250)) {
+        int newX = getX() + dirX;
+        int newY = getY() + dirY;
+        if (!getGrid().inBounds(newX, newY)) {
+          disappear();
+          return;
+        } else if (getGrid().monsterAt(newX, newY)) {
+          int damage = skill.attack();
+          getGrid().reduceHealth(newX, newY, damage, skill.getName());
+          block();
+          disappear();
+          return;
+        } else if (getGrid().getTokenAt(newX, newY) != null) {
+          disappear();
+          return;
+        } else {
+          move(newX, newY);
+          takeAction();
+        }
+      }
+    }
+  }
 
   /** Controls behavior for spells that don't attack. */
   private void nothing() {
@@ -37,6 +63,10 @@ public class SkillToken extends Token {
     if (skill.getBehavior().equals("nothing")) {
       getGrid().getPlayer().reduceMana(skill.getCost());
       nothing();
+    }
+    if (skill.getBehavior().equals("earthAttack")) {
+      getGrid().getPlayer().reduceMana(skill.getCost());
+      earthAttack();
     }
   }
 
