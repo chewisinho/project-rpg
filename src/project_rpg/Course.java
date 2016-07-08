@@ -1,6 +1,10 @@
 package project_rpg;
 
+import com.google.gson.JsonDeserializationContext;
+import com.google.gson.JsonDeserializer;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonParseException;
 import com.google.gson.JsonParser;
 import com.google.gson.annotations.Expose;
 
@@ -9,6 +13,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.StringJoiner;
@@ -109,6 +114,11 @@ public class Course {
     ready = true;
   }
 
+  /** Sets the skill of the course to SKILL. */
+  protected void setSkill(Skill skill) {
+    this.skill = skill;
+  }
+
   @Override
   public String toString() {
     return courseTitle;
@@ -143,6 +153,22 @@ public class Course {
         }
 
       };
+
+  /** Custom deserializer from JSON format. */
+  public static class CourseDeserializer implements JsonDeserializer<Course> {
+
+    @Override
+    public Course deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context)
+        throws JsonParseException {
+      JsonObject parseTree = (JsonObject) json;
+      String fileName = parseTree.get("fileName").getAsString();
+      Course course = new Course(fileName);
+      course.ready = parseTree.get("ready").getAsBoolean();
+      course.week = parseTree.get("week").getAsInt();
+      return course;
+    }
+
+  }
 
 }
 

@@ -9,12 +9,7 @@ import project_rpg.enums.Quarter;
 import project_rpg.enums.Year;
 
 import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -172,6 +167,7 @@ public class Game {
 
   /** Saves the game into SLOT. */
   protected void save(int slot) throws IOException {
+    player.prepareForSave();
     availableCourseNames = mapCoursesToFileNames(availableCourses);
     enrolledCourseNames = mapCoursesToFileNames(enrolledCourses);
     String json = new GsonBuilder()
@@ -192,19 +188,31 @@ public class Game {
 
   /** Returns the save file at INDEX. */
   public static Game loadGame(int index) {
-    // Game saveFile = null;
-    // try {
-    //   ObjectInputStream reader = new ObjectInputStream(
-    //     new FileInputStream(new File("save" + Integer.toString(index) + ".sav")));
-    //   saveFile = (Game) reader.readObject();
-    //   reader.close();
-    // } catch (IOException exception) {
-    //   Main.error("Sorry, could not load file.");
-    // } catch (ClassNotFoundException exception) {
-    //   Main.error("Sorry, corrupt or outdated save file.");
-    // }
-    // return saveFile;
-    return null;
+    Game game = null;
+    try {
+      String json = new String(Files.readAllBytes(Paths.get("save" + index + ".sav.json")));
+      game = new GsonBuilder()
+          .excludeFieldsWithoutExposeAnnotation()
+          .registerTypeAdapter(Course.class, new Course.CourseDeserializer())
+          .create()
+          .fromJson(json, Game.class);
+      game.availableCourses = new ArrayList<Course>();
+      for (String fileName : game.availableCourseNames) {
+        game.availableCourses.add(new Course(fileName));
+      }
+      game.enrolledCourses = new ArrayList<Course>();
+      for (String fileName : game.enrolledCourseNames) {
+        game.enrolledCourses.add(game.player.getCourseByFileName(fileName));
+        System.out.println(game.player.getCourseByFileName(fileName).description());
+      }
+      game.player.linkCoursesToSkills();
+      game.player.updateBattleSkills();
+      game.gameState = GameState.SCHOOL;
+    } catch (IOException exception) {
+      Main.error("Sorry, could not load the save file.");
+    }
+    System.out.println(game.day);
+    return game;
   }
 
   /** The temporal state of the game. */

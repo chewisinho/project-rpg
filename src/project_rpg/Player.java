@@ -53,6 +53,26 @@ public class Player {
     return Arrays.asList(battleSkills).iterator();
   }
 
+  /** Returns a course from the player's past courses by FILENAME. Used in JSON serialization. */
+  protected Course getCourseByFileName(String fileName) {
+    for (Course course : pastCourses) {
+      if (course.getFileName().equals(fileName)) {
+        return course;
+      }
+    }
+    return null;
+  }
+
+  /** Returns a skill from the player's skills by NAME. Used in JSON serialization. */
+  protected Skill getSkillByFileName(String fileName) {
+    for (Skill skill : skills) {
+      if (skill.getFileName().equals(fileName)) {
+        return skill;
+      }
+    }
+    return null;
+  }
+
   /** Returns current HP. */
   public int getHp() {
     return currHp;
@@ -117,6 +137,15 @@ public class Player {
     return currMp <= 0;
   }
 
+  /** After deserialization, make sure each course is linked to the correct skill object. */
+  protected void linkCoursesToSkills() {
+    for (Course course : pastCourses) {
+      String skillFileName = course.getSkill().getFileName();
+      Skill skill = getSkillByFileName(skillFileName);
+      course.setSkill(skill);
+    }
+  }
+
   /** Returns true iff the player has no battle skills set. */
   public boolean noSkillsSet() {
     for (int i = 0; i < 4; i += 1) {
@@ -125,6 +154,11 @@ public class Player {
       }
     }
     return true;
+  }
+
+  /** Prepares the player for JSON serialization. */
+  protected void prepareForSave() {
+    updateSelectedSkills();
   }
 
   /** Reduces current HP by AMOUNT. */
@@ -169,6 +203,20 @@ public class Player {
   /** Switches to Skill 4. */
   protected void switchAttack4() {
     skillIndex = 3;
+  }
+
+  /** Sets the battle skills from the deserialized string array selectedSkills. */
+  protected void updateBattleSkills() {
+    for (int i = 0; i < 4; i += 1) {
+      String name = selectedSkills[i];
+      if (name != null) {
+        for (Skill skill : skills) {
+          if (skill.getName().equals(name)) {
+            battleSkills[i] = skill;
+          }
+        }
+      }
+    }
   }
 
   /** Updates selectedSkills to reflect battleSkills. Used to save the selected skills for another
