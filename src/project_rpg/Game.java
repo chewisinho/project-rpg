@@ -203,7 +203,6 @@ public class Game {
       game.enrolledCourses = new ArrayList<Course>();
       for (String fileName : game.enrolledCourseNames) {
         game.enrolledCourses.add(game.player.getCourseByFileName(fileName));
-        System.out.println(game.player.getCourseByFileName(fileName).description());
       }
       game.player.linkCoursesToSkills();
       game.player.updateBattleSkills();
@@ -211,7 +210,6 @@ public class Game {
     } catch (IOException exception) {
       Main.error("Sorry, could not load the save file.");
     }
-    System.out.println(game.day);
     return game;
   }
 
