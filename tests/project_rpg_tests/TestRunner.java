@@ -12,6 +12,7 @@ public class TestRunner {
     Class[] classes  = {
         BattleGridTest.class,
         CutsceneTest.class,
+        GuiTest.class,
         MonsterTest.class
     };
     for (Class testClass : classes) {

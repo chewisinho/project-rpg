@@ -15,7 +15,7 @@ public class Main {
 
   /** Initializes Project RPG. Ignores ARGS. */
   public static void main(String[] args) {
-    new GUI().start();
+    new Gui().start();
   }
 
 }

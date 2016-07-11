@@ -5,6 +5,8 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
+import project_rpg.enums.GameState;
+
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -21,7 +23,6 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.StringJoiner;
-
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
@@ -30,8 +31,8 @@ import javax.swing.JPanel;
  */
 public class BattleGrid extends JPanel implements Runnable {
 
-  /** Initializes a DUNGEON with a PLAYER and a GUI. */
-  public BattleGrid(GUI gui, Player player, String dungeon) {
+  /** Initializes a DUNGEON with a PLAYER and a Gui. */
+  public BattleGrid(Gui gui, Player player, String dungeon) {
     setPreferredSize(new Dimension(WIDTH * SQ_WIDTH, (HEIGHT + 1) * SQ_HEIGHT));
     this.gui = gui;
     this.player = player;
@@ -78,9 +79,9 @@ public class BattleGrid extends JPanel implements Runnable {
     }
   }
 
-  /** Initializes a DUNGEON with a PLAYER and a GUI. Also uses the COURSE when exiting the dungeon.
+  /** Initializes a DUNGEON with a PLAYER and a Gui. Also uses the COURSE when exiting the dungeon.
    */
-  public BattleGrid(GUI gui, Player player, String dungeon, Course course) {
+  public BattleGrid(Gui gui, Player player, String dungeon, Course course) {
     this(gui, player, dungeon);
     this.course = course;
   }
@@ -110,10 +111,11 @@ public class BattleGrid extends JPanel implements Runnable {
         gui.updateMenuBar(message);
         if (message.contains("Course complete")) {
           // The course is complete, so remove the course from the enrolled list.
-          gui._game.finishCourse(course);
+          gui.getGame().finishCourse(course);
         }
       }
-      gui.paintSchool();
+      gui.getGame().setGameState(GameState.SCHOOL);
+      gui.repaint();
     }
   }
 
@@ -422,14 +424,14 @@ public class BattleGrid extends JPanel implements Runnable {
   private boolean right;
   private boolean up;
 
-  /** Flag that is set to true when the player dies. Used to end the GUI loop. */
+  /** Flag that is set to true when the player dies. Used to end the Gui loop. */
   private boolean gameOver = false;
 
   /** The course in which the dungeon is found. */
   private Course course = null;
 
-  /** Contains the GUI from before the start of the battle. */
-  private GUI gui;
+  /** Contains the Gui from before the start of the battle. */
+  private Gui gui;
 
   /** Contains the monsters/spells and their tokens. */
   private HashMap<Token, Monster> monsters;
