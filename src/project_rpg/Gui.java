@@ -218,7 +218,7 @@ public class Gui extends JPanel {
   private void loadCutscene(String cutscene) {
     removeAll();
     Cutscene scenes = new Cutscene(cutscene);
-    ArrayList<ShortcutButton> nextOptions = new ArrayList();
+    ArrayList<ShortcutButton> nextOptions = new ArrayList<ShortcutButton>();
     nextLineButton = new ShortcutButton("Next (n)", 'n');
     nextLineButton.addActionListener(new NextLineListener(scenes));
     nextOptions.add(nextLineButton);
@@ -341,7 +341,7 @@ public class Gui extends JPanel {
   private void paintClass() {
     lastSeen = GameState.CLASS;
     removeAll();
-    ArrayList<ShortcutButton> classOptions = new ArrayList();
+    ArrayList<ShortcutButton> classOptions = new ArrayList<ShortcutButton>();
     add(courseButton);
     classOptions.add(courseButton);
     add(returnButton);
@@ -396,7 +396,7 @@ public class Gui extends JPanel {
   private void paintGym() {
     lastSeen = GameState.GYM;
     removeAll();
-    ArrayList<ShortcutButton> gymOptions = new ArrayList();
+    ArrayList<ShortcutButton> gymOptions = new ArrayList<ShortcutButton>();
     add(new JLabel("What would you like to do?"));
     gymOptions.add(workOutButton);
     gymOptions.add(returnButton);
@@ -415,7 +415,7 @@ public class Gui extends JPanel {
   private void paintSchool() {
     lastSeen = GameState.SCHOOL;
     removeAll();
-    ArrayList<ShortcutButton> schoolOptions = new ArrayList();
+    ArrayList<ShortcutButton> schoolOptions = new ArrayList<ShortcutButton>();
     add(new JLabel("What would you like to do?"));
     schoolOptions.add(goButton);
     schoolOptions.add(skillsButton);
@@ -471,7 +471,7 @@ public class Gui extends JPanel {
     scroller.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
     scroller.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
     add(scroller);
-    ArrayList<ShortcutButton> changeSkills = new ArrayList();
+    ArrayList<ShortcutButton> changeSkills = new ArrayList<ShortcutButton>();
     changeSkills.add(changeSkill1);
     changeSkill1.removeActionListener(changeSkill1.getActionListeners()[0]);
     changeSkill1.addActionListener(new ChangeSkillListener(1, skills));
@@ -539,7 +539,7 @@ public class Gui extends JPanel {
 
     @Override
     public void actionPerformed(ActionEvent ignored) {
-      ArrayList<ShortcutButton> courses = new ArrayList();
+      ArrayList<ShortcutButton> courses = new ArrayList<ShortcutButton>();
       char courseIndex = '0';
       Iterator<Course> enrolledCourses = game.getEnrolledCoursesIterator();
       ShortcutButton button;
@@ -567,7 +567,7 @@ public class Gui extends JPanel {
     @Override
     public void actionPerformed(ActionEvent ignored) {
       if (course.isReady()) {
-        ArrayList<ShortcutButton> assignments = new ArrayList();
+        ArrayList<ShortcutButton> assignments = new ArrayList<ShortcutButton>();
         Assignment assignment = course.getCurrentAssignment();
         ShortcutButton button = new ShortcutButton(assignment.getName() + " (S)", (char) 'S');
         button.addActionListener(new LoadAssignmentListener(assignment, course));
@@ -719,14 +719,14 @@ public class Gui extends JPanel {
         JLabel background = new JLabel(icon, JLabel.CENTER);
         add(background);
         updateMenuBar(scene.get("speaker") + ": " + scene.get("line"));
-        ArrayList<ShortcutButton> nextOptions = new ArrayList();
+        ArrayList<ShortcutButton> nextOptions = new ArrayList<ShortcutButton>();
         nextLineButton = new ShortcutButton("Next (n)", 'n');
         nextLineButton.addActionListener(new NextLineListener(cutscene));
         nextOptions.add(nextLineButton);
         options.setOptions(nextOptions);
         updateUI();
       } else {
-        ArrayList<ShortcutButton> returnOptions = new ArrayList();
+        ArrayList<ShortcutButton> returnOptions = new ArrayList<ShortcutButton>();
         returnOptions.add(returnButton);
         options.setOptions(returnOptions);
       }

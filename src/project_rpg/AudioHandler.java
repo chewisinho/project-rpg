@@ -28,7 +28,7 @@ public class AudioHandler {
         .toString();
     File audioFile = new File(filePath);
     try {
-      clip = Applet.newAudioClip(audioFile.toURL());
+      clip = Applet.newAudioClip(audioFile.toURI().toURL());
       clip.loop();
     } catch (MalformedURLException exception) {
       Main.error("Malformed audio file path: " + filePath + ".");
