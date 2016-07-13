@@ -496,8 +496,8 @@ public class Gui extends JPanel {
 
     /** Constructor that takes in battle skill NUMBER. */
     public ChangeSkillListener(int number, JComboBox<Skill> box) {
-      number = number - 1;
-      box = box;
+      this.number = number - 1;
+      this.box = box;
     }
 
     @Override
