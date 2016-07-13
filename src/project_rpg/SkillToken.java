@@ -48,6 +48,37 @@ public class SkillToken extends Token {
       }
     }
   }
+  
+  /** Controls behavior for spells with lightning attacks. */
+  private void lightningAttack() {
+    int monsterCount = 3;
+    while (true) {
+      if (monsterCount == 0) {
+        disappear();
+        return;
+      }
+      if (isReadyForAction(250)) {
+        int newX = getX() + dirX;
+        int newY = getY() + dirY;
+        if (!getGrid().inBounds(newX, newY)) {
+          disappear();
+          return;
+        } else if (getGrid().monsterAt(newX, newY)) {
+          int damage = skill.attack();
+          getGrid().reduceHealth(newX, newY, damage, skill.getName());
+          monsterCount = monsterCount - 1;
+          move(newX + dirX, newY + dirY);
+          takeAction();
+        } else if (getGrid().getTokenAt(newX, newY) != null) {
+          disappear();
+          return;
+        } else {
+          move(newX, newY);
+          takeAction();
+        }
+      }
+    }
+  }
 
   /** Controls behavior for spells that don't attack. */
   private void nothing() {
@@ -56,6 +87,10 @@ public class SkillToken extends Token {
 
   @Override
   public void run() {
+    if (skill.getBehavior().equals("earthAttack")) {
+      getGrid().getPlayer().reduceMana(skill.getCost());
+      earthAttack();
+    }
     if (skill.getBehavior().equals("straightLine")) {
       getGrid().getPlayer().reduceMana(skill.getCost());
       straightLine();
@@ -64,9 +99,9 @@ public class SkillToken extends Token {
       getGrid().getPlayer().reduceMana(skill.getCost());
       nothing();
     }
-    if (skill.getBehavior().equals("earthAttack")) {
+    if (skill.getBehavior().equals("lightningAttack")) {
       getGrid().getPlayer().reduceMana(skill.getCost());
-      earthAttack();
+      lightningAttack();
     }
   }
 
