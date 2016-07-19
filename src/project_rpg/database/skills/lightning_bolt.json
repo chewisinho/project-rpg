@@ -1,0 +1,10 @@
+{
+    "baseDamage": 10,
+    "baseMp": 3,
+    "behavior": "lightningAttack",
+    "cooldown": 1000,
+    "description": "A bolt of lightning!",
+    "image": "LightningBolt",
+    "name": "Lightning bolt"
+}
+

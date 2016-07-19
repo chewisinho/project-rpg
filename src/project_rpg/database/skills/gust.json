@@ -1,10 +1,10 @@
 {
     "baseDamage": 10,
     "baseMp": 3,
-    "behavior": "straightLine",
+    "behavior": "windAttack",
     "cooldown": 1000,
     "description": "A gust of wind!",
-    "image": "Fireball",
+    "image": "Gust",
     "name": "Gust"
 }
 
