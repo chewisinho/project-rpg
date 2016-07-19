@@ -1,55 +1,55 @@
 {
     "courseTitle": "Introduction to Lightning Magic",
-    "description": "Covers the basics of handling Lightning magic, culminating in the production of a Lightning Ball.",
-    "skill": "lightning_ball",
+    "description": "Covers the basics of handling Lightning magic, culminating in the production of a Lightning Bolt.",
+    "skill": "lightning_bolt",
     "1": {
-        "name": "Lightning Ball Basics I",
-        "description": "Learn how to handle a Lightning Ball.",
+        "name": "Lightning Bolt Basics I",
+        "description": "Learn how to handle a Lightning Bolt.",
         "dungeon": "test_dungeon"
     },
     "2": {
-        "name": "Lightning Ball Basics II",
-        "description": "Learn how to handle a Lightning Ball.",
+        "name": "Lightning Bolt Basics II",
+        "description": "Learn how to handle a Lightning Bolt.",
         "dungeon": "test_dungeon"
     },
     "3": {
-        "name": "Lightning Ball Basics III",
-        "description": "Learn how to handle a Lightning Ball.",
+        "name": "Lightning Bolt Basics III",
+        "description": "Learn how to handle a Lightning Bolt.",
         "dungeon": "test_dungeon"
     },
     "4": {
-        "name": "Lightning Ball Basics IV",
-        "description": "Learn how to handle a Lightning Ball.",
+        "name": "Lightning Bolt Basics IV",
+        "description": "Learn how to handle a Lightning Bolt.",
         "dungeon": "test_dungeon"
     },
     "5": {
-        "name": "Lightning Ball Basics: Midterm",
-        "description": "Learn how to handle a Lightning Ball.",
+        "name": "Lightning Bolt Basics: Midterm",
+        "description": "Learn how to handle a Lightning Bolt.",
         "dungeon": "test_dungeon"
     },
     "6": {
-        "name": "Lightning Ball Basics VI",
-        "description": "Learn how to handle a Lightning Ball.",
+        "name": "Lightning Bolt Basics VI",
+        "description": "Learn how to handle a Lightning Bolt.",
         "dungeon": "test_dungeon"
     },
     "7": {
-        "name": "Lightning Ball Basics VII",
-        "description": "Learn how to handle a Lightning Ball.",
+        "name": "Lightning Bolt Basics VII",
+        "description": "Learn how to handle a Lightning Bolt.",
         "dungeon": "test_dungeon"
     },
     "8": {
-        "name": "Lightning Ball Basics VIII",
-        "description": "Learn how to handle a Lightning Ball.",
+        "name": "Lightning Bolt Basics VIII",
+        "description": "Learn how to handle a Lightning Bolt.",
         "dungeon": "test_dungeon"
     },
     "9": {
-        "name": "Lightning Ball Basics IX",
-        "description": "Learn how to handle a Lightning Ball.",
+        "name": "Lightning Bolt Basics IX",
+        "description": "Learn how to handle a Lightning Bolt.",
         "dungeon": "test_dungeon"
     },
     "10": {
-        "name": "Lightning Ball Basics X",
-        "description": "Learn how to handle a Lightning Ball.",
+        "name": "Lightning Bolt Basics X",
+        "description": "Learn how to handle a Lightning Bolt.",
         "dungeon": "test_dungeon"
     }
 }
