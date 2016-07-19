@@ -65,6 +65,18 @@ public class Token implements Runnable {
     move(positionX, positionY + 1);
     orientation = BattleGrid.RIGHT_ANGLE;
   }
+  
+  /** Makes me move forcibly to (NEWX, NEWY). */
+  protected void forceMove(int newX, int newY) {
+    if (grid.valid(newX, newY)) {
+      grid.addTokenAt(null, positionX, positionY);
+      grid.addTokenAt(this, newX, newY);
+      positionX = newX;
+      positionY = newY;
+      lastMovement = System.currentTimeMillis();
+      grid.repaint();
+    }
+  }
 
   /** Returns the BattleGrid in which the Token is located. */
   protected BattleGrid getGrid() {

@@ -87,21 +87,18 @@ public class SkillToken extends Token {
 
   @Override
   public void run() {
-    if (skill.getBehavior().equals("earthAttack")) {
-      getGrid().getPlayer().reduceMana(skill.getCost());
-      earthAttack();
-    }
+    getGrid().getPlayer().reduceMana(skill.getCost());
     if (skill.getBehavior().equals("straightLine")) {
-      getGrid().getPlayer().reduceMana(skill.getCost());
       straightLine();
     }
     if (skill.getBehavior().equals("nothing")) {
-      getGrid().getPlayer().reduceMana(skill.getCost());
       nothing();
     }
-    if (skill.getBehavior().equals("lightningAttack")) {
-      getGrid().getPlayer().reduceMana(skill.getCost());
-      lightningAttack();
+    if (skill.getBehavior().equals("earthAttack")) {
+      earthAttack();
+    }
+    if (skill.getBehavior().equals("windAttack")) {
+      windAttack();
     }
   }
 
@@ -117,6 +114,35 @@ public class SkillToken extends Token {
         } else if (getGrid().monsterAt(newX, newY)) {
           int damage = skill.attack();
           getGrid().reduceHealth(newX, newY, damage, skill.getName());
+          disappear();
+          return;
+        } else if (getGrid().getTokenAt(newX, newY) != null) {
+          disappear();
+          return;
+        } else {
+          move(newX, newY);
+          takeAction();
+        }
+      }
+    }
+  }
+  
+  /** Controls behavior for spells with wind elements. */
+  private void windAttack() {
+    while (true) {
+      if (isReadyForAction(250)) {
+        int newX = getX() + dirX;
+        int newY = getY() + dirY;
+        if (!getGrid().inBounds(newX, newY)) {
+          disappear();
+          return;
+        } else if (getGrid().monsterAt(newX, newY)) {
+          int damage = skill.attack();
+          getGrid().reduceHealth(newX, newY, damage, skill.getName());
+          int knockX = newX + 3 * dirX;
+          int knockY = newY + 3 * dirY;
+          Token monsterToken = getGrid().getTokenAt(newX, newY);
+          monsterToken.forceMove(knockX, knockY);
           disappear();
           return;
         } else if (getGrid().getTokenAt(newX, newY) != null) {
