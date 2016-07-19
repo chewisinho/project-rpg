@@ -4,7 +4,7 @@
     "behavior": "lightningAttack",
     "cooldown": 1000,
     "description": "A bolt of lightning!",
-    "image": "Fireball",
+    "image": "LightningBolt",
     "name": "Lightning bolt"
 }
 
